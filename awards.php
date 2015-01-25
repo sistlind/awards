@@ -10,7 +10,7 @@
  * 
  *                  
  *****************************************************************************/
-
+GLOBAL $g_tbl_praefix;
 // Pfad des Plugins ermitteln
 $plugin_folder_pos = strpos(__FILE__, 'adm_plugins') + 11;
 $plugin_file_pos   = strpos(__FILE__, basename(__FILE__));
@@ -44,7 +44,8 @@ if(mysql_num_rows($query)===0){
 	$awardmenu->addItem('categories', '/adm_program/administration/categories/categories.php?type=AWA',
 			$gL10n->get('AWA_CAT_EDIT'), '/icons/options.png');
 }
-
+echo' <div id="plgAwards" class="admPluginContent">';
 $awardmenu->show();  
+echo' </div>';
 }  
 ?>
