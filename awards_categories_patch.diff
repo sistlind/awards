@@ -1,0 +1,117 @@
+diff -ur categories_orig/categories_function.php categories/categories_function.php
+--- categories_orig/categories_function.php	2013-01-29 16:09:46.000000000 +0100
++++ categories/categories_function.php	2014-10-11 11:18:26.777065742 +0200
+@@ -14,6 +14,7 @@
+  *         LNK = Linkkategorien
+  *         USF = Profilfelder
+  *         DAT = Termine
++ *         AWA = Ehrungen
+  * mode:   1 - Kategorie anlegen oder updaten
+  *         2 - Kategorie loeschen
+  *         4 - Reihenfolge fuer die uebergebene usf_id anpassen
+@@ -27,7 +28,7 @@
+ 
+ // Initialize and check the parameters
+ $getCatId    = admFuncVariableIsValid($_GET, 'cat_id', 'numeric', 0);
+-$getType     = admFuncVariableIsValid($_GET, 'type', 'string', null, true, array('ROL', 'LNK', 'USF', 'DAT'));
++$getType     = admFuncVariableIsValid($_GET, 'type', 'string', null, true, array('ROL', 'LNK', 'USF', 'DAT', 'AWA'));
+ $getMode     = admFuncVariableIsValid($_GET, 'mode', 'numeric', null, true);
+ $getTitle    = admFuncVariableIsValid($_GET, 'title', 'string', $gL10n->get('SYS_CATEGORY'));
+ $getSequence = admFuncVariableIsValid($_GET, 'sequence', 'string', '', false, array('UP', 'DOWN'));
+@@ -49,6 +50,10 @@
+ {
+ 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
+ }
++elseif($getType == 'AWA' && $gCurrentUser->editUsers() == false)
++{
++	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
++}
+ 
+ // create category object
+ $category = new TableCategory($gDb);
+@@ -209,4 +214,4 @@
+     $category->moveSequence($getSequence);
+     exit();
+ }
+-?>
+\ Kein Zeilenumbruch am Dateiende.
++?>
+Nur in categories: categories_function.php~.
+diff -ur categories_orig/categories_new.php categories/categories_new.php
+--- categories_orig/categories_new.php	2013-12-02 20:06:44.000000000 +0100
++++ categories/categories_new.php	2014-10-11 11:25:27.107775160 +0200
+@@ -14,6 +14,7 @@
+  *         LNK = Linkkategorien
+  *         USF = Profilfelder
+  *         DAT = Termine
++ *         AWA = Ehrungen
+  * title : Übergabe des Synonyms für Kategorie.
+  *
+  ****************************************************************************/
+@@ -24,7 +25,7 @@
+ 
+ // Initialize and check the parameters
+ $getCatId = admFuncVariableIsValid($_GET, 'cat_id', 'numeric', 0);
+-$getType  = admFuncVariableIsValid($_GET, 'type', 'string', null, true, array('ROL', 'LNK', 'USF', 'DAT'));
++$getType  = admFuncVariableIsValid($_GET, 'type', 'string', null, true, array('ROL', 'LNK', 'USF', 'DAT', 'AWA'));
+ $getTitle = admFuncVariableIsValid($_GET, 'title', 'string', $gL10n->get('SYS_CATEGORY'));
+ 
+ // Modus und Rechte pruefen
+@@ -44,6 +45,10 @@
+ {
+ 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
+ }
++elseif($getType == 'AWA' && $gCurrentUser->editUsers() == false)
++{
++	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
++}
+ 
+ $gNavigation->addUrl(CURRENT_URL);
+ 
+@@ -206,4 +211,4 @@
+ 
+ require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+ 
+-?>
+\ Kein Zeilenumbruch am Dateiende.
++?>
+Nur in categories: categories_new.php~.
+diff -ur categories_orig/categories.php categories/categories.php
+--- categories_orig/categories.php	2013-01-29 16:09:46.000000000 +0100
++++ categories/categories.php	2014-10-11 11:18:29.284963763 +0200
+@@ -13,6 +13,7 @@
+  *        LNK = Linkkategorien
+  *        USF = Profilfelder
+  *        DAT = Termine
++ *        AWA = Ehrungen
+  * title : Übergabe des Synonyms für Kategorie.
+  *
+  ****************************************************************************/
+@@ -23,7 +24,7 @@
+ require_once('../../system/classes/table_category.php');
+ 
+ // Initialize and check the parameters
+-$getType  = admFuncVariableIsValid($_GET, 'type', 'string', null, true, array('ROL', 'LNK', 'USF', 'DAT'));
++$getType  = admFuncVariableIsValid($_GET, 'type', 'string', null, true, array('ROL', 'LNK', 'USF', 'DAT', 'AWA'));
+ $getTitle = admFuncVariableIsValid($_GET, 'title', 'string', $gL10n->get('SYS_CATEGORY'));
+ 
+ // Modus und Rechte pruefen
+@@ -43,6 +44,10 @@
+ {
+ 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
+ }
++elseif($getType == 'AWA' && $gCurrentUser->editUsers() == false)
++{
++	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
++}
+ 
+ $gNavigation->addUrl(CURRENT_URL);
+ unset($_SESSION['categories_request']);
+@@ -254,4 +259,4 @@
+ 
+ require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+ 
+-?>
+\ Kein Zeilenumbruch am Dateiende.
++?>
+Nur in categories: categories.php~.

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language id="de">
+    <version id="0.0.1">
+  	<text id="AWA_HEADLINE" development="new" translation="todo">Ehrungen &amp; Auszeichnungen</text>
+        <text id="AWA_INSTALL" development="new" translation="todo">Installieren</text>
+	<text id="AWA_HEADLINE_CHANGE" development="new" translation="todo">Ehrungen &amp; Auszeichnungen Änderungsdialog</text>
+        <text id="AWA_LIST_AWARDS" development="new" translation="todo">Liste der Ehrungen</text>
+        <text id="AWA_HONOR" development="new" translation="todo">Ehrung zuweisen</text>
+        <text id="AWA_NO_DATA" development="new" translation="todo">Keine Daten vorhanden</text>
+        <text id="AWA_CAT_EDIT" development="new" translation="todo">Ehrungskategorien bearbeiten</text>
+        <text id="AWA_USER" development="new" translation="todo">Mitglied</text>
+        <text id="AWA_USER_SELECT" development="new" translation="todo">Mitglied auswählen</text>
+        <text id="AWA_CAT" development="new" translation="todo">Ehrungskategorie</text>
+        <text id="AWA_CAT_SELECT" development="new" translation="todo">Kategorie auswählen</text>
+	<text id="AWA_HONOR_TITLE" development="new" translation="todo">Titel</text>
+        <text id="AWA_HONOR_OLD" development="new" translation="todo">Frühere Titel</text>
+        <text id="AWA_HONOR_OLD_SELECT" development="new" translation="todo">Früheren Titel auswählen</text>
+        <text id="AWA_HONOR_NEW" development="new" translation="todo">Neuen Titel anlegen</text>
+        <text id="AWA_HONOR_INFO" development="new" translation="todo">Beschreibung</text>
+        <text id="AWA_HONOR_DATE" development="new" translation="todo">Erhalten</text>
+	<text id="AWA_HONOR_DATE_FORMAT" development="new" translation="todo">Datumsformat: (dd.mm.JJJJ)</text>	
+        <text id="AWA_SINCE" development="new" translation="todo">erhalten</text>
+        <text id="AWA_EDIT_HONOR" development="new" translation="todo">Ehrung bearbeiten</text>
+        <text id="AWA_DELETE_HONOR" development="new" translation="todo">Ehrung löschen</text>
+  	<text id="AWA_DOWNLOAD_NAME" development="new" translation="todo">Export-Ehrungen</text>
+<!-- Statusmeldungen -->
+	<text id="AWA_SUCCESS" development="new" translation="todo">Erfolg</text>
+	<text id="AWA_SUCCESS_NEW" development="new" translation="todo">Daten eingetragen!</text>
+	<text id="AWA_SUCCESS_CHANGE" development="new" translation="todo">Daten geändert!</text>
+<!-- Fehlermeldungen -->
+	<text id="AWA_ERR_NO_DB" development="new" translation="todo">Datenbank nicht gefunden</text>
+ 	<text id="AWA_ERR_DOUBLE_ID" development="new" translation="todo">ID Bereits vorhanden, doppelter Aufruf?</text>
+ 	<text id="AWA_ERR_NO_USER" development="new" translation="todo">Mitglied auswählen</text>
+ 	<text id="AWA_ERR_NO_CAT" development="new" translation="todo">Kategorie angeben!</text>
+ 	<text id="AWA_ERR_DOUBLE_TITLE" development="new" translation="todo">Entweder alten Titel verwenden, oder neu anlegen!</text>
+ 	<text id="AWA_ERR_NO_TITLE" development="new" translation="todo">Titel für Ehrung vergeben!</text>
+ 	<text id="AWA_ERR_NO_DATE" development="new" translation="todo">Datum angeben!</text>
+<!-- Installation -->
+        <text id="AWA_INSTALL_HEADLINE" development="new" translation="todo">Initialisierung der Datenbank</text>
+        <text id="AWA_INSTALL_DB_EXISTS" development="new" translation="todo">Datenbank bereits initialisiert</text>
+        <text id="AWA_INSTALL_DB_NOT_READY" development="new" translation="todo">Tabelle %VAR1% existiert noch nicht.</text>
+        <text id="AWA_INSTALL_CREATE_DB" development="new" translation="todo">Erstelle leere Tabelle</text>
+        <text id="AWA_INSTALL_DB_READY" development="new" translation="todo">Datenbank initialisiert</text>
+    </version>
+</language>

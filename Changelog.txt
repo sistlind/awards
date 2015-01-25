@@ -1,0 +1,4 @@
+
+0.0.2: New patch for categories
+
+0.0.1: Initial Submission

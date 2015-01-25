@@ -1,0 +1,358 @@
+<?php
+/******************************************************************************
+ * Awards
+ *
+ * Version 0.0.1
+ *
+ * Datum        : 29.09.2014  
+ *
+ * Diese Plugin ordnet Mitgliedern Ehrungen/Auszeichnungen/Lehrgänge zu
+ * 
+ *                  
+ *****************************************************************************/
+require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
+require_once(SERVER_PATH. '/adm_program/system/login_valid.php');
+require_once(SERVER_PATH. '/adm_program/system/classes/form_elements.php');
+require_once(SERVER_PATH. '/adm_program/system/classes/table_text.php');
+// Pfad des Plugins ermitteln
+$plugin_folder_pos = strpos(__FILE__, 'adm_plugins') + 11;
+$plugin_file_pos   = strpos(__FILE__, basename(__FILE__));
+$plugin_path       = substr(__FILE__, 0, $plugin_folder_pos);
+$plugin_folder     = substr(__FILE__, $plugin_folder_pos+1, $plugin_file_pos-$plugin_folder_pos-2);
+
+//Berechtigung checken
+if($gCurrentUser->editUsers() == false)
+{
+	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
+}
+
+$getAwardID  = admFuncVariableIsValid($_GET, 'awa_id', 'numeric', 0);
+
+if ($getAwardID > 0)
+{
+$EditMode=True;
+}else
+{
+$EditMode=False;
+}
+// DB auf Admidio setzen, da evtl. noch andere DBs beim User laufen
+$gDb->setCurrentDB();
+
+// Einbinden der Sprachdatei
+$gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
+
+$gNavigation->addUrl(CURRENT_URL);
+
+if($EditMode)
+{
+	$gLayout['title']  = $gL10n->get('AWA_HEADLINE_CHANGE');
+}else{
+	$gLayout['title']  = $gL10n->get('AWA_HEADLINE');
+}
+
+
+
+//Begin der Seite
+
+$gLayout['header'] = '
+    <script type="text/javascript" src="'.$g_root_path.'/adm_program/libs/jquery/jquery.noblecount.min.js"></script>
+    <script type="text/javascript" src="'.$g_root_path.'/adm_program/system/js/date-functions.js"></script>
+	<script type="text/javascript" src="'.$g_root_path.'/adm_program/libs/calendar/calendar-popup.js"></script>
+	<script type="text/javascript" src="'.$g_root_path.'/adm_program/system/js/form.js"></script>
+	<script type="text/javascript" src="'.$g_root_path.'/adm_program/modules/profile/profile.js"></script>
+    <link rel="stylesheet" href="'.THEME_PATH.'/css/calendar.css" type="text/css" />';
+
+$gLayout['header'] .= '
+        <script type="text/javascript"><!--
+			var profileJS = new profileJSClass();
+			$(document).ready(function() 
+            {
+				profileJS.init();
+				';
+$gLayout['header'] .= '}); 
+        //--></script>';
+
+require(SERVER_PATH. '/adm_program/system/overall_header.php');
+
+//Falls Datenbank nicht vorhanden Install-Skript starten
+$tablename=$g_tbl_praefix.'_user_awards';
+$sql_select="SHOW TABLES LIKE '".$tablename."'"; 
+$query = $gDb->query($sql_select); 
+if(mysql_num_rows($query)===0){
+//Datenbank nicht vorhanden
+echo '<h2>'.$gL10n->get('SYS_ERROR').'</h2>';
+echo $gL10n->get('AWA_ERR_NO_DB');
+echo '<p><a href=install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>';
+require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+exit;
+}
+
+
+
+
+
+if($EditMode && !isset($_POST['submit']))
+{
+$AWAObj = new TableAccess($gDb, $g_tbl_praefix.'_user_awards', 'awa',$getAwardID);
+$POST_award_user_id=$AWAObj->getValue('awa_usr_id');
+$POST_award_cat_id=$AWAObj->getValue('awa_cat_id');
+$POST_award_name_new=$AWAObj->getValue('awa_name');
+$POST_award_info=$AWAObj->getValue('awa_info');
+$DateObject=date_create($AWAObj->getValue('awa_date'));
+$POST_award_date=date_format($DateObject,'d.m.Y');
+
+}else
+{
+//Übergebene POST_variablen speichern
+$POST_award_new_id=$_POST['award_new_id'];
+$POST_award_user_id=$_POST['award_user_id'];
+$POST_award_cat_id=$_POST['award_cat_id'];
+$POST_award_name_old_id=$_POST['award_name_old_id'];
+$POST_award_name_new=$_POST['award_name_new'];
+$POST_award_info=$_POST['award_info'];
+$POST_award_date=$_POST['award_date'];
+$DateObject=date_create($POST_award_date);
+$InternalDate=date_format($DateObject,'Y-m-d');
+}
+
+
+if(0)//Debug!
+{
+echo '<br>award new id: '.$POST_award_new_id;
+echo '<br>userid: '.$POST_award_user_id;
+echo '<br>catid: '.$POST_award_cat_id;
+echo '<br>nameoldid: '.$POST_award_name_old;
+echo '<br>namenew: '.$POST_award_name_new;
+echo '<br>info: '.$POST_award_info;
+echo '<br>date: '.$POST_award_date;
+echo '<br>date_internal: '.$InternalDate;
+}
+
+
+//Letzte ID der Datenbank merken um doppelte Einträge zu verhindern
+$sql    = 'SELECT COUNT(*) FROM '.$g_tbl_praefix.'_user_awards;';
+$result= $gDb->fetch_array($gDb->query($sql));
+if ($result['COUNT(*)']==0)
+{$newID=1;}
+else
+{
+$sql    = 'SELECT MAX(awa_id) as maxID FROM '.$g_tbl_praefix.'_user_awards;';
+//echo $sql;
+$result= $gDb->fetch_array($gDb->query($sql));
+$newID=$result['maxID']+1;
+}
+
+
+if (isset($_POST['submit']))
+{
+$INPUTOK=TRUE;
+$ErrorStr= '<h2>'.$gL10n->get('SYS_ERROR').'</h2>';
+//echo 'Submit gedrückt!';
+//Eingaben OK?
+if (($POST_award_new_id !=$newID) && !($EditMode))
+	{//Doppelter Aufruf?
+	$ErrorStr.='<p>'.$gL10n->get('AWA_ERR_DOUBLE_ID').'</p>';
+	$INPUTOK=FALSE;
+	}
+if ($POST_award_user_id==0)
+	{//Name Pflicht!
+	$ErrorStr.='<p>'.$gL10n->get('AWA_ERR_NO_USER').'</p>';
+	$INPUTOK=FALSE;
+	}
+if ($POST_award_cat_id==0)
+	{//Kategorie Pflicht!
+	$ErrorStr.='<p>'.$gL10n->get('AWA_ERR_NO_CAT').'</p>';
+	$INPUTOK=FALSE;
+	}
+if ((strlen($POST_award_name_new)>1)&&($POST_award_name_old_id>0))
+	{//Nur ein Titelfeld füllen!
+	$ErrorStr.='<p>'.$gL10n->get('AWA_ERR_DOUBLE_TITLE').'</p>';
+	$INPUTOK=FALSE;
+	}
+if ((strlen($POST_award_name_new)<1)&&($POST_award_name_old_id==0))
+	{//Titel Pflicht
+	$ErrorStr.='<p>'.$gL10n->get('AWA_ERR_NO_TITLE').'</p>';
+	$INPUTOK=FALSE;
+	}
+if (strlen($POST_award_date)<4)//TODO: Besserer Check
+	{//Datum Pflicht !
+	$ErrorStr.='<p>'.$gL10n->get('AWA_ERR_NO_DATE').'</p>';
+	$INPUTOK=FALSE;
+	}
+if($INPUTOK)
+{
+//echo 'SAVE!';
+if($EditMode)
+{
+$NewAWAObj = new TableAccess($gDb, $g_tbl_praefix.'_user_awards', 'awa',$getAwardID);
+}else{
+$NewAWAObj = new TableAccess($gDb, $g_tbl_praefix.'_user_awards', 'awa');
+}
+$NewAWAObj->setValue('awa_cat_id',$POST_award_cat_id);
+$NewAWAObj->setValue('awa_org_id',$gCurrentOrganization->getValue('org_id'));
+$NewAWAObj->setValue('awa_usr_id',$POST_award_user_id);
+if($POST_award_name_old_id>0)
+{
+	$sql    = 'SELECT awa_name FROM '.$g_tbl_praefix.'_user_awards Where awa_id=\''.$POST_award_name_old_id.'\';';
+	$result= $gDb->fetch_array($gDb->query($sql));
+	$NewAWAObj->setValue('awa_name',$result['awa_name']);
+}else
+{
+	$NewAWAObj->setValue('awa_name',$POST_award_name_new);
+}
+$NewAWAObj->setValue('awa_info',$POST_award_info);
+$NewAWAObj->setValue('awa_date',$InternalDate);
+$NewAWAObj->save();
+echo '<h2>'.$gL10n->get('AWA_SUCCESS').'</h2>';
+if (!$EditMode){
+	echo '<p>'.$gL10n->get('AWA_SUCCESS_NEW').'</p>';
+	unset($POST_award_user_id);
+	$newID+=1;
+}else
+{
+	echo '<p>'.$gL10n->get('AWA_SUCCESS_CHANGE').'</p>';
+}
+}else
+{
+echo $ErrorStr;
+}
+
+}
+
+// Html des Modules ausgeben
+echo '<form action="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$getAwardID.'" method="post">
+<input type="hidden" name="award_new_id" value="'.$newID.'">
+<div class="formLayout" id="edit_awards_form">
+    <div class="formHead">'. $gLayout['title']. '</div>
+    <div class="formBody">
+        <ul class="formFieldList">
+            <li>
+                <dl>
+<dt><label for="award_user_id">'.$gL10n->get('AWA_USER').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
+                    <dd>
+ 			 <select id="award_user_id" name="award_user_id" >
+			<option value="0">'.$gL10n->get('AWA_USER_SELECT').'</option>';
+//Nutzer auswahl füllen
+//only active members
+    $memberCondition = ' AND EXISTS 
+        (SELECT 1
+           FROM '. TBL_MEMBERS. ', '. TBL_ROLES. ', '. TBL_CATEGORIES. '
+          WHERE mem_usr_id = usr_id
+            AND mem_rol_id = rol_id
+            AND mem_begin <= \''.DATE_NOW.'\'
+            AND mem_end    > \''.DATE_NOW.'\'
+            AND rol_valid  = 1
+            AND rol_cat_id = cat_id
+            AND (  cat_org_id = '. $gCurrentOrganization->getValue('org_id'). '
+                OR cat_org_id IS NULL )) ';
+$sql    = 'SELECT usr_id, last_name.usd_value as last_name, first_name.usd_value as first_name, birthday.usd_value as birthday                  
+             FROM '. TBL_USERS. '
+             JOIN '. TBL_USER_DATA. ' as last_name
+               ON last_name.usd_usr_id = usr_id
+              AND last_name.usd_usf_id = '. $gProfileFields->getProperty('LAST_NAME', 'usf_id'). '
+             JOIN '. TBL_USER_DATA. ' as first_name
+               ON first_name.usd_usr_id = usr_id
+              AND first_name.usd_usf_id = '. $gProfileFields->getProperty('FIRST_NAME', 'usf_id'). '
+             JOIN '. TBL_USER_DATA. ' as birthday
+               ON birthday.usd_usr_id = usr_id
+              AND birthday.usd_usf_id = '. $gProfileFields->getProperty('BIRTHDAY', 'usf_id'). '
+             WHERE usr_valid = 1'.$memberCondition.$searchCondition.' ORDER BY last_name.usd_value, first_name.usd_value';
+$query=$gDb->query($sql);
+while($row=$gDb->fetch_array($query))
+{
+if ($row['usr_id']==$POST_award_user_id)
+{
+	$selected='selected';
+}else{
+	$selected='';
+}
+echo '<option value="'.$row['usr_id'].'"'.$selected.'>'.$row['last_name'].', '.$row['first_name'].'  ('.$row['birthday'].')</option>';
+}
+echo '</select></dl>';
+
+echo'
+<dl><dt><label for="award_cat_id">'.$gL10n->get('AWA_CAT').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
+                    <dd>
+ 			 <select id="award_cat_id" name="award_cat_id" >
+			<option value="0">'.$gL10n->get('AWA_CAT_SELECT').'</option>';
+//Kategorie auswahl füllen
+$sql    = 'SELECT cat_id, cat_name FROM '.$g_tbl_praefix.'_categories WHERE cat_type=\'AWA\' ORDER BY cat_sequence;';
+$query=$gDb->query($sql);
+while($row=$gDb->fetch_array($query))
+{
+if ($row['cat_id']==$POST_award_cat_id)
+{
+	$selected='selected';
+}else{
+	$selected='';
+}
+echo '<option value="'.$row['cat_id'].'"'.$selected.'>'.$row['cat_name'].'</option>';
+}
+
+
+echo '</select> </dd></dl>';
+echo'                        
+                    <dl><dt><label for="award_name_old_id">'.$gL10n->get('AWA_HONOR_OLD').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
+                    <dd>
+ 			 <select id="award_name_old_id" name="award_name_old_id" >
+			<option value="0" >'.$gL10n->get('AWA_HONOR_OLD_SELECT').'</option>
+			<option value="-1" ></option>';
+//Dopdown für alte einträge füllen
+$sql    = 'SELECT awa_name, awa_id FROM '.$g_tbl_praefix.'_user_awards GROUP BY awa_name ORDER BY awa_date DESC;';
+
+$query=$gDb->query($sql);
+while($row=$gDb->fetch_array($query))
+{
+if ($row['awa_id']==$POST_award_name_old_id)
+{
+	$selected='selected';
+}else{
+	$selected='';
+}
+echo '<option value="'.$row['awa_id'].'"'.$selected.'>'.$row['awa_name'].'</option>';
+}
+echo '</select></dd>';
+echo'    <dt><label for="award_name_new">'.$gL10n->get('AWA_HONOR_NEW').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>  
+        <dd>
+	<input type="text" id="award_name_new" name="award_name_new" style="width: 90%;" maxlength="100" value="'.$POST_award_name_new.'" />
+                        </dd> </dl>     
+
+	<dl><dt><label for="award_info">'.$gL10n->get('AWA_HONOR_INFO').'</label></dt>
+                   <dd>
+                        <input type="text" id="award_info" name="award_info" style="width: 90%;" maxlength="100" value="'.$POST_award_info.'" />
+                        </dd></dl>';
+echo '                
+                <dl>
+                    <dt><label for="award_date">'.$gL10n->get('AWA_HONOR_DATE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
+                    <dd><script type="text/javascript">
+                            var calDate = new CalendarPopup("calendardiv");
+                            calDate.setCssPrefix("calendar");
+                            calDate.showNavigationDropdowns();
+                            calDate.setYearSelectStartOffset(50);
+                            calDate.setYearSelectEndOffset(10);
+                        </script>
+                    <input type="text" id="award_date" name="award_date" style="width: 80px;" 
+                        maxlength="10"  value="'.$POST_award_date.'"  />
+                    <a class="iconLink" id="anchor_awa_date" href="javascript:calDate.select(document.getElementById(\'award_date\'),\'anchor_awa_date\',\'d.m.Y\');"><img src="'. THEME_PATH. '/icons/calendar.png" alt="Kalender anzeigen" title="Kalender anzeigen" /></a>'.$gL10n->get('AWA_HONOR_DATE_FORMAT').'
+                    <span id="calendardiv" style="position: absolute; visibility: hidden;"></span></dd>
+                </dl>
+            </li>
+<div class="formSubmit">
+            <button id="btnSave" type="submit" name="submit" value="submit"><img src="'. THEME_PATH. '/icons/disk.png" alt="'.$gL10n->get('SYS_SAVE').'" />&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
+        </div>
+    </div>
+</div>
+</form>
+
+<ul class="iconTextLinkList">
+    <li>
+        <span class="iconTextLink">
+            <a href="'.$g_root_path.'/adm_program/system/back.php"><img
+            src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
+            <a href="'.$g_root_path.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
+        </span>
+    </li>
+</ul>';
+
+require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+?>
