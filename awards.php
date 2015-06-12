@@ -11,11 +11,12 @@
  *                  
  *****************************************************************************/
 GLOBAL $g_tbl_praefix;
-// Pfad des Plugins ermitteln
-$plugin_folder_pos = strpos(__FILE__, 'adm_plugins') + 11;
-$plugin_file_pos   = strpos(__FILE__, basename(__FILE__));
-$plugin_path       = substr(__FILE__, 0, $plugin_folder_pos);
-$plugin_folder     = substr(__FILE__, $plugin_folder_pos+1, $plugin_file_pos-$plugin_folder_pos-2);
+
+require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
+require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
+$plugin_folder=getFolder(__FILE__);
+$plugin_path=getPath(__FILE__);
+
 
 if($gCurrentUser->editUsers() == true){
 
@@ -25,6 +26,7 @@ $gDb->setCurrentDB();
 // Einbinden der Sprachdatei
 $gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
 $awardmenu = new Menu('awardmenu', $gL10n->get('AWA_HEADLINE'));
+
 //Falls Datenbank nicht vorhanden Install-Skript starten
 $tablename=$g_tbl_praefix.'_user_awards';
 $sql_select="SHOW TABLES LIKE '".$tablename."'"; 

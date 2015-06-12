@@ -11,10 +11,7 @@
  *                  
  *****************************************************************************/
 require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
-require_once(SERVER_PATH. '/adm_program/system/login_valid.php');
-require(SERVER_PATH. '/adm_program/system/common.php');
-require_once(SERVER_PATH. '/adm_program/system/classes/form_elements.php');
-require_once(SERVER_PATH. '/adm_program/system/classes/table_text.php');
+require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
 // Pfad des Plugins ermitteln
 $plugin_folder_pos = strpos(__FILE__, 'adm_plugins') + 11;
 $plugin_file_pos   = strpos(__FILE__, basename(__FILE__));
@@ -37,7 +34,6 @@ $gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
 
 $gLayout['title']  = 'Ehrungen & Auszeichnungen';//$gL10n->get('AWA_INSTALL_TITLE');
 //Begin der Seite
-require(SERVER_PATH. '/adm_program/system/overall_header.php');
 echo '<h1 class="moduleHeadline">'.$gLayout['title'].'</h1>';
 
 //Falls Datenbank nicht vorhanden Install-Skript starten

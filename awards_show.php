@@ -11,14 +11,12 @@
  *                  
  *****************************************************************************/
 // Pfad des Plugins ermitteln
-$plugin_folder_pos = strpos(__FILE__, 'adm_plugins') + 11;
-$plugin_file_pos   = strpos(__FILE__, basename(__FILE__));
-$plugin_path       = substr(__FILE__, 0, $plugin_folder_pos);
-$plugin_folder     = substr(__FILE__, $plugin_folder_pos+1, $plugin_file_pos-$plugin_folder_pos-2);
-
 
 require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
-require_once(SERVER_PATH. '/adm_program/system/classes/list_configuration.php');
+require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
+$plugin_folder=getFolder(__FILE__);
+$plugin_path=getPath(__FILE__);
+
 
 
 if($gCurrentUser->editUsers() == false)//%TODO: Berechtigungen
@@ -58,21 +56,20 @@ if (!$getCSV)
 	$gNavigation->addUrl(CURRENT_URL);
 }
 
-$gLayout['title']  = $gL10n->get('AWA_HEADLINE');
+$headline  = $gL10n->get('AWA_HEADLINE');
+$page = new HtmlPage($headline);
+
 //Begin der Seite
-require(SERVER_PATH. '/adm_program/system/overall_header.php');
-echo '<h1 class="moduleHeadline">'.$gLayout['title'].'</h1>';
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$tablename=$g_tbl_praefix.'_user_awards';
 $sql_select="SHOW TABLES LIKE '".$tablename."'"; 
 $query = @mysql_query($sql_select); 
 if(mysql_num_rows($query)===0){
 //Datenbank nicht vorhanden
-echo '<h2>'.$gL10n->get('SYS_ERROR').'</h2>';
-echo $gL10n->get('AWA_ERR_NO_DB');
-echo '<p><a href=install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>';
-require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+$page->addHtml('<h2>'.$gL10n->get('SYS_ERROR').'</h2>');
+$page->addHtml($gL10n->get('AWA_ERR_NO_DB'));
+$page->addHtml('<p><a href=awards_install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>');
+$page->show();
 exit;
 }
 
@@ -99,20 +96,19 @@ $sql    = 'SELECT awa_id, awa_usr_id, awa_cat_id,awa_name, awa_info, awa_date,
 $query=$gDb->query($sql);
 if (mysql_num_rows($query)==0)
 {
-	echo '<p>'.$gL10n->get('AWA_NO_DATA').'</p>';
-	require(SERVER_PATH. '/adm_program/system/overall_footer.php');
-	break;
+	$page->addHtml('<p>'.$gL10n->get('AWA_NO_DATA').'</p>');
+	$page->show();
+	exit;
 }
 //Buttons für Export
 
-echo '<form method="get" action="awards_show.php">
-     <img src="'. THEME_PATH. '/icons/download.png" alt="'.$gL10n->get('LST_EXPORT_TO').'" />
-                    <select size="1" name="export_mode" onChange="this.form.submit()">
-                        <option value="" selected="selected">'.$gL10n->get('LST_EXPORT_TO').' ...</option>
-                        <option value="csv-ms">'.$gL10n->get('LST_MICROSOFT_EXCEL').' ('.$gL10n->get('SYS_ISO_8859_1').')</option>
-                        <option value="csv-oo">'.$gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')</option>
-                    </select>
-</form>';
+	$page->addHtml('<form method="get" action="awards_show.php">\n
+     <img src="'. THEME_PATH. '/icons/download.png" alt="'.$gL10n->get('LST_EXPORT_TO').'" />\n
+                    <select size="1" name="export_mode" onChange="this.form.submit()">\n
+                        <option value="" selected="selected">'.$gL10n->get('LST_EXPORT_TO').' ...</option>\n
+                        <option value="csv-ms">'.$gL10n->get('LST_MICROSOFT_EXCEL').' ('.$gL10n->get('SYS_ISO_8859_1').')</option>\n
+                        <option value="csv-oo">'.$gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')</option>\n
+</form>');
 
 //Tabellenkopf
 unset($PrevCatName);
@@ -133,37 +129,43 @@ while($row=$gDb->fetch_array($query))
 		{
 			if (isset($PrevCatName))
 			{//Beim ersten Durchgang gibt es noch nichts zu schließen
-				echo '</table>';
+					$page->addHtml('</table>');
 			}
 		$PrevCatName=$row['awa_cat_name'];
 
-			echo '<h2>'.$row['awa_cat_name'].'</h2>';
+			$page->addHtml('<h2>'.$row['awa_cat_name'].'</h2>');
 			//Tabellenkopf anlegen
-			echo '<table >
+			$page->addHtml('<table >
 				<colgroup>
 				    <col width="150"/>
 				    <col width="90"/>
 				    <col width="120"/>
 				    <col width="150"/>
 				    <col width="50"/>
-				</colgroup>';
-			echo '<tr><th>'.$gL10n->get('AWA_USER').'</th><th>'.$gL10n->get('SYS_DATE').'</th><th>'.$gL10n->get('AWA_HONOR_TITLE').'</th><th>'.$gL10n->get('AWA_HONOR_INFO').'</th><th></th></tr>';
+				</colgroup>');
+			$page->addHtml('<tr><th>'.$gL10n->get('AWA_USER').'</th><th>'.$gL10n->get('SYS_DATE').'</th>
+				<th>'.$gL10n->get('AWA_HONOR_TITLE').'</th><th>'.$gL10n->get('AWA_HONOR_INFO').'</th><th></th></tr>');
 		}
 
-		echo '<tr>';
-		echo '<td><a href="'.$g_root_path.'/adm_program/modules/profile/profile.php?user_id='.$row['awa_usr_id'].'">'.$row['last_name'].',&nbsp'.$row['first_name'].'</a></td>';
-		echo '<td>'.date('d.m.Y',strtotime($row['awa_date'])).'</td>';
-		echo '<td>'.$row['awa_name'].'</td>';
-		echo '<td>'.$row['awa_info'].'</td>';
+		$page->addHtml('<tr>');
+		$page->addHtml('<td><a href="'.$g_root_path.'/adm_program/modules/profile/profile.php?user_id='.$row['awa_usr_id'].'">'.
+			$row['last_name'].',&nbsp'.$row['first_name'].'</a></td>');
+		$page->addHtml('<td>'.date('d.m.Y',strtotime($row['awa_date'])).'</td>');
+		$page->addHtml('<td>'.$row['awa_name'].'</td>');
+		$page->addHtml('<td>'.$row['awa_info'].'</td>');
 
-		echo '<td>';
+		$page->addHtml('<td>');
 		if($gCurrentUser->editUsers() == true)//Ändern/Löschen Buttons für berechtigte User
 		{
-		echo '<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'"><img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" /></a>';
-		 echo '<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'"><img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'" /></a>';
+			$page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'">
+				<img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" />
+				</a>');
+			$page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'">
+				<img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'" />
+				</a>');
 		}
-		echo '</td>';
-		echo '</tr>';
+		$page->addHtml('</td>');
+		$page->addHtml('</tr>');
 	}
 }//end while
 
@@ -186,9 +188,9 @@ if($getCSV)
 	}
 }else
 {
-	echo '</table>';
+	$page->addHtml('</table>');
 
-	echo '<ul class="iconTextLinkList">
+	$page->addHtml('<ul class="iconTextLinkList">
 	    <li>
 		<span class="iconTextLink">
 		    <a href="'.$g_root_path.'/adm_program/system/back.php"><img
@@ -196,7 +198,8 @@ if($getCSV)
 		    <a href="'.$g_root_path.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
 		</span>
 	    </li>
-	</ul>';
-	require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+	</ul>');
+	$page->show();
 }
+
 ?>
