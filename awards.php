@@ -43,7 +43,7 @@ if(mysql_num_rows($query)===0){
 			$gL10n->get('AWA_LIST_AWARDS'), '/icons/lists.png');
 	$awardmenu->addItem('awards_new', '/adm_plugins/'.$plugin_folder.'/awards_change.php',
 			$gL10n->get('AWA_HONOR'), '/icons/profile.png');
-	$awardmenu->addItem('categories', '/adm_program/administration/categories/categories.php?type=AWA',
+	$awardmenu->addItem('categories', '/adm_program/modules/categories/categories.php?type=AWA',
 			$gL10n->get('AWA_CAT_EDIT'), '/icons/options.png');
 }
 echo' <div id="plgAwards" class="admPluginContent">';

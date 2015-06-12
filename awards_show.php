@@ -25,7 +25,7 @@ if($gCurrentUser->editUsers() == false)//%TODO: Berechtigungen
 }
 
 // Export?
-$get_req=  admFuncVariableIsValid($_GET, 'export_mode', 'string', null, false, array('csv-ms', 'csv-oo','NULL'));
+$get_req=  admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue'=> '','validValues' => array('csv-ms', 'csv-oo','NULL')));
 switch($get_req){
 	case 'csv-ms':
 		$separator    = ';'; // Microsoft Excel 2007 und neuer braucht ein Semicolon
@@ -78,7 +78,7 @@ $sql    = 'SELECT awa_id, awa_usr_id, awa_cat_id,awa_name, awa_info, awa_date,
 		awa_cat_name.cat_name as awa_cat_name,
 		last_name.usd_value as last_name,
 		first_name.usd_value as first_name
-          FROM '.$g_tbl_praefix.'_user_awards
+          FROM '.$tablename.' 
              JOIN '. TBL_USER_DATA. ' as last_name
                ON last_name.usd_usr_id = awa_usr_id
               AND last_name.usd_usf_id = '. $gProfileFields->getProperty('LAST_NAME', 'usf_id'). '
@@ -102,14 +102,13 @@ if (mysql_num_rows($query)==0)
 }
 //Buttons für Export
 
-	$page->addHtml('<form method="get" action="awards_show.php">\n
-     <img src="'. THEME_PATH. '/icons/download.png" alt="'.$gL10n->get('LST_EXPORT_TO').'" />\n
-                    <select size="1" name="export_mode" onChange="this.form.submit()">\n
-                        <option value="" selected="selected">'.$gL10n->get('LST_EXPORT_TO').' ...</option>\n
-                        <option value="csv-ms">'.$gL10n->get('LST_MICROSOFT_EXCEL').' ('.$gL10n->get('SYS_ISO_8859_1').')</option>\n
-                        <option value="csv-oo">'.$gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')</option>\n
-</form>');
-
+/*	$page->addHtml('<form method="get" action="awards_show.php">
+     <img src="'. THEME_PATH. '/icons/download.png" alt="'.$gL10n->get('LST_EXPORT_TO').'" />
+                    <select size="1" name="export_mode" onChange="this.form.submit()">
+                        <option value="" selected="selected">'.$gL10n->get('LST_EXPORT_TO').' ...</option>
+                        <option value="csv-ms">'.$gL10n->get('LST_MICROSOFT_EXCEL').' ('.$gL10n->get('SYS_ISO_8859_1').')</option>
+                        <option value="csv-oo">'.$gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')</option> </form>');
+*/
 //Tabellenkopf
 unset($PrevCatName);
 while($row=$gDb->fetch_array($query))
@@ -125,7 +124,7 @@ while($row=$gDb->fetch_array($query))
 
 	}else
 	{//Output data to table
-		 if ($PrevCatName!=$row['awa_cat_name'])
+		 if (!isset($PrevCatName)||($PrevCatName!=$row['awa_cat_name']))
 		{
 			if (isset($PrevCatName))
 			{//Beim ersten Durchgang gibt es noch nichts zu schließen
@@ -135,7 +134,7 @@ while($row=$gDb->fetch_array($query))
 
 			$page->addHtml('<h2>'.$row['awa_cat_name'].'</h2>');
 			//Tabellenkopf anlegen
-			$page->addHtml('<table >
+			$page->addHtml('<table>
 				<colgroup>
 				    <col width="150"/>
 				    <col width="90"/>
