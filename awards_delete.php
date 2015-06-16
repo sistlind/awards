@@ -12,17 +12,14 @@
  *****************************************************************************/
 require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
 require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
-// Pfad des Plugins ermitteln
-$plugin_folder_pos = strpos(__FILE__, 'adm_plugins') + 11;
-$plugin_file_pos   = strpos(__FILE__, basename(__FILE__));
-$plugin_path       = substr(__FILE__, 0, $plugin_folder_pos);
-$plugin_folder     = substr(__FILE__, $plugin_folder_pos+1, $plugin_file_pos-$plugin_folder_pos-2);
 
+//Berechtigung checken
 if($gCurrentUser->editUsers() == false)
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
 
+$getAwardID  = admFuncVariableIsValid($_GET, 'awa_id', 'numeric', array('defaultValue' => 0));
 
 // DB auf Admidio setzen, da evtl. noch andere DBs beim User laufen
 $gDb->setCurrentDB();
@@ -31,28 +28,28 @@ $gDb->setCurrentDB();
 $gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
 
 
-
-$gLayout['title']  = 'Ehrungen & Auszeichnungen';//$gL10n->get('AWA_INSTALL_TITLE');
 //Begin der Seite
-echo '<h1 class="moduleHeadline">'.$gLayout['title'].'</h1>';
+$headline  = $gL10n->get('AWA_HEADLINE');
+$page = new HtmlPage($headline);
+
+
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$tablename=$g_tbl_praefix.'_user_awards';
 $sql_select="SHOW TABLES LIKE '".$tablename."'"; 
 $query = @mysql_query($sql_select); 
 if(mysql_num_rows($query)===0){
-//Datenbank vorhanden
-echo 'Datenbank nicht gefunden!<br>';
-echo '<a href=install.php>INSTALLIEREN</a>';
-require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+//Datenbank nicht vorhanden
+$page->addHtml('<h2>'.$gL10n->get('SYS_ERROR').'</h2>');
+$page->addHtml($gL10n->get('AWA_ERR_NO_DB'));
+$page->addHtml('<p><a href=awards_install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>');
+$page->show();
 exit;
 }
 
-$getAwardID  = admFuncVariableIsValid($_GET, 'awa_id', 'numeric', 1);
 if ($getAwardID<1)
 {
-echo "Falscher Seitenaufruf!";
-echo '<ul class="iconTextLinkList">
+$page->addHtml("Falscher Seitenaufruf!");
+$page->addHtml('<ul class="iconTextLinkList">
     <li>
         <span class="iconTextLink">
             <a href="'.$g_root_path.'/adm_program/system/back.php"><img
@@ -60,8 +57,8 @@ echo '<ul class="iconTextLinkList">
             <a href="'.$g_root_path.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
         </span>
     </li>
-</ul>';
-require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+</ul>');
+$page->show();
 exit;
 }
 
@@ -75,23 +72,23 @@ if (isset($_POST['submit_ok']))
 {
 	if ($NewAWAObj->delete())
 	{
-		echo '<h2>Ehrung gelöscht</h2>';
+		$page->addHtml('<h2>Ehrung gelöscht</h2>');
 	}else
 	{
-		echo '<h2>Fehler beim Löschen</h2>';
+		$page->addHtml('<h2>Fehler beim Löschen</h2>');
 	}
 }
 else
 {
-$gNavigation->addUrl(CURRENT_URL);
-	echo 'Ehrung vom '.$NewAWAObj->getValue('awa_date').': <b>'.$NewAWAObj->getValue('awa_name');
+	$gNavigation->addUrl(CURRENT_URL);
+	$page->addHtml('Ehrung vom '.$NewAWAObj->getValue('awa_date').': <b>'.$NewAWAObj->getValue('awa_name'));
 	if (strlen($NewAWAObj->getValue('awa_info'))>0)
 	{
-	echo ' ('.$NewAWAObj->getValue('awa_info').')';
+		$page->addHtml(' ('.$NewAWAObj->getValue('awa_info').')');
 	}
 
-	echo'</b> an '.$userobj->getValue('FIRST_NAME').' '. $userobj->getValue('LAST_NAME').' wirklich löschen?';
-	echo '<form action="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$getAwardID.'" method="post">
+	$page->addHtml('</b> an '.$userobj->getValue('FIRST_NAME').' '. $userobj->getValue('LAST_NAME').' wirklich löschen?');
+	$page->addHtml('<form action="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$getAwardID.'" method="post">
 	<input type="hidden" name="delete_ID" value="'.$getAwardID.'">
 	<div class="formLayout" id="edit_awards_form">
 	    <div class="formBody">
@@ -100,16 +97,11 @@ $gNavigation->addUrl(CURRENT_URL);
 		</div>
 	    </div>
 	</div>
-	</form>';
+	</form>');
 }
 
 
-
-
-
-
-
-echo '<ul class="iconTextLinkList">
+	$page->addHtml('<ul class="iconTextLinkList">
     <li>
         <span class="iconTextLink">
             <a href="'.$g_root_path.'/adm_program/system/back.php"><img
@@ -117,8 +109,7 @@ echo '<ul class="iconTextLinkList">
             <a href="'.$g_root_path.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
         </span>
     </li>
-</ul>';
+</ul>');
 
-
-require(SERVER_PATH. '/adm_program/system/overall_footer.php');
+$page->show();
 ?>

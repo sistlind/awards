@@ -27,6 +27,7 @@
 	<text id="AWA_SUCCESS" development="new" translation="todo">Erfolg</text>
 	<text id="AWA_SUCCESS_NEW" development="new" translation="todo">Daten eingetragen!</text>
 	<text id="AWA_SUCCESS_CHANGE" development="new" translation="todo">Daten geändert!</text>
+	<text id="AWA_NEW_ENTRY" development="new" translation="todo">Nächster Datensatz</text>
 <!-- Fehlermeldungen -->
 	<text id="AWA_ERR_NO_DB" development="new" translation="todo">Datenbank nicht gefunden</text>
  	<text id="AWA_ERR_DOUBLE_ID" development="new" translation="todo">ID Bereits vorhanden, doppelter Aufruf?</text>

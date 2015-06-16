@@ -195,18 +195,20 @@ if($POST_award_name_old_id>0)
 $NewAWAObj->setValue('awa_info',$POST_award_info);
 $NewAWAObj->setValue('awa_date',$InternalDate);
 $NewAWAObj->save();
-echo '<h2>'.$gL10n->get('AWA_SUCCESS').'</h2>';
+$page->addHtml('<h2>'.$gL10n->get('AWA_SUCCESS').'</h2>');
 if (!$EditMode){
 	$page->addHtml('<p>'.$gL10n->get('AWA_SUCCESS_NEW').'</p>');
+	$page->addHtml('<h2>'.$gL10n->get('AWA_NEW_ENTRY').'</h2>');
 	unset($POST_award_user_id);
 	$newID+=1;
 }else
 {
 	$page->addHtml('<p>'.$gL10n->get('AWA_SUCCESS_CHANGE').'</p>');
+	$page->addHtml('<h2>'.$gL10n->get('AWA_NEW_ENTRY').'</h2>');
 }
 }else
 {
-echo $ErrorStr;
+	$page->addHtml( $ErrorStr);
 }
 
 }

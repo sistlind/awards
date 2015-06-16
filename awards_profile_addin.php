@@ -42,43 +42,43 @@ if(mysql_num_rows($query)>0)
 if (mysql_num_rows($query)>0)
 {//Daten vorhanden, Ehrungen ausgeben!
 $gL10n->addLanguagePath(SERVER_PATH. '/adm_plugins/awards/languages');
-echo '<div class="groupBox profileRolesBox" id="awards_box">
+$page->addHtml('<div class="groupBox profileRolesBox" id="awards_box">
 				<div class="groupBoxHeadline">'.$gL10n->get('AWA_HEADLINE').'&nbsp;</div>
-                <div id="awards_box_body" class="groupBoxBody">';
-echo '<ul class="formFieldList">';
+                <div id="awards_box_body" class="groupBoxBody">');
+$page->addHtml('<ul class="formFieldList">');
 //Tabellenkopf
 unset($PrevCatName);
 while($row=$gDb->fetch_array($query))
 {
-echo '<li>';
+$page->addHtml('<li>');
 if ($PrevCatName!=$row['awa_cat_name'])
 {
 	$PrevCatName=$row['awa_cat_name'];
-	echo '<dt>'.$row['awa_cat_name'].'</dt>';
+	$page->addHtml('<dt>'.$row['awa_cat_name'].'</dt>');
 }
 
-echo '<div style="text-align: left;float:left;">';
-echo '<dd>';
-echo $row['awa_name'];
+$page->addHtml('<div style="text-align: left;float:left;">');
+$page->addHtml('<dd>');
+$page->addHtml($row['awa_name']);
 if(strlen($row['awa_info'])>0)
 {
-   echo '&nbsp;('.$row['awa_info'].')';
+   $page->addHtml('&nbsp;('.$row['awa_info'].')');
 }
-echo '</dd>';
+$page->addHtml('</dd>');
 
-echo '</div><div style="text-align: right;float:right;">';
-echo $gL10n->get('AWA_SINCE').' '.date('d.m.Y',strtotime($row['awa_date'])).' ';
-if($gCurrentUser->editProfile($user))//Ändern/Löschen Buttons für berechtigte User
+$page->addHtml('</div><div style="text-align: right;float:right;">');
+$page->addHtml($gL10n->get('AWA_SINCE').' '.date('d.m.Y',strtotime($row['awa_date'])).' ');
+if($gCurrentUser->hasRightEditProfile($user))//Ändern/Löschen Buttons für berechtigte User
 {
- echo '<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'"><img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" /></a>';
- echo '<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'"><img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'" /></a>';
+ $page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'"><img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" /></a>');
+ $page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'"><img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'" /></a>');
 }
-echo '</div>';//Float right
-echo '<div style="clear:both"></div></li>';
+$page->addHtml('</div>');//Float right
+$page->addHtml('<div style="clear:both"></div></li>');
 }
 
-echo '	</ul>
+$page->addHtml('	</ul>
 </div>
-</div>';
+</div>');
 
 }
