@@ -48,23 +48,16 @@ $page = new HtmlPage($headline);
 
 //Begin der Seite
 
-$gLayout['header'] = '
-    <script type="text/javascript" src="'.$g_root_path.'/adm_program/libs/jquery/jquery.noblecount.min.js"></script>
-    <script type="text/javascript" src="'.$g_root_path.'/adm_program/system/js/date-functions.js"></script>
-	<script type="text/javascript" src="'.$g_root_path.'/adm_program/libs/calendar/calendar-popup.js"></script>
-	<script type="text/javascript" src="'.$g_root_path.'/adm_program/system/js/form.js"></script>
-	<script type="text/javascript" src="'.$g_root_path.'/adm_program/modules/profile/profile.js"></script>
-    <link rel="stylesheet" href="'.THEME_PATH.'/css/calendar.css" type="text/css" />';
-
-$gLayout['header'] .= '
-        <script type="text/javascript"><!--
-			var profileJS = new profileJSClass();
-			$(document).ready(function() 
-            {
-				profileJS.init();
-				';
-$gLayout['header'] .= '}); 
-        //--></script>';
+if($gDebug)
+{
+    $page->addCssFile($g_root_path.'/adm_program/libs/bootstrap-datepicker/css/bootstrap-datepicker3.css');
+    $page->addJavascriptFile($g_root_path.'/adm_program/libs/bootstrap-datepicker/js/bootstrap-datepicker.js');
+}
+else
+{
+    $page->addCssFile($g_root_path.'/adm_program/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css');
+    $page->addJavascriptFile($g_root_path.'/adm_program/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js');
+}
 
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
@@ -270,6 +263,10 @@ $page->addHtml('<dl><dt><label for="award_cat_id">'.$gL10n->get('AWA_CAT').'</la
  			 <select id="award_cat_id" name="award_cat_id" >
 			<option value="0">'.$gL10n->get('AWA_CAT_SELECT').'</option>');
 //Kategorie auswahl füllen
+$sql    = 'SELECT cat_id, cat_name FROM '.$g_tbl_praefix.'_categories WHERE cat_type=\'AWA\' AND cat_default=1;';
+$query=$gDb->query($sql);
+$default_category=$gDb->fetch_array($query);
+print_r( $default_category);
 $sql    = 'SELECT cat_id, cat_name FROM '.$g_tbl_praefix.'_categories WHERE cat_type=\'AWA\' ORDER BY cat_sequence;';
 $query=$gDb->query($sql);
 while($row=$gDb->fetch_array($query))
@@ -277,7 +274,10 @@ while($row=$gDb->fetch_array($query))
 	if ($row['cat_id']==$POST_award_cat_id)
 	{
 		$selected='selected';
+	}else if (!isset($POST_award_cat_id) && ($row['cat_id']==$default_category['cat_id'])){
+		$selected='selected';
 	}else{
+
 		$selected='';
 	}
 	$page->addHtml('<option value="'.$row['cat_id'].'"'.$selected.'>'.$row['cat_name'].'</option>');
@@ -315,16 +315,9 @@ $page->addHtml('    <dt><label for="award_name_new">'.$gL10n->get('AWA_HONOR_NEW
                         </dd></dl>');
 $page->addHtml('<dl>
                     <dt><label for="award_date">'.$gL10n->get('AWA_HONOR_DATE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
-                    <dd><script type="text/javascript">
-                            var calDate = new CalendarPopup("calendardiv");
-                            calDate.setCssPrefix("calendar");
-                            calDate.showNavigationDropdowns();
-                            calDate.setYearSelectStartOffset(50);
-                            calDate.setYearSelectEndOffset(10);
-                        </script>
-                    <input type="text" id="award_date" name="award_date" style="width: 80px;" 
-                        maxlength="10"  value="'.$POST_award_date.'"  />
-                    <a class="iconLink" id="anchor_awa_date" href="javascript:calDate.select(document.getElementById(\'award_date\'),\'anchor_awa_date\',\'d.m.Y\');"><img src="'. THEME_PATH. '/icons/calendar.png" alt="Kalender anzeigen" title="Kalender anzeigen" /></a>'.$gL10n->get('AWA_HONOR_DATE_FORMAT').'
+                    <dd>
+                    <input type="text" id="award_date" name="award_date" data-provide="datepicker" data-date-format="dd.mm.yyyy" style="width: 80px;" 
+                        maxlength="10"  value="'.$POST_award_date.'"  />'.$gL10n->get('AWA_HONOR_DATE_FORMAT').'
                     <span id="calendardiv" style="position: absolute; visibility: hidden;"></span></dd>
                 </dl>
             </li>
