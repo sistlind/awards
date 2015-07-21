@@ -1,4 +1,5 @@
-
+0.1.0: 	+Compatible to Admidio v3
+		+Support of multiple Organisations
 0.0.2: New patch for categories
 
 0.0.1: Initial Submission

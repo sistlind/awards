@@ -1,10 +1,5 @@
 1.) Entpacken in Plugin Ordner/awards
 2.) Einfügen in Theme/my_bottom:
 	include(SERVER_PATH.'/adm_plugins/awards/awards.php');
-3.) adm_program/administration/categories/ alle 3 php-Files patchen
-3a) Patch awards_categories_patch.diff
-3b) oder Dateien mit den Dateien aus dem Archiv ersetzen (Nur für Version 2.4.7 verwenden!)
-4.) (Optional für Ausgabe im Profil) In /adm_program/moduleS/profile/profile.php einfügen:
-	include(SERVER_PATH. '/adm_plugins/awards/awards_profile_addin.php');
-5a.) Seite  aufrufen und in der Sidebar im Bereich Ehrungen auf Installieren klicken
+3.) Seite  aufrufen und in der Sidebar im Bereich Ehrungen auf Installieren klicken
 

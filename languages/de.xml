@@ -11,6 +11,8 @@
         <text id="AWA_USER" development="new" translation="todo">Mitglied</text>
         <text id="AWA_USER_SELECT" development="new" translation="todo">Mitglied auswählen</text>
         <text id="AWA_CAT" development="new" translation="todo">Ehrungskategorie</text>
+        <text id="AWA_ORG_NAME" development="new" translation="todo">Orga Name</text>
+        <text id="AWA_ORG_ID" development="new" translation="todo">Orga ID</text>
         <text id="AWA_CAT_SELECT" development="new" translation="todo">Kategorie auswählen</text>
 	<text id="AWA_HONOR_TITLE" development="new" translation="todo">Titel</text>
         <text id="AWA_HONOR_OLD" development="new" translation="todo">Frühere Titel</text>
@@ -42,5 +44,7 @@
         <text id="AWA_INSTALL_DB_NOT_READY" development="new" translation="todo">Tabelle %VAR1% existiert noch nicht.</text>
         <text id="AWA_INSTALL_CREATE_DB" development="new" translation="todo">Erstelle leere Tabelle</text>
         <text id="AWA_INSTALL_DB_READY" development="new" translation="todo">Datenbank initialisiert</text>
+<!-- Anzeige der Auszeichnungen -->
+        <text id="AWA_SHOW_ALL" development="new" translation="todo">Alle Organisationen anzeigen</text>
     </version>
 </language>

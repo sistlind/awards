@@ -32,22 +32,29 @@ $tablename=$g_tbl_praefix.'_user_awards';
 $sql_select="SHOW TABLES LIKE '".$tablename."'"; 
 $query = mysql_query($sql_select); 
 if(mysql_num_rows($query)===0){
-//Datenbank vorhanden
+	//Datenbank vorhanden
 	$awardmenu->addItem('categories', '/adm_plugins/'.$plugin_folder.'/awards_install.php',
 			$gL10n->get('AWA_INSTALL'), '/icons/options.png');
 }else{
-//echo 'Lösche Tabelle';
-//$sql='DROP TABLE '.$tablename;
-//$result=$gDb->query($sql);
+	//echo 'Lösche Tabelle';
+	//$sql='DROP TABLE '.$tablename;
+	//$result=$gDb->query($sql);
 	$awardmenu->addItem('awards_show', '/adm_plugins/'.$plugin_folder.'/awards_show.php',
 			$gL10n->get('AWA_LIST_AWARDS'), '/icons/lists.png');
 	$awardmenu->addItem('awards_new', '/adm_plugins/'.$plugin_folder.'/awards_change.php',
 			$gL10n->get('AWA_HONOR'), '/icons/profile.png');
 	$awardmenu->addItem('categories', '/adm_program/modules/categories/categories.php?type=AWA',
 			$gL10n->get('AWA_CAT_EDIT'), '/icons/options.png');
+	//Display profile information
+	if(strstr($_SERVER['REQUEST_URI'], 'adm_program/modules/profile/profile.php?user_id=')!=null)
+	{
+		include_once($plugin_path.'/'.$plugin_folder.'/awards_profile_addin.php');
+	}
+
 }
 echo' <div id="plgAwards" class="admPluginContent">';
 $awardmenu->show();  
 echo' </div>';
+
 }  
 ?>

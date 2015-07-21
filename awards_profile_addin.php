@@ -14,34 +14,15 @@
 $tablename=$g_tbl_praefix.'_user_awards';
 $sql_dBcheck="SHOW TABLES LIKE '".$tablename."'"; 
 $query=$gDb->query($sql_dBcheck);
-if(mysql_num_rows($query)>0)
-{//erst ausführen, wenn Tabelle vorhanden, $query wird hier überschrieben!
-	$sql    = 'SELECT awa_id, awa_usr_id, awa_cat_id,awa_name, awa_info, awa_date, 
-		awa_cat_seq.cat_sequence as awa_cat_seq,
-		awa_cat_name.cat_name as awa_cat_name,
-		last_name.usd_value as last_name,
-		first_name.usd_value as first_name
-          FROM '.$g_tbl_praefix.'_user_awards
-             JOIN '. TBL_USER_DATA. ' as last_name
-               ON last_name.usd_usr_id = awa_usr_id
-              AND last_name.usd_usf_id = '. $gProfileFields->getProperty('LAST_NAME', 'usf_id'). '
-             JOIN '. TBL_USER_DATA. ' as first_name
-               ON first_name.usd_usr_id = awa_usr_id
-              AND first_name.usd_usf_id = '. $gProfileFields->getProperty('FIRST_NAME', 'usf_id'). '
- 	     JOIN '. TBL_CATEGORIES. ' as awa_cat_name
-               ON awa_cat_name.cat_id = awa_cat_id
-		AND awa_cat_name.cat_type =\'AWA\'
-	     JOIN '. TBL_CATEGORIES. ' as awa_cat_seq
-               ON awa_cat_seq.cat_id = awa_cat_id
-		AND awa_cat_seq.cat_type =\'AWA\'
-	Where awa_usr_id='.$getUserId.'
-	ORDER BY awa_cat_seq, awa_date';
-	//echo $sql;
-	$query=$gDb->query($sql);
-}
-if (mysql_num_rows($query)==0)
+$getUserId = admFuncVariableIsValid($_GET, 'user_id', 'numeric', array('defaultValue' => $gCurrentUser->getValue('usr_id')));
+if(mysql_num_rows($query)==0)
+{return;}
+//Ehrungen aus DAtenbank laden
+$awards=awa_load_awards($getUserId,true);
+
+if ($awards==false)
 {
-exit;
+	return;
 }
 	//Daten vorhanden, Ehrungen ausgeben!
 	$gL10n->addLanguagePath(SERVER_PATH. '/adm_plugins/awards/languages');
@@ -50,8 +31,9 @@ exit;
                 <div id="awards_box_body" class="panel-body">');
 //Tabellenkopf
 unset($PrevCatName);
-while($row=$gDb->fetch_array($query))
+foreach($awards as $row)
 {
+print_r($row);
 	if ($PrevCatName!=$row['awa_cat_name'])
 	{
 		if(isset($PrevCatName))
@@ -65,6 +47,14 @@ while($row=$gDb->fetch_array($query))
 	$page->addHtml('<li class= "list-group-item">');
 	$page->addHtml('<div style="text-align: left;float:left;">');
 	$page->addHtml($row['awa_name']);
+//Multi-Org-Installation?
+	$sql='Select COUNT(*) FROM '.TBL_ORGANIZATIONS;
+	$query=$gDb->query($sql);
+	$result=$gDb->fetch_array($query);
+	if($result[0]>1)//only show organisation, if multiple organisations are present
+	{
+		$page->addHtml(' ('.$row['awa_org_name'].')');
+	}
 	if(strlen($row['awa_info'])>0)
 	{
 	   $page->addHtml('&nbsp;('.$row['awa_info'].')');
@@ -79,9 +69,12 @@ while($row=$gDb->fetch_array($query))
 	}
 	$page->addHtml('</div>');//Float right
 	$page->addHtml('<div style="clear:both"></div></li>');
-	}
+}
 
-	$page->addHtml('	</ul>
-	</div>
-	</div>');
+$page->addHtml('	</ul>
+</div>
+</div>');
+//Move content to correct position by jquery
+$page->addHtml('<script>$("#awards_box").insertBefore(".admidio-admidio-info-created-edited");</script>');
+
 
