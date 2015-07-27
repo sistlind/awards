@@ -35,7 +35,6 @@ if ($awards==false)
 unset($PrevCatName);
 foreach($awards as $row)
 {
-print_r($row);
 	if ($PrevCatName!=$row['awa_cat_name'])
 	{
 		if(isset($PrevCatName))
