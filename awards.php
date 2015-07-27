@@ -52,7 +52,7 @@ if(mysql_num_rows($query)===0){
 	}
 
 }
-echo' <div id="plgAwards" class="admPluginContent">';
+echo' <div id="plgAwards" class="admidio-plugin-content">';
 $awardmenu->show();  
 echo' </div>';
 

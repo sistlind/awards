@@ -26,6 +26,7 @@ return $plugin_folder;
 
 
 $tablename=$g_tbl_praefix.'_user_awards';
+define("TBL_USER_AWARDS",$tablename);
 define("AWA_TABLE_NAME",$tablename);
 
 if(0)//up to v3
@@ -73,7 +74,7 @@ $sql    = 'SELECT awa_id, awa_usr_id, awa_org_id, awa_cat_id, awa_name, awa_info
 		awa_org_shortname.org_shortname as awa_org_shortname,
 		last_name.usd_value as last_name,
 		first_name.usd_value as first_name
-          FROM '.AWA_TABLE_NAME.' 
+          FROM '.TBL_USER_AWARDS.' 
              JOIN '. TBL_USER_DATA. ' as last_name
                ON last_name.usd_usr_id = awa_usr_id
               AND last_name.usd_usf_id = '. $gProfileFields->getProperty('LAST_NAME', 'usf_id'). '
