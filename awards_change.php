@@ -266,7 +266,6 @@ $page->addHtml('<dl><dt><label for="award_cat_id">'.$gL10n->get('AWA_CAT').'</la
 $sql    = 'SELECT cat_id, cat_name FROM '.$g_tbl_praefix.'_categories WHERE cat_type=\'AWA\' AND cat_default=1;';
 $query=$gDb->query($sql);
 $default_category=$gDb->fetch_array($query);
-print_r( $default_category);
 $sql    = 'SELECT cat_id, cat_name FROM '.$g_tbl_praefix.'_categories WHERE cat_type=\'AWA\' ORDER BY cat_sequence;';
 $query=$gDb->query($sql);
 while($row=$gDb->fetch_array($query))
