@@ -11,8 +11,7 @@
  *                  
  *****************************************************************************/
 //Falls Datenbank nicht vorhanden überspringen
-$tablename=$g_tbl_praefix.'_user_awards';
-$sql_dBcheck="SHOW TABLES LIKE '".$tablename."'"; 
+$sql_dBcheck="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
 $query=$gDb->query($sql_dBcheck);
 $getUserId = admFuncVariableIsValid($_GET, 'user_id', 'numeric', array('defaultValue' => $gCurrentUser->getValue('usr_id')));
 if(mysql_num_rows($query)==0)

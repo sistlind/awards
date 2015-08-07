@@ -28,8 +28,7 @@ $gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
 $awardmenu = new Menu('awardmenu', $gL10n->get('AWA_HEADLINE'));
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$tablename=$g_tbl_praefix.'_user_awards';
-$sql_select="SHOW TABLES LIKE '".$tablename."'"; 
+$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
 $query = mysql_query($sql_select); 
 if(mysql_num_rows($query)===0){
 	//Datenbank vorhanden
@@ -37,7 +36,7 @@ if(mysql_num_rows($query)===0){
 			$gL10n->get('AWA_INSTALL'), '/icons/options.png');
 }else{
 	//echo 'Lösche Tabelle';
-	//$sql='DROP TABLE '.$tablename;
+	//$sql='DROP TABLE '.TBL_USER_AWARDS;
 	//$result=$gDb->query($sql);
 	$awardmenu->addItem('awards_show', '/adm_plugins/'.$plugin_folder.'/awards_show.php',
 			$gL10n->get('AWA_LIST_AWARDS'), '/icons/lists.png');

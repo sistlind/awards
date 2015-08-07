@@ -90,7 +90,7 @@ $page = new HtmlPage($headline);
 		$page->addHtml('</form>');
 	}
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$sql_select="SHOW TABLES LIKE '".$tablename."'"; 
+$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
 $query = @mysql_query($sql_select); 
 if(mysql_num_rows($query)===0){
 //Datenbank nicht vorhanden

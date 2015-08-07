@@ -27,18 +27,18 @@ $page = new HtmlPage($headline);
 $page->addHtml('<h2>'.$gL10n->get('AWA_INSTALL_HEADLINE').'</h2>');
 
 //Prüfen ob Datenbank vorhanden
-$sql="SHOW TABLES LIKE '".$tablename."'"; 
+$sql="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
 $query = $gDb->query($sql);
 if(mysql_num_rows($query)!=0){//Datenbank vorhanden
 	$page->addHtml('<p>'.$gL10n->get('AWA_INSTALL_DB_EXISTS').'</p>'); 
 	//echo 'Lösche Tabelle';
-	//$sql='DROP TABLE '.$tablename;
+	//$sql='DROP TABLE '.TBL_USER_AWARDS;
 	//$result=$gDb->query($sql);
 } else {//Datenbank nicht vorhanden
-	$page->addHtml('<p>'.$gL10n->get('AWA_INSTALL_DB_NOT_READY',$tablename).'</p>'); 
+	$page->addHtml('<p>'.$gL10n->get('AWA_INSTALL_DB_NOT_READY',TBL_USER_AWARDS).'</p>'); 
 	$page->addHtml('<p>'.$gL10n->get('AWA_INSTALL_CREATE_DB').'</p>'); 
 
-	$sql='CREATE TABLE '.$tablename.'
+	$sql='CREATE TABLE '.TBL_USER_AWARDS.'
 	(awa_id int(10) unsigned NOT NULL AUTO_INCREMENT,
 	  awa_cat_id int(10) unsigned DEFAULT NULL,
 	  awa_org_id int(10) unsigned DEFAULT NULL,

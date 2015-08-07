@@ -61,7 +61,7 @@ else
 
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$sql_select="SHOW TABLES LIKE '".$tablename."'"; 
+$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
 $query = @mysql_query($sql_select); 
 if(mysql_num_rows($query)===0){
 //Datenbank nicht vorhanden
@@ -78,7 +78,7 @@ exit;
 
 if($EditMode && !isset($_POST['submit']))
 {
-$AWAObj = new TableAccess($gDb, $tablename.' ', 'awa',$getAwardID);
+$AWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
 $POST_award_user_id=$AWAObj->getValue('awa_usr_id');
 $POST_award_cat_id=$AWAObj->getValue('awa_cat_id');
 $POST_award_name_new=$AWAObj->getValue('awa_name');
@@ -115,13 +115,13 @@ echo '<br>date_internal: '.$InternalDate;
 
 
 //Letzte ID der Datenbank merken um doppelte Einträge zu verhindern
-$sql    = 'SELECT COUNT(*) FROM '.$tablename.' ;';
+$sql    = 'SELECT COUNT(*) FROM '.TBL_USER_AWARDS.' ;';
 $result= $gDb->fetch_array($gDb->query($sql));
 if ($result['COUNT(*)']==0)
 {$newID=1;}
 else
 {
-$sql    = 'SELECT MAX(awa_id) as maxID FROM '.$tablename.' ;';
+$sql    = 'SELECT MAX(awa_id) as maxID FROM '.TBL_USER_AWARDS.' ;';
 //echo $sql;
 $result= $gDb->fetch_array($gDb->query($sql));
 $newID=$result['maxID']+1;
@@ -169,16 +169,16 @@ if($INPUTOK)
 //echo 'SAVE!';
 if($EditMode)
 {
-$NewAWAObj = new TableAccess($gDb, $tablename.' ', 'awa',$getAwardID);
+$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
 }else{
-$NewAWAObj = new TableAccess($gDb, $tablename.' ', 'awa');
+$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa');
 }
 $NewAWAObj->setValue('awa_cat_id',$POST_award_cat_id);
 $NewAWAObj->setValue('awa_org_id',$gCurrentOrganization->getValue('org_id'));
 $NewAWAObj->setValue('awa_usr_id',$POST_award_user_id);
 if($POST_award_name_old_id>0)
 {
-	$sql    = 'SELECT awa_name FROM '.$tablename.'  Where awa_id=\''.$POST_award_name_old_id.'\';';
+	$sql    = 'SELECT awa_name FROM '.TBL_USER_AWARDS.'  Where awa_id=\''.$POST_award_name_old_id.'\';';
 	$result= $gDb->fetch_array($gDb->query($sql));
 	$NewAWAObj->setValue('awa_name',$result['awa_name']);
 }else
@@ -290,7 +290,7 @@ $page->addHtml('<dl><dt><label for="award_name_old_id">'.$gL10n->get('AWA_HONOR_
 			<option value="0" >'.$gL10n->get('AWA_HONOR_OLD_SELECT').'</option>
 			<option value="-1" ></option>');
 //Dopdown für alte einträge füllen
-$sql    = 'SELECT awa_name, awa_id FROM '.$tablename.'  GROUP BY awa_name ORDER BY awa_date DESC;';
+$sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  GROUP BY awa_name ORDER BY awa_date DESC;';
 
 $query=$gDb->query($sql);
 while($row=$gDb->fetch_array($query))

@@ -27,7 +27,8 @@ return $plugin_folder;
 
 $tablename=$g_tbl_praefix.'_user_awards';
 define("TBL_USER_AWARDS",$tablename);
-define("AWA_TABLE_NAME",$tablename);
+unset($tablename);
+
 
 if(0)//up to v3
 {
