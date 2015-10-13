@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language id="en">
+    <version id="0.0.1">
+  	<text id="AWA_HEADLINE" development="new" translation="todo">Awards</text>
+        <text id="AWA_INSTALL" development="new" translation="todo">Install</text>
+	<text id="AWA_HEADLINE_CHANGE" development="new" translation="todo">Modify an awards</text>
+        <text id="AWA_LIST_AWARDS" development="new" translation="todo">List of all awards</text>
+        <text id="AWA_HONOR" development="new" translation="todo">Award a member</text>
+        <text id="AWA_NO_DATA" development="new" translation="todo">No data</text>
+        <text id="AWA_CAT_EDIT" development="new" translation="todo">Modify award categories</text>
+        <text id="AWA_USER" development="new" translation="todo">Member</text>
+        <text id="AWA_USER_SELECT" development="new" translation="todo">Select member</text>
+        <text id="AWA_CAT" development="new" translation="todo">Award category</text>
+        <text id="AWA_ORG_NAME" development="new" translation="todo">Organization</text>
+        <text id="AWA_ORG_ID" development="new" translation="todo">Organization ID</text>
+        <text id="AWA_CAT_SELECT" development="new" translation="todo">Select category</text>
+	<text id="AWA_HONOR_TITLE" development="new" translation="todo">Title</text>
+        <text id="AWA_HONOR_OLD" development="new" translation="todo">Former titles</text>
+        <text id="AWA_HONOR_OLD_SELECT" development="new" translation="todo">Select former title</text>
+        <text id="AWA_HONOR_NEW" development="new" translation="todo">New title</text>
+        <text id="AWA_HONOR_INFO" development="new" translation="todo">Description</text>
+        <text id="AWA_HONOR_DATE" development="new" translation="todo">Awarded at</text>
+	<text id="AWA_HONOR_DATE_FORMAT" development="new" translation="todo">Date format: (dd.mm.JJJJ)</text>	
+        <text id="AWA_SINCE" development="new" translation="todo">awarded</text>
+        <text id="AWA_EDIT_HONOR" development="new" translation="todo">Modify award</text>
+        <text id="AWA_DELETE_HONOR" development="new" translation="todo">Delete award</text>
+  	<text id="AWA_DOWNLOAD_NAME" development="new" translation="todo">Export</text>
+<!-- Statusmeldungen -->
+	<text id="AWA_SUCCESS" development="new" translation="todo">Success</text>
+	<text id="AWA_SUCCESS_NEW" development="new" translation="todo">Data inserted!</text>
+	<text id="AWA_SUCCESS_CHANGE" development="new" translation="todo">Data changed!</text>
+	<text id="AWA_NEW_ENTRY" development="new" translation="todo">Next set of data</text>
+<!-- Fehlermeldungen -->
+	<text id="AWA_ERR_NO_DB" development="new" translation="todo">Database not found</text>
+ 	<text id="AWA_ERR_DOUBLE_ID" development="new" translation="todo">ID already exists, page refresh?</text>
+ 	<text id="AWA_ERR_NO_USER" development="new" translation="todo">Select a member!</text>
+ 	<text id="AWA_ERR_NO_CAT" development="new" translation="todo">Select a category!</text>
+ 	<text id="AWA_ERR_DOUBLE_TITLE" development="new" translation="todo">Use either a new title, or an old one, not both!</text>
+ 	<text id="AWA_ERR_NO_TITLE" development="new" translation="todo">You have to set a title!</text>
+ 	<text id="AWA_ERR_NO_DATE" development="new" translation="todo">You have to set a date!</text>
+<!-- Installation -->
+        <text id="AWA_INSTALL_HEADLINE" development="new" translation="todo">Initializing of the database</text>
+        <text id="AWA_INSTALL_DB_EXISTS" development="new" translation="todo">Database already exists!</text>
+        <text id="AWA_INSTALL_DB_NOT_READY" development="new" translation="todo">Table %VAR1% does not exists.</text>
+        <text id="AWA_INSTALL_CREATE_DB" development="new" translation="todo">Create empty table</text>
+        <text id="AWA_INSTALL_DB_READY" development="new" translation="todo">Database initialized</text>
+<!-- Anzeige der Auszeichnungen -->
+        <text id="AWA_SHOW_ALL" development="new" translation="todo">Show all organizations</text>
+    </version>
+</language>
