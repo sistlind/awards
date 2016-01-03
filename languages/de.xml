@@ -37,7 +37,7 @@
 	<text id="AWA_ERR_NO_DB" development="new" translation="todo">Datenbank nicht gefunden</text>
  	<text id="AWA_ERR_DOUBLE_ID" development="new" translation="todo">ID Bereits vorhanden, doppelter Aufruf?</text>
  	<text id="AWA_ERR_NO_USER" development="new" translation="todo">Mitglied auswählen!</text>
-	<text id="AWA_ERR_NO_USER_OR_ROLE" development="new" translation="todo">Mitglied oder Rolle auswählen!</text>
+	<text id="AWA_ERR_USER_OR_ROLE" development="new" translation="todo">Mitglied oder Rolle auswählen!</text>
  	<text id="AWA_ERR_NO_CAT" development="new" translation="todo">Kategorie angeben!</text>
  	<text id="AWA_ERR_DOUBLE_TITLE" development="new" translation="todo">Entweder alten Titel verwenden, oder neu anlegen!</text>
  	<text id="AWA_ERR_NO_TITLE" development="new" translation="todo">Titel für Ehrung vergeben!</text>

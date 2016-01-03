@@ -37,7 +37,7 @@
 	<text id="AWA_ERR_NO_DB" development="new" translation="todo">Database not found</text>
  	<text id="AWA_ERR_DOUBLE_ID" development="new" translation="todo">ID already exists, page refresh?</text>
  	<text id="AWA_ERR_NO_USER" development="new" translation="todo">Select a member!</text>
-	<text id="AWA_ERR_NO_USER_OR_ROLE" development="new" translation="todo">Select member or role!</text>
+	<text id="AWA_ERR_USER_OR_ROLE" development="new" translation="todo">Select member or role!</text>
  	<text id="AWA_ERR_NO_CAT" development="new" translation="todo">Select a category!</text>
  	<text id="AWA_ERR_DOUBLE_TITLE" development="new" translation="todo">Use either a new title, or an old one, not both!</text>
  	<text id="AWA_ERR_NO_TITLE" development="new" translation="todo">You have to set a title!</text>

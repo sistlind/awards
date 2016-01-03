@@ -25,9 +25,9 @@ if(!defined('PLUGIN_PATH'))
 require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
 require_once(PLUGIN_PATH. '/'.$plugin_folder.'/awards_common.php');
 
-if(file_exists(PLUGIN_PATH. '/'.$plugin_folder.'/config.php')) {
+if(file_exists(PLUGIN_PATH. '/'.$plugin_folder.'/awards_config.php')) {
 	$awa_debug_config_exists ='True';
-	require_once(PLUGIN_PATH. '/'.$plugin_folder.'/config.php');
+	require_once(PLUGIN_PATH. '/'.$plugin_folder.'/awards_config.php');
 }
 if($plg_debug_enabled == 1)//Debug Teil 1!
 {
@@ -213,13 +213,15 @@ if ($plg_role_enabled==1)
 		$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_USER_OR_ROLE').'</font></p>';
 		$INPUTOK=FALSE;
 		}
-	if (($POST_award_user_id>0)&&($POST_award_leader==1) )
+	/* Abfrage kollidiert mit Standardwert für leader
+	if(($POST_award_user_id>0)&&($POST_award_leader==1) )
 		{//Mitglied und Checkbox Leader geht nicht MSC)
 		$POST_award_user_id='';
 		$POST_award_leader='';
 		$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_USER_LEADER').'</font></p>';
 		$INPUTOK=FALSE;
 		}
+	*/
 	}
 else
 	{
@@ -297,9 +299,6 @@ if ($POST_award_user_id>0)
 //Rolle übergeben --> FÜR JEDEN USER DER ROLLE EINTRAGEN MSC
 if ($POST_award_role_id>0)
 {
-	// Wenn mit Leiter ausgewählt dann mit Leiter MSC ;-)
-	if ($POST_award_leader==1)
-	{
 		$recordCount=0;
 		//SQL-String - Alle USER-IDs zur Rolle aus der Datenbank finden ohne Leiter der Rolle MSC
 		$sql = 'SELECT mem_usr_id
@@ -307,10 +306,15 @@ if ($POST_award_role_id>0)
 		WHERE '.TBL_MEMBERS.'.mem_rol_id ='.$POST_award_role_id.'
 		AND '.TBL_MEMBERS.'.mem_begin <= \''.DATE_NOW.'\' 
 		AND '.TBL_MEMBERS.'.mem_end >= \''.DATE_NOW.'\'';
+
+		if ($POST_award_leader!=1)
+		{//ohne leiter
+			$sql.=' AND '.TBL_MEMBERS.'.mem_leader = 0';
+		}
 		
 		$query=$gDb->query($sql);
 		while($row=$gDb->fetch_array($query))
-		{
+		{//TODO: direkt in einer Datenbankabfrage ohne schleife !
 		$POST_award_user_id = $row['mem_usr_id'];
 		
 		$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa');
@@ -334,59 +338,13 @@ if ($POST_award_role_id>0)
 		$newID+=1;
 		}
 		unset($POST_award_role_id);
-		unset($POST_award_cat_id);
-		unset($POST_award_leader);
-		unset($POST_award_name_old_id);
-		unset($POST_award_name_new);
-		unset($POST_award_info);
-		unset($POST_award_date);
+		//unset($POST_award_cat_id);
+		//unset($POST_award_leader);
+		//unset($POST_award_name_old_id);
+		//unset($POST_award_name_new);
+		//unset($POST_award_info);
+		//unset($POST_award_date);
 		$page->addHtml('<p><img src="'. THEME_PATH. '/icons/ok.png"><font color="#3ADF00">'.$recordCount.' '.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
-	}
-	// Wenn ohne Leiter ausgewählt dann ohne Leiter MSC  (SQL - mem_leader =0)
-	else
-	{
-		$recordCount=0;
-		//SQL-String - Alle USER-IDs zur Rolle aus der Datenbank finden ohne Leiter der Rolle MSC
-		$sql = 'SELECT mem_usr_id
-		FROM '.TBL_MEMBERS.'
-		WHERE '.TBL_MEMBERS.'.mem_rol_id ='.$POST_award_role_id.'
-		AND '.TBL_MEMBERS.'.mem_begin <= \''.DATE_NOW.'\' 
-		AND '.TBL_MEMBERS.'.mem_end >= \''.DATE_NOW.'\'
-		AND '.TBL_MEMBERS.'.mem_leader =0';
-		
-		$query=$gDb->query($sql);
-		while($row=$gDb->fetch_array($query))
-		{
-		$POST_award_user_id = $row['mem_usr_id'];
-		
-		$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa');
-		$NewAWAObj->setValue('awa_cat_id',$POST_award_cat_id);
-		$NewAWAObj->setValue('awa_org_id',$gCurrentOrganization->getValue('org_id'));
-		$NewAWAObj->setValue('awa_usr_id',$POST_award_user_id);
-		if($POST_award_name_old_id>0)
-		{
-			$sql    = 'SELECT awa_name FROM '.TBL_USER_AWARDS.'  Where awa_id=\''.$POST_award_name_old_id.'\';';
-			$result= $gDb->fetch_array($gDb->query($sql));
-			$NewAWAObj->setValue('awa_name',$result['awa_name']);
-		}else
-		{
-			$NewAWAObj->setValue('awa_name',$POST_award_name_new);
-		}
-		$NewAWAObj->setValue('awa_info',$POST_award_info);
-		$NewAWAObj->setValue('awa_date',$InternalDate);
-		$NewAWAObj->save();
-		$recordCount+=1;
-		unset($POST_award_user_id);
-		$newID+=1;
-		}
-		unset($POST_award_role_id);
-		unset($POST_award_cat_id);
-		unset($POST_award_name_old_id);
-		unset($POST_award_name_new);
-		unset($POST_award_info);
-		unset($POST_award_date);
-		$page->addHtml('<p><img src="'. THEME_PATH. '/icons/ok.png"><font color="#3ADF00">'.$recordCount.' '.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
-	}
 }
 	}else
 {
@@ -472,24 +430,17 @@ if ($plg_role_enabled ==1)
 						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option>');
 	}
 	
-				// Nur Rollen aus bestimmter Kategorien auflisten
-	if ($plg_cat_id>0)
-	{
-		$sql    = 	'SELECT rol_id, rol_name
-					FROM `adm_roles`
-					WHERE rol_cat_id ='.$plg_cat_id.'
-					AND rol_valid =1
-					AND rol_visible =1
-					';
-	}
-	else
-	{
-		$sql    = 	'SELECT rol_id, rol_name
-					FROM `adm_roles`
+	
+	$sql    = 	'SELECT rol_id, rol_name
+					FROM '. TBL_ROLES .'
 					WHERE rol_valid =1
 					AND rol_visible =1
 					';
+	if ($plg_cat_id>0)
+	{// Nur Rollen aus bestimmter Kategorien auflisten
+		$sql    .= ' AND rol_cat_id ='.$plg_cat_id;
 	}
+
 	$query=$gDb->query($sql);
 	while($row=$gDb->fetch_array($query))
 	{
