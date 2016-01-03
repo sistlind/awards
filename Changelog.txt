@@ -1,5 +1,14 @@
-0.1.0: 	+Compatible to Admidio v3
-		+Support of multiple Organisations
+0.2.0: (thanks to  pphlwmarcel)
+		+ Configuration-File added (awards_config.php)
+			- Batch processing for Awards
+			- Choose if the Leader of a Role gets the award as well by default
+			- Only List Roles of a special Category
+			- Opportunity to enable the debug mode
+		+ Possibility for batch processing (Add a Award for a whole role)
+		+ Colors and symbols for success or failure
+		+ Enhancements in Code
+0.1.0: 	+ Compatible to Admidio v3
+		+ Support of multiple Organisations
 0.0.2: New patch for categories
 
 0.0.1: Initial Submission

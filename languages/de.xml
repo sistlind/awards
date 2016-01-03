@@ -9,7 +9,10 @@
         <text id="AWA_NO_DATA" development="new" translation="todo">Keine Daten vorhanden</text>
         <text id="AWA_CAT_EDIT" development="new" translation="todo">Ehrungskategorien bearbeiten</text>
         <text id="AWA_USER" development="new" translation="todo">Mitglied</text>
+		<text id="AWA_LEADER" development="new" translation="todo">inkl. Leiter</text>
+		<text id="AWA_ROLE" development="new" translation="todo">oder gesamte Rolle</text>
         <text id="AWA_USER_SELECT" development="new" translation="todo">Mitglied auswählen</text>
+		<text id="AWA_ROLE_SELECT" development="new" translation="todo">Rolle auswählen</text>
         <text id="AWA_CAT" development="new" translation="todo">Ehrungskategorie</text>
         <text id="AWA_ORG_NAME" development="new" translation="todo">Orga Name</text>
         <text id="AWA_ORG_ID" development="new" translation="todo">Orga ID</text>
@@ -33,11 +36,13 @@
 <!-- Fehlermeldungen -->
 	<text id="AWA_ERR_NO_DB" development="new" translation="todo">Datenbank nicht gefunden</text>
  	<text id="AWA_ERR_DOUBLE_ID" development="new" translation="todo">ID Bereits vorhanden, doppelter Aufruf?</text>
- 	<text id="AWA_ERR_NO_USER" development="new" translation="todo">Mitglied auswählen</text>
+ 	<text id="AWA_ERR_NO_USER" development="new" translation="todo">Mitglied auswählen!</text>
+	<text id="AWA_ERR_NO_USER_OR_ROLE" development="new" translation="todo">Mitglied oder Rolle auswählen!</text>
  	<text id="AWA_ERR_NO_CAT" development="new" translation="todo">Kategorie angeben!</text>
  	<text id="AWA_ERR_DOUBLE_TITLE" development="new" translation="todo">Entweder alten Titel verwenden, oder neu anlegen!</text>
  	<text id="AWA_ERR_NO_TITLE" development="new" translation="todo">Titel für Ehrung vergeben!</text>
  	<text id="AWA_ERR_NO_DATE" development="new" translation="todo">Datum angeben!</text>
+<text id="AWA_ERR_USER_LEADER" development="new" translation="todo">Mitglied und inkl. Leiter ausgewählt! Bitte eine gültige Auswahl treffen!</text>
 <!-- Installation -->
         <text id="AWA_INSTALL_HEADLINE" development="new" translation="todo">Initialisierung der Datenbank</text>
         <text id="AWA_INSTALL_DB_EXISTS" development="new" translation="todo">Datenbank bereits initialisiert</text>
