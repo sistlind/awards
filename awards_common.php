@@ -24,25 +24,82 @@ $plugin_folder     = substr($filepath, $plugin_folder_pos+1, $plugin_file_pos-$p
 return $plugin_folder;
 }
 
+function isAwardsDbInstalled(){
+global $gDb;
+$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
+$query=$gDb->query($sql_select);
+
+return ($gDb->num_rows($query)===0)?false:true;
+}
+
+// Einbinden der Sprachdatei
+$gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
+
+if(file_exists(PLUGIN_PATH. '/'.$plugin_folder.'/awards_config.php')) {
+	$awa_debug_config_exists ='True';
+	require_once(PLUGIN_PATH. '/'.$plugin_folder.'/awards_config.php');
+}
+if($plg_debug_enabled == 1)//Debug Teil 1!
+{
+echo '<br>Plugin-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/';
+echo '<br>Config-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/config.php';
+echo '<br>Config-exists: '.$awa_debug_config_exists;
+}
+
+
+
+// pruefen, ob alle Einstellungen in config.php gesetzt wurden
+// falls nicht, hier noch mal die Default-Werte setzen
+if(isset($plg_role_enabled) == false || is_numeric($plg_role_enabled) == false)
+{
+    $plg_role_enabled = 0;
+}
+
+if(isset($plg_leader_checked) == false || is_numeric($plg_leader_checked) == false)
+{
+    $plg_leader_checked = 1;
+}
+
+if(isset($plg_cat_id) == false || is_numeric($plg_cat_id) == false)
+{
+    $plg_cat_id = 0;
+}
+
+if(isset($plg_debug_enabled) == false || is_numeric($plg_debug_enabled) == false)
+{
+    $plg_debug_enabled = 0;
+}
+
+
+
+
 
 $tablename=$g_tbl_praefix.'_user_awards';
 define("TBL_USER_AWARDS",$tablename);
 unset($tablename);
 
 
-if(0)//up to v3
+if(ADMIDIO_VERSION_MAIN<3)//up to v3
 {
 require_once(SERVER_PATH. '/adm_program/system/classes/form_elements.php');
 require_once(SERVER_PATH. '/adm_program/system/classes/table_text.php');
 require(SERVER_PATH. '/adm_program/system/overall_header.php');
 require_once(SERVER_PATH. '/adm_program/system/classes/list_configuration.php');
 }
-else if(1)//since v3
+else if(ADMIDIO_VERSION_MAIN===3&&ADMIDIO_VERSION_MINOR===0)//since v3
 {
 require_once(SERVER_PATH. '/adm_program/system/classes/formelements.php');
 require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');
-//require(SERVER_PATH. '/adm_program/system/common.php');
+//require_once(SERVER_PATH. '/adm_program/system/common.php');
 }
+else if(ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR>0)//since v3
+{
+require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');
+//require_once(SERVER_PATH. '/adm_program/system/common.php');
+}
+
+
+
 
 function awa_load_awards($userid,$show_all)
 {
@@ -96,7 +153,7 @@ $sql    = 'SELECT awa_id, awa_usr_id, awa_org_id, awa_cat_id, awa_name, awa_info
 	ORDER BY awa_cat_seq, awa_date DESC,last_name,first_name';
 	//echo $sql;
 	$query=$gDb->query($sql);
-	if (mysql_num_rows($query)==0)
+	if ($gDb->num_rows($query)===0)
 	{
 		return false;
 	}

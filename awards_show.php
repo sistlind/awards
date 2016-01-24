@@ -25,7 +25,7 @@ if($gCurrentUser->editUsers() == false)//%TODO: Berechtigungen
 }
 
 // Export?
-$get_req=  admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue'=> '','validValues' => array('csv-ms', 'csv-oo','NULL')));
+$get_req=  admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue'=> '','validValues' => array('csv-ms', 'csv-oo','NULL','')));
 $show_all=  admFuncVariableIsValid($_GET, 'awa_show_all', 'string', array('defaultValue'=> 'false'));
 //Normalize to boolean
 if($show_all==="true"||$show_all==="1")
@@ -54,19 +54,13 @@ switch($get_req){
 
 }
 
-// DB auf Admidio setzen, da evtl. noch andere DBs beim User laufen
-$gDb->setCurrentDB();
-
-// Einbinden der Sprachdatei
-$gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
 
 if (!$getCSV)
 {
 	$gNavigation->addUrl(CURRENT_URL);
 }
 
-$headline  = $gL10n->get('AWA_HEADLINE');
-$page = new HtmlPage($headline);
+$page = new HtmlPage($gL10n->get('AWA_HEADLINE'));
 
 //Begin der Seite
 //Buttons für Export
@@ -90,20 +84,18 @@ $page = new HtmlPage($headline);
 		$page->addHtml('</form>');
 	}
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
-$query = @mysql_query($sql_select); 
-if(mysql_num_rows($query)===0){
-//Datenbank nicht vorhanden
-$page->addHtml('<h2>'.$gL10n->get('SYS_ERROR').'</h2>');
-$page->addHtml($gL10n->get('AWA_ERR_NO_DB'));
-$page->addHtml('<p><a href=awards_install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>');
-$page->show();
-return;
+if(!isAwardsDbInstalled()){
+	//Datenbank nicht vorhanden
+	$page->addHtml('<h2>'.$gL10n->get('SYS_ERROR').'</h2>');
+	$page->addHtml($gL10n->get('AWA_ERR_NO_DB'));
+	$page->addHtml('<p><a href=awards_install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>');
+	$page->show();
+	return;
 }
 
 $awards=awa_load_awards(false,$show_all);
 
-if ($awards==false)
+if ($awards===false)
 {
 	$page->addHtml('<p>'.$gL10n->get('AWA_NO_DATA').'</p>');
 	$page->show();
@@ -172,12 +164,12 @@ foreach($awards as $row)
 		$page->addHtml('<td>');
 		if($gCurrentUser->editUsers() == true)//Ändern/Löschen Buttons für berechtigte User
 		{
-			$page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'">
-				<img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" />
-				</a>');
-			$page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'">
-				<img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'" />
-				</a>');
+			$page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'">');
+			$page->addHtml('<img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" /></a>');
+			$page->addHtml('</a>&nbsp;&nbsp;');
+			$page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'">');
+			$page->addHtml('<img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'"/>');
+			$page->addHtml('</a>');
 		}
 		$page->addHtml('</td>');
 		$page->addHtml('</tr>');

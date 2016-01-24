@@ -21,17 +21,13 @@ $plugin_path=getPath(__FILE__);
 if($gCurrentUser->editUsers() == true){
 
 // DB auf Admidio setzen, da evtl. noch andere DBs beim User laufen
-$gDb->setCurrentDB();
+//$gDb->setCurrentDB();
 
-// Einbinden der Sprachdatei
-$gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
 $awardmenu = new Menu('awardmenu', $gL10n->get('AWA_HEADLINE'));
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
-$query = mysql_query($sql_select); 
-if(mysql_num_rows($query)===0){
-	//Datenbank vorhanden
+if(!isAwardsDbInstalled()){
+	//Datenbank nicht vorhanden
 	$awardmenu->addItem('categories', '/adm_plugins/'.$plugin_folder.'/awards_install.php',
 			$gL10n->get('AWA_INSTALL'), '/icons/options.png');
 }else{
@@ -51,9 +47,9 @@ if(mysql_num_rows($query)===0){
 	}
 
 }
-echo' <div id="plgAwards" class="admidio-plugin-content">';
-$awardmenu->show();  
-echo' </div>';
+echo '<div id="plgAwards" class="admidio-plugin-content">';
+echo $awardmenu->show();  
+echo '</div>';
 
 }  
 ?>

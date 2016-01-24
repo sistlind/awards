@@ -18,8 +18,7 @@ require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
 $gNavigation->clear();
 $gNavigation->addUrl(CURRENT_URL);
 
-// Einbinden der Sprachdatei
-$gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
+
 
 //Set headline and load template
 $headline  = $gL10n->get('AWA_HEADLINE');
@@ -27,9 +26,7 @@ $page = new HtmlPage($headline);
 $page->addHtml('<h2>'.$gL10n->get('AWA_INSTALL_HEADLINE').'</h2>');
 
 //Prüfen ob Datenbank vorhanden
-$sql="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
-$query = $gDb->query($sql);
-if(mysql_num_rows($query)!=0){//Datenbank vorhanden
+if(isAwardsDbInstalled($gDb)){//Datenbank vorhanden
 	$page->addHtml('<p>'.$gL10n->get('AWA_INSTALL_DB_EXISTS').'</p>'); 
 	//echo 'Lösche Tabelle';
 	//$sql='DROP TABLE '.TBL_USER_AWARDS;

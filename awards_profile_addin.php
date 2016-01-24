@@ -11,10 +11,9 @@
  *                  
  *****************************************************************************/
 //Falls Datenbank nicht vorhanden überspringen
-$sql_dBcheck="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
-$query=$gDb->query($sql_dBcheck);
 $getUserId = admFuncVariableIsValid($_GET, 'user_id', 'numeric', array('defaultValue' => $gCurrentUser->getValue('usr_id')));
-if(mysql_num_rows($query)==0)
+
+if(!isAwardsDbInstalled())
 {return;}
 //Ehrungen aus Datenbank laden
 $awards=awa_load_awards($getUserId,true);
@@ -25,6 +24,7 @@ if ($awards==false)
 {
 	return;
 }
+
 	//Daten vorhanden, Ehrungen ausgeben!
 	$gL10n->addLanguagePath(SERVER_PATH. '/adm_plugins/awards/languages');
 	$page->addHtml('<div class="panel panel-default" id="awards_box">
@@ -56,7 +56,7 @@ foreach($awards as $row)
 		$page->addHtml(' ('.$row['awa_org_name'].')');
 	}
 	if(strlen($row['awa_info'])>0)
-	{
+	{l
 	   $page->addHtml('&nbsp;('.$row['awa_info'].')');
 	}
 
@@ -71,10 +71,8 @@ foreach($awards as $row)
 	$page->addHtml('<div style="clear:both"></div></li>');
 }
 
-$page->addHtml('	</ul>
-</div>
-</div>');
+$page->addHtml('</ul></div></div>');
 //Move content to correct position by jquery
-$page->addHtml('<script>$("#awards_box").insertBefore(".admidio-admidio-info-created-edited");</script>');
+$page->addHtml('<script>$("#awards_box").insertBefore("#profile_roles_box");</script>');
 
 

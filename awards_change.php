@@ -11,7 +11,7 @@
  * 
  *                  
  *****************************************************************************/
- /* MSC Anfang - Bemerkung für Entwickler */
+ 
  // create path to plugin (Besser hier um die awards_common.php auch immer zu erreichen)
 $plugin_folder_pos = strpos(__FILE__, 'adm_plugins') + 11;
 $plugin_file_pos   = strpos(__FILE__, basename(__FILE__));
@@ -25,39 +25,8 @@ if(!defined('PLUGIN_PATH'))
 require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
 require_once(PLUGIN_PATH. '/'.$plugin_folder.'/awards_common.php');
 
-if(file_exists(PLUGIN_PATH. '/'.$plugin_folder.'/awards_config.php')) {
-	$awa_debug_config_exists ='True';
-	require_once(PLUGIN_PATH. '/'.$plugin_folder.'/awards_config.php');
-}
-if($plg_debug_enabled == 1)//Debug Teil 1!
-{
-echo '<br>Plugin-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/';
-echo '<br>Config-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/config.php';
-echo '<br>Config-exists: '.$awa_debug_config_exists;
-}
 
-// pruefen, ob alle Einstellungen in config.php gesetzt wurden
-// falls nicht, hier noch mal die Default-Werte setzen
-if(isset($plg_role_enabled) == false || is_numeric($plg_role_enabled) == false)
-{
-    $plg_role_enabled = 0;
-}
 
-if(isset($plg_leader_checked) == false || is_numeric($plg_leader_checked) == false)
-{
-    $plg_leader_checked = 1;
-}
-
-if(isset($plg_cat_id) == false || is_numeric($plg_cat_id) == false)
-{
-    $plg_cat_id = 0;
-}
-
-if(isset($plg_debug_enabled) == false || is_numeric($plg_debug_enabled) == false)
-{
-    $plg_debug_enabled = 0;
-}
-/* MSC Ende - Bemerkung für Entwickler */
 
 //Berechtigung checken
 if($gCurrentUser->editUsers() == false)
@@ -75,7 +44,7 @@ $EditMode=True;
 $EditMode=False;
 }
 // DB auf Admidio setzen, da evtl. noch andere DBs beim User laufen
-$gDb->setCurrentDB();
+//$gDb->setCurrentDB();
 
 // Einbinden der Sprachdatei
 $gL10n->addLanguagePath(PLUGIN_PATH. '/'.$plugin_folder.'/languages');
@@ -106,15 +75,13 @@ else
 
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
-$query = @mysql_query($sql_select); 
-if(mysql_num_rows($query)===0){
-//Datenbank nicht vorhanden
-$page->addHtml('<h2>'.$gL10n->get('SYS_ERROR').'</h2>');
-$page->addHtml($gL10n->get('AWA_ERR_NO_DB'));
-$page->addHtml('<p><a href=awards_install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>');
-$page->show();
-exit;
+if(!isAwardsDbInstalled()){
+	//Datenbank nicht vorhanden
+	$page->addHtml('<h2>'.$gL10n->get('SYS_ERROR').'</h2>');
+	$page->addHtml($gL10n->get('AWA_ERR_NO_DB'));
+	$page->addHtml('<p><a href=awards_install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>');
+	$page->show();
+	return;
 }
 
 
