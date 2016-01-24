@@ -27,7 +27,8 @@ return $plugin_folder;
 
 $tablename=$g_tbl_praefix.'_user_awards';
 define("TBL_USER_AWARDS",$tablename);
-define("AWA_TABLE_NAME",$tablename);
+unset($tablename);
+
 
 if(0)//up to v3
 {
@@ -36,7 +37,7 @@ require_once(SERVER_PATH. '/adm_program/system/classes/table_text.php');
 require(SERVER_PATH. '/adm_program/system/overall_header.php');
 require_once(SERVER_PATH. '/adm_program/system/classes/list_configuration.php');
 }
-else if(1)//sinv v3
+else if(1)//since v3
 {
 require_once(SERVER_PATH. '/adm_program/system/classes/formelements.php');
 require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');

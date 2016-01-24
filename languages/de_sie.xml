@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<language id="de">
+<language id="de_sie">
     <version id="0.0.1">
   	<text id="AWA_HEADLINE" development="new" translation="todo">Ehrungen &amp; Auszeichnungen</text>
         <text id="AWA_INSTALL" development="new" translation="todo">Installieren</text>
@@ -36,7 +36,7 @@
 <!-- Fehlermeldungen -->
 	<text id="AWA_ERR_NO_DB" development="new" translation="todo">Datenbank nicht gefunden</text>
  	<text id="AWA_ERR_DOUBLE_ID" development="new" translation="todo">ID Bereits vorhanden, doppelter Aufruf?</text>
- 	<text id="AWA_ERR_NO_USER" development="new" translation="todo">Mitglied auswählen!</text>
+ 	<text id="AWA_ERR_NO_USER" development="new" translation="todo">Mitglied auswählen</text>
 	<text id="AWA_ERR_USER_OR_ROLE" development="new" translation="todo">Mitglied oder Rolle auswählen!</text>
  	<text id="AWA_ERR_NO_CAT" development="new" translation="todo">Kategorie angeben!</text>
  	<text id="AWA_ERR_DOUBLE_TITLE" development="new" translation="todo">Entweder alten Titel verwenden, oder neu anlegen!</text>
