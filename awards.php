@@ -10,18 +10,17 @@
  * 
  *                  
  *****************************************************************************/
-GLOBAL $g_tbl_praefix;
+global $g_tbl_praefix;
 
 require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
 require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
+
 $plugin_folder=getFolder(__FILE__);
 $plugin_path=getPath(__FILE__);
 
-
 if($gCurrentUser->editUsers() == true){
 
-// DB auf Admidio setzen, da evtl. noch andere DBs beim User laufen
-//$gDb->setCurrentDB();
+
 
 $awardmenu = new Menu('awardmenu', $gL10n->get('AWA_HEADLINE'));
 

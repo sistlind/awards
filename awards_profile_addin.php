@@ -27,6 +27,7 @@ if ($awards==false)
 
 	//Daten vorhanden, Ehrungen ausgeben!
 	$gL10n->addLanguagePath(SERVER_PATH. '/adm_plugins/awards/languages');
+
 	$page->addHtml('<div class="panel panel-default" id="awards_box">
 				<div class="panel-heading">'.$gL10n->get('AWA_HEADLINE').'&nbsp;</div>
                 <div id="awards_box_body" class="panel-body">');
@@ -56,7 +57,7 @@ foreach($awards as $row)
 		$page->addHtml(' ('.$row['awa_org_name'].')');
 	}
 	if(strlen($row['awa_info'])>0)
-	{l
+	{
 	   $page->addHtml('&nbsp;('.$row['awa_info'].')');
 	}
 

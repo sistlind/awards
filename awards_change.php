@@ -43,8 +43,6 @@ $EditMode=True;
 {
 $EditMode=False;
 }
-// DB auf Admidio setzen, da evtl. noch andere DBs beim User laufen
-//$gDb->setCurrentDB();
 
 // Einbinden der Sprachdatei
 $gL10n->addLanguagePath(PLUGIN_PATH. '/'.$plugin_folder.'/languages');
@@ -90,52 +88,51 @@ if(!isAwardsDbInstalled()){
 
 if($EditMode && !isset($_POST['submit']))
 {
-$AWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
-$POST_award_user_id=$AWAObj->getValue('awa_usr_id');
-$POST_award_cat_id=$AWAObj->getValue('awa_cat_id');
-$POST_award_name_new=$AWAObj->getValue('awa_name');
-$POST_award_info=$AWAObj->getValue('awa_info');
-$DateObject=date_create($AWAObj->getValue('awa_date'));
-$POST_award_date=date_format($DateObject,'d.m.Y');
-
+	$AWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
+	$POST_award_user_id=$AWAObj->getValue('awa_usr_id');
+	$POST_award_cat_id=$AWAObj->getValue('awa_cat_id');
+	$POST_award_name_new=$AWAObj->getValue('awa_name');
+	$POST_award_info=$AWAObj->getValue('awa_info');
+	$DateObject=date_create($AWAObj->getValue('awa_date'));
+	$POST_award_date=date_format($DateObject,'d.m.Y');
 }else
 {
-//Übergebene POST_variablen speichern
-$POST_award_new_id=$_POST['award_new_id'];
-$POST_award_user_id=$_POST['award_user_id'];
-/* MSC Anfang - Bemerkung für Entwickler */
-$POST_award_role_id=$_POST['award_role_id'];
-$POST_award_leader=$_POST['award_leader'];
-/* MSC Ende - Bemerkung für Entwickler */
-$POST_award_cat_id=$_POST['award_cat_id'];
-$POST_award_name_old_id=$_POST['award_name_old_id'];
-$POST_award_name_new=$_POST['award_name_new'];
-$POST_award_info=$_POST['award_info'];
-$POST_award_date=$_POST['award_date'];
-$DateObject=date_create($POST_award_date);
-$InternalDate=date_format($DateObject,'Y-m-d');
+	//Übergebene POST_variablen speichern
+	$POST_award_new_id=$_POST['award_new_id'];
+	$POST_award_user_id=$_POST['award_user_id'];
+	/* MSC Anfang - Bemerkung für Entwickler */
+	$POST_award_role_id=$_POST['award_role_id'];
+	$POST_award_leader=$_POST['award_leader'];
+	/* MSC Ende - Bemerkung für Entwickler */
+	$POST_award_cat_id=$_POST['award_cat_id'];
+	$POST_award_name_old_id=$_POST['award_name_old_id'];
+	$POST_award_name_new=$_POST['award_name_new'];
+	$POST_award_info=$_POST['award_info'];
+	$POST_award_date=$_POST['award_date'];
+	$DateObject=date_create($POST_award_date);
+	$InternalDate=date_format($DateObject,'Y-m-d');
 }
 
 
 if($plg_debug_enabled == 1)//Debug Teil 2!
 {
-/* MSC Anfang - Bemerkung für Entwickler */
-echo '<br>role_enabled: '.$plg_role_enabled;
-echo '<br>leader_checked: '.$plg_leader_checked;
-echo '<br>cat_id: '.$plg_cat_id;
-/* MSC Ende - Bemerkung für Entwickler */
-echo '<br>award new id: '.$POST_award_new_id;
-echo '<br>userid: '.$POST_award_user_id;
-/* MSC Anfang - Bemerkung für Entwickler */
-echo '<br>rolid: '.$POST_award_role_id;
-echo '<br>leader: '.$POST_award_leader;
-/* MSC Ende - Bemerkung für Entwickler */
-echo '<br>catid: '.$POST_award_cat_id;
-echo '<br>nameoldid: '.$POST_award_name_old;
-echo '<br>namenew: '.$POST_award_name_new;
-echo '<br>info: '.$POST_award_info;
-echo '<br>date: '.$POST_award_date;
-echo '<br>date_internal: '.$InternalDate;
+	/* MSC Anfang - Bemerkung für Entwickler */
+	echo '<br>role_enabled: '.$plg_role_enabled;
+	echo '<br>leader_checked: '.$plg_leader_checked;
+	echo '<br>cat_id: '.$plg_cat_id;
+	/* MSC Ende - Bemerkung für Entwickler */
+	echo '<br>award new id: '.$POST_award_new_id;
+	echo '<br>userid: '.$POST_award_user_id;
+	/* MSC Anfang - Bemerkung für Entwickler */
+	echo '<br>rolid: '.$POST_award_role_id;
+	echo '<br>leader: '.$POST_award_leader;
+	/* MSC Ende - Bemerkung für Entwickler */
+	echo '<br>catid: '.$POST_award_cat_id;
+	echo '<br>nameoldid: '.$POST_award_name_old;
+	echo '<br>namenew: '.$POST_award_name_new;
+	echo '<br>info: '.$POST_award_info;
+	echo '<br>date: '.$POST_award_date;
+	echo '<br>date_internal: '.$InternalDate;
 }
 
 
@@ -143,23 +140,24 @@ echo '<br>date_internal: '.$InternalDate;
 $sql    = 'SELECT COUNT(*) FROM '.TBL_USER_AWARDS.' ;';
 $result= $gDb->fetch_array($gDb->query($sql));
 if ($result['COUNT(*)']==0)
-{$newID=1;}
+{
+	$newID=1;
+}
 else
 {
-$sql    = 'SELECT MAX(awa_id) as maxID FROM '.TBL_USER_AWARDS.' ;';
-//echo $sql;
-$result= $gDb->fetch_array($gDb->query($sql));
-$newID=$result['maxID']+1;
+	$sql    = 'SELECT MAX(awa_id) as maxID FROM '.TBL_USER_AWARDS.' ;';
+	//echo $sql;
+	$result= $gDb->fetch_array($gDb->query($sql));
+	$newID=$result['maxID']+1;
 }
 
 
 if (isset($_POST['submit']))
 {
-$INPUTOK=TRUE;
-$ErrorStr= '<h2>'.$gL10n->get('SYS_ERROR').'</h2>';
-//echo 'Submit gedrückt!';
-//Eingaben OK?
-/* MSC Anfang - Bemerkung für Entwickler */
+	$INPUTOK=TRUE;
+	$ErrorStr= '<h2>'.$gL10n->get('SYS_ERROR').'</h2>';
+	//echo 'Submit gedrückt!';
+	//Eingaben OK?
 if (($POST_award_new_id !=$newID) && !($EditMode))
 	{//Doppelter Aufruf?
 	// Farbe MSC

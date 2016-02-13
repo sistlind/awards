@@ -21,8 +21,6 @@ if($gCurrentUser->editUsers() == false)
 
 $getAwardID  = admFuncVariableIsValid($_GET, 'awa_id', 'numeric', array('defaultValue' => 0));
 
-// DB auf Admidio setzen, da evtl. noch andere DBs beim User laufen
-$gDb->setCurrentDB();
 
 // Einbinden der Sprachdatei
 $gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');

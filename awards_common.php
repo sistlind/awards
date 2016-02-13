@@ -32,6 +32,9 @@ $query=$gDb->query($sql_select);
 return ($gDb->num_rows($query)===0)?false:true;
 }
 
+
+$plugin_folder=getFolder(__FILE__);
+$plugin_path=getPath(__FILE__);
 // Einbinden der Sprachdatei
 $gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
 
@@ -39,15 +42,6 @@ if(file_exists(PLUGIN_PATH. '/'.$plugin_folder.'/awards_config.php')) {
 	$awa_debug_config_exists ='True';
 	require_once(PLUGIN_PATH. '/'.$plugin_folder.'/awards_config.php');
 }
-if($plg_debug_enabled == 1)//Debug Teil 1!
-{
-echo '<br>Plugin-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/';
-echo '<br>Config-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/config.php';
-echo '<br>Config-exists: '.$awa_debug_config_exists;
-}
-
-
-
 // pruefen, ob alle Einstellungen in config.php gesetzt wurden
 // falls nicht, hier noch mal die Default-Werte setzen
 if(isset($plg_role_enabled) == false || is_numeric($plg_role_enabled) == false)
@@ -68,6 +62,12 @@ if(isset($plg_cat_id) == false || is_numeric($plg_cat_id) == false)
 if(isset($plg_debug_enabled) == false || is_numeric($plg_debug_enabled) == false)
 {
     $plg_debug_enabled = 0;
+}
+if($plg_debug_enabled == 1)//Debug Teil 1!
+{
+	echo '<br>Plugin-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/';
+	echo '<br>Config-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/config.php';
+	echo '<br>Config-exists: '.$awa_debug_config_exists;
 }
 
 
