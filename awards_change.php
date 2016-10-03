@@ -465,7 +465,7 @@ $page->addHtml('<dl><dt><label for="award_name_old_id">'.$gL10n->get('AWA_HONOR_
 			<option value="0" >'.$gL10n->get('AWA_HONOR_OLD_SELECT').'</option>
 			<option>-------------------</option>'); // Option Wert entfernt um undefinierten Fehler zu verhindern MSC
 //Dopdown für alte einträge füllen
-$sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  GROUP BY awa_name ORDER BY awa_date DESC;';
+$sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  GROUP BY awa_name, awa_id ORDER BY awa_date DESC;';
 
 $query=$gDb->query($sql);
 while($row=$gDb->fetch_array($query))

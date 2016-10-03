@@ -46,7 +46,7 @@
 <!-- Installation -->
         <text id="AWA_INSTALL_HEADLINE" development="new" translation="todo">Initializing of the database</text>
         <text id="AWA_INSTALL_DB_EXISTS" development="new" translation="todo">Database already exists!</text>
-        <text id="AWA_INSTALL_DB_NOT_READY" development="new" translation="todo">Table %VAR1% does not exists.</text>
+        <text id="AWA_INSTALL_DB_NOT_READY" development="new" translation="todo">Table #VAR1# does not exists.</text>
         <text id="AWA_INSTALL_CREATE_DB" development="new" translation="todo">Create empty table</text>
         <text id="AWA_INSTALL_DB_READY" development="new" translation="todo">Database initialized</text>
 <!-- Anzeige der Auszeichnungen -->
