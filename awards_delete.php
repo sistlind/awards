@@ -50,9 +50,9 @@ $page->addHtml("Falscher Seitenaufruf!");
 $page->addHtml('<ul class="iconTextLinkList">
     <li>
         <span class="iconTextLink">
-            <a href="'.$g_root_path.'/adm_program/system/back.php"><img
+            <a href="'.ADMIDIO_URL .'/adm_program/system/back.php"><img
             src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
-            <a href="'.$g_root_path.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
+            <a href="'.ADMIDIO_URL .'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
         </span>
     </li>
 </ul>');
@@ -86,7 +86,7 @@ else
 	}
 
 	$page->addHtml('</b> an '.$userobj->getValue('FIRST_NAME').' '. $userobj->getValue('LAST_NAME').' wirklich löschen?');
-	$page->addHtml('<form action="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$getAwardID.'" method="post">
+	$page->addHtml('<form action="'.ADMIDIO_URL . FOLDER_PLUGINS .'/'.$plugin_folder.'/awards_delete.php?awa_id='.$getAwardID.'" method="post">
 	<input type="hidden" name="delete_ID" value="'.$getAwardID.'">
 	<div class="formLayout" id="edit_awards_form">
 	    <div class="formBody">
@@ -102,9 +102,9 @@ else
 	$page->addHtml('<ul class="iconTextLinkList">
     <li>
         <span class="iconTextLink">
-            <a href="'.$g_root_path.'/adm_program/system/back.php"><img
+            <a href="'.ADMIDIO_URL .'/adm_program/system/back.php"><img
             src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
-            <a href="'.$g_root_path.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
+            <a href="'.ADMIDIO_URL .'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
         </span>
     </li>
 </ul>');

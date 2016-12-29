@@ -18,7 +18,6 @@ $plugin_folder=getFolder(__FILE__);
 $plugin_path=getPath(__FILE__);
 
 
-
 if($gCurrentUser->editUsers() == false)//%TODO: Berechtigungen
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
@@ -155,7 +154,7 @@ foreach($awards as $row)
 
 		$page->addHtml('<tr>');
 		if($show_all){$page->addHtml('<td>'.$row['awa_org_name'].'</td>');}
-		$page->addHtml('<td><a href="'.$g_root_path.'/adm_program/modules/profile/profile.php?user_id='.$row['awa_usr_id'].'">'.
+		$page->addHtml('<td><a href="'.ADMIDIO_URL.'/adm_program/modules/profile/profile.php?user_id='.$row['awa_usr_id'].'">'.
 			$row['last_name'].',&nbsp'.$row['first_name'].'</a></td>');
 		$page->addHtml('<td>'.date('d.m.Y',strtotime($row['awa_date'])).'</td>');
 		$page->addHtml('<td>'.$row['awa_name'].'</td>');
@@ -164,10 +163,10 @@ foreach($awards as $row)
 		$page->addHtml('<td>');
 		if($gCurrentUser->editUsers() == true)//Ändern/Löschen Buttons für berechtigte User
 		{
-			$page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'">');
+			$page->addHtml('<a class="iconLink" href="'.ADMIDIO_URL . FOLDER_PLUGINS .'/'.$plugin_folder.'/awards_delete.php?awa_id='.$row['awa_id'].'">');
 			$page->addHtml('<img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" /></a>');
 			$page->addHtml('</a>&nbsp;&nbsp;');
-			$page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'">');
+			$page->addHtml('<a class="iconLink" href="'.ADMIDIO_URL . FOLDER_PLUGINS .'/'.$plugin_folder.'/awards_change.php?awa_id='.$row['awa_id'].'">');
 			$page->addHtml('<img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'"/>');
 			$page->addHtml('</a>');
 		}
@@ -200,9 +199,9 @@ if($getCSV)
 	$page->addHtml('<ul class="iconTextLinkList">
 	    <li>
 		<span class="iconTextLink">
-		    <a href="'.$g_root_path.'/adm_program/system/back.php"><img
+		    <a href="'.ADMIDIO_URL.'/adm_program/system/back.php"><img
 		    src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
-		    <a href="'.$g_root_path.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
+		    <a href="'.ADMIDIO_URL.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
 		</span>
 	    </li>
 	</ul>');
