@@ -1,3 +1,5 @@
+0.4.0:	+ Compatibility to Admidio V3.2 (testet up to 3.2.2)
+		+ Fixed group-by Warning at recent MySQL-servers
 0.3.0: (thanks to  pphlwmarcel)
 		+ Configuration-File added (awards_config.php)
 			- Batch processing for Awards

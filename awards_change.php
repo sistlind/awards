@@ -2,13 +2,9 @@
 /******************************************************************************
  * Awards
  *
- * Version 0.2.0
- *
- * Datum        : 06.12.2015  
- *
  * Diese Plugin ordnet Mitgliedern Ehrungen/Auszeichnungen/Lehrgänge zu
- * The plugin adds awards/honors/seminars to members
  * 
+ * https://github.com/sistlind/awards
  *                  
  *****************************************************************************/
  

@@ -1,11 +1,11 @@
 <?php
 /******************************************************************************
- * Konfigurationsdatei fuer das Admidio-Plugin Awards
- * Configuration-File for the Admidio-Plugin Awards
+ * Awards
  *
- * Copyright    : (c) 2015 pphlw_marcel
- * License      : GNU Public License 2 http://www.gnu.org/licenses/gpl-2.0.html
- *
+ * Diese Plugin ordnet Mitgliedern Ehrungen/Auszeichnungen/Lehrgänge zu
+ * 
+ * https://github.com/sistlind/awards
+ *                  
  *****************************************************************************/
 
 // Soll die Möglichkeit Auszeichnungen direkt an alle Mitglieder einer Rolle zuzuweisen zur Verfügung stehen?
