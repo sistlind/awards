@@ -30,29 +30,25 @@ $page = new HtmlPage($headline);
 
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
-$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
-$query = @mysql_query($sql_select); 
-if(mysql_num_rows($query)===0){
-//Datenbank nicht vorhanden
-$page->addHtml('<h2>'.$gL10n->get('SYS_ERROR').'</h2>');
-$page->addHtml($gL10n->get('AWA_ERR_NO_DB'));
-$page->addHtml('<p><a href=awards_install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>');
-$page->show();
-exit;
+if(!isAwardsDbInstalled()){
+	//Datenbank nicht vorhanden
+	$page->addHtml('<h2>'.$gL10n->get('SYS_ERROR').'</h2>');
+	$page->addHtml($gL10n->get('AWA_ERR_NO_DB'));
+	$page->addHtml('<p><a href=awards_install.php>'.$gL10n->get('AWA_INSTALL').'</a></p>');
+	$page->show();
+	return;
 }
+
 
 if ($getAwardID<1)
 {
 $page->addHtml("Falscher Seitenaufruf!");
-$page->addHtml('<ul class="iconTextLinkList">
-    <li>
+$page->addHtml('
         <span class="iconTextLink">
             <a href="'.ADMIDIO_URL .'/adm_program/system/back.php"><img
             src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
             <a href="'.ADMIDIO_URL .'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
-        </span>
-    </li>
-</ul>');
+        </span>');
 $page->show();
 exit;
 }
@@ -96,15 +92,12 @@ else
 }
 
 
-	$page->addHtml('<ul class="iconTextLinkList">
-    <li>
-        <span class="iconTextLink">
-            <a href="'.ADMIDIO_URL .'/adm_program/system/back.php"><img
-            src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
-            <a href="'.ADMIDIO_URL .'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
-        </span>
-    </li>
-</ul>');
+$page->addHtml('
+    <span class="iconTextLink">
+        <a href="'.ADMIDIO_URL .'/adm_program/system/back.php"><img
+        src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
+        <a href="'.ADMIDIO_URL .'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
+    </span>');
 
 $page->show();
 ?>

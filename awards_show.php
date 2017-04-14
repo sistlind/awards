@@ -222,13 +222,13 @@ if ($get_req != 'csv')
                  WHERE cat_type=\'AWA\'
                    AND ( cat_org_id = '.$gCurrentOrganization->getValue('org_id').'
                     OR cat_org_id IS NULL )';
-		$form->addSelectBoxFromSql('awa_cat', '', $gDb, $sql, array('defaultValue' => $getAwaCat, 'showContextDependentFirstEntry' => false, firstEntry => $gL10n->get('AWA_CAT')));
+		$form->addSelectBoxFromSql('awa_cat', '', $gDb, $sql, array('defaultValue' => $getAwaCat, 'showContextDependentFirstEntry' => false, 'firstEntry' => $gL10n->get('AWA_CAT')));
 			
 		$sql = 'SELECT awa_name, awa_name
                   FROM '.TBL_USER_AWARDS.'
                  WHERE ( awa_org_id = '.$gCurrentOrganization->getValue('org_id').'
                     OR awa_org_id IS NULL )';
-		$form->addSelectBoxFromSql('awa_name', '', $gDb, $sql, array('defaultValue' => $getAwaName, 'showContextDependentFirstEntry' => false, firstEntry => $gL10n->get('AWA_HONOR_TITLE')));
+		$form->addSelectBoxFromSql('awa_name', '', $gDb, $sql, array('defaultValue' => $getAwaName, 'showContextDependentFirstEntry' => false, 'firstEntry' => $gL10n->get('AWA_HONOR_TITLE')));
 			
 		$form->addInput('awa_show_all', '', $show_all, array('property' => FIELD_HIDDEN));
 		$form->addInput('export_mode', '', 'html', array('property' => FIELD_HIDDEN));

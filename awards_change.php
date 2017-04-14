@@ -78,10 +78,6 @@ if(!isAwardsDbInstalled()){
 	return;
 }
 
-
-
-
-
 if($EditMode && !isset($_POST['submit']))
 {
 	$AWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
@@ -94,35 +90,36 @@ if($EditMode && !isset($_POST['submit']))
 }else
 {
 	//Übergebene POST_variablen speichern
-	$POST_award_new_id=$_POST['award_new_id'];
-	$POST_award_user_id=$_POST['award_user_id'];
-	/* MSC Anfang - Bemerkung für Entwickler */
-	$POST_award_role_id=$_POST['award_role_id'];
-	$POST_award_leader=$_POST['award_leader'];
-	/* MSC Ende - Bemerkung für Entwickler */
-	$POST_award_cat_id=$_POST['award_cat_id'];
-	$POST_award_name_old_id=$_POST['award_name_old_id'];
-	$POST_award_name_new=$_POST['award_name_new'];
-	$POST_award_info=$_POST['award_info'];
-	$POST_award_date=$_POST['award_date'];
+	$POST_award_new_id=admFuncVariableIsValid($_POST, 'award_new_id', 'numeric', array('defaultValue' => 0));
+	$POST_award_user_id=admFuncVariableIsValid($_POST, 'award_user_id', 'numeric', array('defaultValue' => 0));
+	$POST_award_role_id=admFuncVariableIsValid($_POST, 'award_role_id', 'numeric', array('defaultValue' => 0));
+	$POST_award_leader=admFuncVariableIsValid($_POST, 'award_leader', 'numeric', array('defaultValue' => 0));
+	$POST_award_cat_id=admFuncVariableIsValid($_POST, 'award_cat_id', 'numeric', array('defaultValue' => 0));
+	$POST_award_name_old_id=admFuncVariableIsValid($_POST, 'award_name_old_id', 'numeric', array('defaultValue' => 0));
+	$POST_award_name_new=admFuncVariableIsValid($_POST, 'award_name_new', 'string', array('defaultValue' => ''));
+	$POST_award_info=admFuncVariableIsValid($_POST, 'award_info', 'string', array('defaultValue' => ''));
+	$POST_award_date=admFuncVariableIsValid($_POST, 'award_date', 'string', array('defaultValue' => ''));
 	$DateObject=date_create($POST_award_date);
 	$InternalDate=date_format($DateObject,'Y-m-d');
 }
 
+if($POST_award_name_old_id>0)
+	{
+		$sql    = 'SELECT awa_name FROM '.TBL_USER_AWARDS.'  Where awa_id=\''.$POST_award_name_old_id.'\';';
+		$result= $gDb->fetch_array($gDb->query($sql));
+		$POST_award_name_old_name=$result['awa_name'];
+	}
+
 
 if($plg_debug_enabled == 1)//Debug Teil 2!
 {
-	/* MSC Anfang - Bemerkung für Entwickler */
 	echo '<br>role_enabled: '.$plg_role_enabled;
 	echo '<br>leader_checked: '.$plg_leader_checked;
 	echo '<br>cat_id: '.$plg_cat_id;
-	/* MSC Ende - Bemerkung für Entwickler */
 	echo '<br>award new id: '.$POST_award_new_id;
 	echo '<br>userid: '.$POST_award_user_id;
-	/* MSC Anfang - Bemerkung für Entwickler */
 	echo '<br>rolid: '.$POST_award_role_id;
 	echo '<br>leader: '.$POST_award_leader;
-	/* MSC Ende - Bemerkung für Entwickler */
 	echo '<br>catid: '.$POST_award_cat_id;
 	echo '<br>nameoldid: '.$POST_award_name_old;
 	echo '<br>namenew: '.$POST_award_name_new;
@@ -156,19 +153,18 @@ if (isset($_POST['submit']))
 	//Eingaben OK?
 if (($POST_award_new_id !=$newID) && !($EditMode))
 	{//Doppelter Aufruf?
-	// Farbe MSC
 	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_DOUBLE_ID').'</p>';
 	$INPUTOK=FALSE;
 	}
 if ($plg_role_enabled==1)
 	{
 	if (($POST_award_user_id==0)&&($POST_award_role_id==0) )
-		{//Mitglied oder Rolle Pflicht! MSC
+		{//Mitglied oder Rolle Pflicht!
 		$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_USER_OR_ROLE').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	if (($POST_award_user_id>0)&&($POST_award_role_id>0) )
-		{//Rolle oder Mitglied - nicht beides! MSC
+		{//Rolle oder Mitglied - nicht beides!
 		$POST_award_user_id='';
 		$POST_award_role_id='';
 		$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_USER_OR_ROLE').'</font></p>';
@@ -176,7 +172,7 @@ if ($plg_role_enabled==1)
 		}
 	/* Abfrage kollidiert mit Standardwert für leader
 	if(($POST_award_user_id>0)&&($POST_award_leader==1) )
-		{//Mitglied und Checkbox Leader geht nicht MSC)
+		{//Mitglied und Checkbox Leader geht nicht)
 		$POST_award_user_id='';
 		$POST_award_leader='';
 		$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_USER_LEADER').'</font></p>';
@@ -194,32 +190,28 @@ else
 	}
 if ($POST_award_cat_id==0)
 	{//Kategorie Pflicht!
-	// Farbe MSC
 	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_CAT').'</font></p>';
 	$INPUTOK=FALSE;
 	}
-if ((strlen($POST_award_name_new)>1)&&($POST_award_name_old_id>0))
+if ((strlen($POST_award_name_new)>0)&&($POST_award_name_old_id>0))
 	{//Nur ein Titelfeld füllen!
-	// Farbe MSC
 	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_DOUBLE_TITLE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ((strlen($POST_award_name_new)<1)&&($POST_award_name_old_id==0))
 	{//Titel Pflicht
-	// Farbe MSC
 	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_TITLE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if (strlen($POST_award_date)<4)//TODO: Besserer Check
 	{//Datum Pflicht !
-	// Farbe MSC
 	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_DATE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if($INPUTOK)
 {
 //echo 'SAVE!';
-// User übergeben --> Award für User speichern MSC
+// User übergeben --> Award für User speichern
 if ($POST_award_user_id>0)
 {
 	if($EditMode)
@@ -257,11 +249,11 @@ if ($POST_award_user_id>0)
 	}
 }
 
-//Rolle übergeben --> FÜR JEDEN USER DER ROLLE EINTRAGEN MSC
+//Rolle übergeben --> FÜR JEDEN USER DER ROLLE EINTRAGEN
 if ($POST_award_role_id>0)
 {
 		$recordCount=0;
-		//SQL-String - Alle USER-IDs zur Rolle aus der Datenbank finden ohne Leiter der Rolle MSC
+		//SQL-String - Alle USER-IDs zur Rolle aus der Datenbank finden ohne Leiter der Rolle
 		$sql = 'SELECT mem_usr_id
 		FROM '.TBL_MEMBERS.'
 		WHERE '.TBL_MEMBERS.'.mem_rol_id ='.$POST_award_role_id.'
@@ -313,17 +305,16 @@ if ($POST_award_role_id>0)
 }
 
 }
-/* MSC Ende - Bemerkung für Entwickler */
 
 // Html des Modules ausgeben
+
 $page->addHtml('<form action="'.ADMIDIO_URL . FOLDER_PLUGINS .'/'.$plugin_folder.'/awards_change.php?awa_id='.$getAwardID.'" method="post">
 <input type="hidden" name="award_new_id" value="'.$newID.'">
-<div class="formLayout" id="edit_awards_form">
-    <div class="formHead">'. $gLayout['title']. '</div>
-    <div class="formBody">
-        <ul class="formFieldList">
-            <li>
-                <dl>
+<div class="panel panel-default" id="edit_awards_form">
+    <div class="panel-heading">'.$gL10n->get('AWA_HEADLINE_CHANGE').'</div>
+    <div class="panel-body">
+
+              <dl>
 <dt><label for="award_user_id">'.$gL10n->get('AWA_USER').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
                     <dd>
  			 <select id="award_user_id" name="award_user_id" >
@@ -353,7 +344,7 @@ $sql    = 'SELECT usr_id, last_name.usd_value as last_name, first_name.usd_value
              LEFT JOIN '. TBL_USER_DATA. ' as birthday
                ON birthday.usd_usr_id = usr_id
               AND birthday.usd_usf_id = '. $gProfileFields->getProperty('BIRTHDAY', 'usf_id'). '
-             WHERE usr_valid = 1'.$memberCondition.$searchCondition.' ORDER BY last_name.usd_value, first_name.usd_value';
+             WHERE usr_valid = 1'.$memberCondition.' ORDER BY last_name.usd_value, first_name.usd_value';
 $query=$gDb->query($sql);
 while($row=$gDb->fetch_array($query))
 {
@@ -366,7 +357,6 @@ while($row=$gDb->fetch_array($query))
 	$page->addHtml('<option value="'.$row['usr_id'].'"'.$selected.'>'.$row['last_name'].', '.$row['first_name'].'  ('.$row['birthday'].')</option>');
 }
 
-/* MSC Anfang - Bemerkung für Entwickler */
 if ($plg_role_enabled ==0)
 {
 	$page->addHtml('</select></dl>');
@@ -428,7 +418,6 @@ if ($plg_role_enabled ==1)
 					</dl>');
 	}
 }
-/* MSC Ende - Bemerkung für Entwickler */
 $page->addHtml('<dl><dt><label for="award_cat_id">'.$gL10n->get('AWA_CAT').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
                     <dd>
  			 <select id="award_cat_id" name="award_cat_id" >
@@ -459,14 +448,14 @@ $page->addHtml('<dl><dt><label for="award_name_old_id">'.$gL10n->get('AWA_HONOR_
                     <dd>
  			 <select id="award_name_old_id" name="award_name_old_id" >
 			<option value="0" >'.$gL10n->get('AWA_HONOR_OLD_SELECT').'</option>
-			<option>-------------------</option>'); // Option Wert entfernt um undefinierten Fehler zu verhindern MSC
+			<option value="0" >-------------------</option>');
 //Dopdown für alte einträge füllen
-$sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  GROUP BY awa_name, awa_id ORDER BY awa_date DESC;';
+$sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  GROUP BY awa_name ORDER BY awa_name ASC;';
 
 $query=$gDb->query($sql);
 while($row=$gDb->fetch_array($query))
 {
-	if ($row['awa_id']==$POST_award_name_old_id)
+	if (isset($POST_award_name_old_name)&&$row['awa_name']==$POST_award_name_old_name)
 	{
 		$selected='selected';
 	}else{
@@ -490,23 +479,21 @@ $page->addHtml('<dl>
                         maxlength="10"  value="'.$POST_award_date.'"  />'.$gL10n->get('AWA_HONOR_DATE_FORMAT').'
                     <span id="calendardiv" style="position: absolute; visibility: hidden;"></span></dd>
                 </dl>
-            </li>
+            
 <div class="formSubmit">
             <button id="btnSave" type="submit" name="submit" value="submit"><img src="'. THEME_PATH. '/icons/disk.png" alt="'.$gL10n->get('SYS_SAVE').'" />&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
         </div>
     </div>
 </div>
 </form>
-
-<ul class="iconTextLinkList">
-    <li>
+</p>
+<p>
         <span class="iconTextLink">
             <a href="'.ADMIDIO_URL.'/adm_program/system/back.php"><img
             src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
             <a href="'.ADMIDIO_URL.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
         </span>
-    </li>
-</ul>');
+</p>');
 
 $page->show();
 ?>
