@@ -1,3 +1,8 @@
+0.5.0(2017-04-14)
+	* Compatibility tested against Admidio V3.2.8
+	* New Admidio-v3 Export routine (thx to rmbinder)
+	* New Admidio-v3 tables at admidio_show (thx to rmbinder)
+	* Securityfixes & no more phpwarnings
 0.4.0:	+ Compatibility to Admidio V3.2 (testet up to 3.2.2)
 		+ Fixed group-by Warning at recent MySQL-servers
 0.3.0: (thanks to  pphlwmarcel)
