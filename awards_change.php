@@ -453,15 +453,17 @@ $page->addHtml('<dl><dt><label for="award_name_old_id">'.$gL10n->get('AWA_HONOR_
 $sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  GROUP BY awa_name ORDER BY awa_name ASC;';
 
 $query=$gDb->query($sql);
-while($row=$gDb->fetch_array($query))
-{
-	if (isset($POST_award_name_old_name)&&$row['awa_name']==$POST_award_name_old_name)
+if($query != false){
+	while($row=$gDb->fetch_array($query))
 	{
-		$selected='selected';
-	}else{
-		$selected='';
+		if (isset($POST_award_name_old_name)&&$row['awa_name']==$POST_award_name_old_name)
+		{
+			$selected='selected';
+		}else{
+			$selected='';
+		}
+		$page->addHtml('<option value="'.$row['awa_id'].'"'.$selected.'>'.$row['awa_name'].'</option>');
 	}
-	$page->addHtml('<option value="'.$row['awa_id'].'"'.$selected.'>'.$row['awa_name'].'</option>');
 }
 $page->addHtml('</select></dd>');
 $page->addHtml('    <dt><label for="award_name_new">'.$gL10n->get('AWA_HONOR_NEW').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>  
