@@ -348,7 +348,7 @@ $sql    = 'SELECT usr_id, last_name.usd_value as last_name, first_name.usd_value
 $query=$gDb->query($sql);
 while($row=$gDb->fetch_array($query))
 {
-	if ($row['usr_id']==$POST_award_user_id)
+	if (isset($POST_award_user_id) && ($row['usr_id']==$POST_award_user_id))
 	{
 		$selected='selected';
 	}else{
@@ -450,21 +450,39 @@ $page->addHtml('<dl><dt><label for="award_name_old_id">'.$gL10n->get('AWA_HONOR_
 			<option value="0" >'.$gL10n->get('AWA_HONOR_OLD_SELECT').'</option>
 			<option value="0" >-------------------</option>');
 //Dopdown für alte einträge füllen
-$sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  GROUP BY awa_name ORDER BY awa_name ASC;';
+$sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  ORDER BY awa_name ASC;';
 
 $query=$gDb->query($sql);
+$awardoldnames=array();
 if($query != false){
-	while($row=$gDb->fetch_array($query))
+    while($sqlrow=$gDb->fetch_array($query))
+	    {
+            //echo $sqlrow[0];
+           if(preg_match('/"'.preg_quote($sqlrow['awa_name'], '/').'"/i' , json_encode($awardoldnames)))
+           {
+            //skip existing entries
+           }
+           else{
+               $awardoldnames[]=$sqlrow;
+           }
+        }
+}
+
+if (count($awardoldnames)>0)//list old entries if there are any
+{
+	foreach ($awardoldnames as $row)
 	{
-		if (isset($POST_award_name_old_name)&&$row['awa_name']==$POST_award_name_old_name)
+		if (isset($POST_award_name_old_name) && $row['awa_name']==$POST_award_name_old_name)
 		{
 			$selected='selected';
 		}else{
 			$selected='';
 		}
 		$page->addHtml('<option value="'.$row['awa_id'].'"'.$selected.'>'.$row['awa_name'].'</option>');
-	}
+    }
 }
+unset($awardoldnames);
+
 $page->addHtml('</select></dd>');
 $page->addHtml('    <dt><label for="award_name_new">'.$gL10n->get('AWA_HONOR_NEW').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>  
         <dd>
