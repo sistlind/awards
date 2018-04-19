@@ -103,7 +103,7 @@ if($EditMode && !isset($_POST['submit']))
 	$InternalDate=date_format($DateObject,'Y-m-d');
 }
 
-if($POST_award_name_old_id>0)
+if(isset($POST_award_name_old_id) && ($POST_award_name_old_id>0))
 	{
 		$sql    = 'SELECT awa_name FROM '.TBL_USER_AWARDS.'  Where awa_id=\''.$POST_award_name_old_id.'\';';
 		$result= $gDb->fetch_array($gDb->query($sql));
