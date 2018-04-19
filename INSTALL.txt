@@ -3,3 +3,8 @@
 	include(SERVER_PATH.'/adm_plugins/awards/awards.php');
 3.) Seite  aufrufen und in der Sidebar im Bereich Ehrungen auf Installieren klicken
 
+
+Ab Admidio v3.3 folgende Links im Menü hinzufügen:
+Ehrungen anzeigen -> /adm_plugins/awards/awards_show.php
+Ehrungen zuweisen -> /adm_plugins/awards/awards_change.php
+Erhungskategorien bearbeiten -> /adm_program/modules/categories/categories.php?type=AWA
