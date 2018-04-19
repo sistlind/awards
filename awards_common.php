@@ -89,12 +89,14 @@ require_once(SERVER_PATH. '/adm_program/system/classes/formelements.php');
 require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');
 //require_once(SERVER_PATH. '/adm_program/system/common.php');
 }
-else if(ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR>0)//since v3
+else if(ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR<3)//since v3
 {
 require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');
-//require_once(SERVER_PATH. '/adm_program/system/common.php');
 }
-
+else if(ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR>=3)//since v3
+{
+require_once(SERVER_PATH. '/adm_program/system/classes/TableAccess.php');
+}
 
 
 
