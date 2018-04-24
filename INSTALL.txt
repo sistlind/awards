@@ -1,10 +1,13 @@
+## Admidio vor v3.3.0
 1.) Entpacken in Plugin Ordner/awards
 2.) Einfügen in Theme/my_bottom:
 	include(SERVER_PATH.'/adm_plugins/awards/awards.php');
 3.) Seite  aufrufen und in der Sidebar im Bereich Ehrungen auf Installieren klicken
 
-
+## Admidio ab v3.3.0
 Ab Admidio v3.3 folgende Links im Menü hinzufügen:
 Ehrungen anzeigen -> /adm_plugins/awards/awards_show.php
 Ehrungen zuweisen -> /adm_plugins/awards/awards_change.php
-Erhungskategorien bearbeiten -> /adm_program/modules/categories/categories.php?type=AWA
+Ehrungskategorien bearbeiten -> /adm_program/modules/categories/categories.php?type=AWA
+
+ACHTUNG: Die Kategorienbearbeitung funktioniert wegen eines Bugs nicht mit der Admidio Version v3.3.0, also bitte nur in Verbinbung mit älteren oder neueren Version verwenden!
