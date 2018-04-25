@@ -1,3 +1,6 @@
+0.6.0(2018-04-25)
+    * Compatibility to Admidio v3.3.1
+    * Fixed some php warnings
 0.5.0(2017-04-14)
 	* Compatibility tested against Admidio V3.2.8
 	* New Admidio-v3 Export routine (thx to rmbinder)

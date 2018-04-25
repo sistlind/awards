@@ -10,6 +10,8 @@
 //Falls Datenbank nicht vorhanden überspringen
 $getUserId = admFuncVariableIsValid($_GET, 'user_id', 'numeric', array('defaultValue' => $gCurrentUser->getValue('usr_id')));
 
+require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
+
 if(!isAwardsDbInstalled())
 {return;}
 //Ehrungen aus Datenbank laden
@@ -32,7 +34,7 @@ if ($awards==false)
 unset($PrevCatName);
 foreach($awards as $row)
 {
-	if ($PrevCatName!=$row['awa_cat_name'])
+	if (!isset($PrevCatName) || ($PrevCatName!=$row['awa_cat_name']))
 	{
 		if(isset($PrevCatName))
 		{//close last <ul>
