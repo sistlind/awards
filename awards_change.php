@@ -381,12 +381,23 @@ if ($plg_role_enabled ==1)
 						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option>');
 	}
 	
-	
-	$sql    = 	'SELECT rol_id, rol_name
+
+    if(ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR>=3)// table row rol_visible is no more sinve v3.3
+    {
+        $sql    = 	'SELECT rol_id, rol_name
+					FROM '. TBL_ROLES .'
+					WHERE rol_valid =1
+					';
+    }
+    else
+    {
+        $sql    = 	'SELECT rol_id, rol_name
 					FROM '. TBL_ROLES .'
 					WHERE rol_valid =1
 					AND rol_visible =1
 					';
+    }
+
 	if ($plg_cat_id>0)
 	{// Nur Rollen aus bestimmter Kategorien auflisten
 		$sql    .= ' AND rol_cat_id ='.$plg_cat_id;
