@@ -18,7 +18,7 @@ $plugin_path=getPath(__FILE__);
 if($gCurrentUser->editUsers() == true){
 
 
-
+// This menu is no used anymore for Admidio v3+, please use integrated menu section to add plugin to menu, see links below
 $awardmenu = new Menu('awardmenu', $gL10n->get('AWA_HEADLINE'));
 
 //Falls Datenbank nicht vorhanden Install-Skript starten

@@ -89,6 +89,7 @@ if($get_req == 'html' && strpos($gNavigation->getUrl(), 'awards_show.php') === f
 	$gNavigation->addUrl(CURRENT_URL);
 }
 
+
 if ($get_req != 'csv')
 {
 	$datatable = false;
@@ -152,13 +153,13 @@ if ($get_req != 'csv')
 
 		// create html page object
 		$page = new HtmlPage($headline);
-
 		if ($getFullScreen == true)
 		{
 			$page->hideThemeHtml();
 		}
 
 		$page->setTitle($title);
+
 		$page->addJavascript('
             $("#export_list_to").change(function () {
                 if($(this).val().length > 1) {
@@ -170,11 +171,12 @@ if ($get_req != 'csv')
                 window.open("'. ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/awards_show.php?" +
                  "awa_show_all='.$show_all.'&filter='.$getFilter.'&awa_cat='.$getAwaCat.'&awa_name='.$getAwaName.'&export_mode=print", "_blank");
             });', true);
-
 		// get module menu
-		$listsMenu = $page->getMenu();
+		//$listsMenu = $page->getMenu();
 
-		$listsMenu->addItem('menu_item_back', $gNavigation->getPreviousUrl(), $gL10n->get('SYS_BACK'), 'back.png');
+
+
+		//$listsMenu->addItem('menu_item_back', $gNavigation->getPreviousUrl(), $gL10n->get('SYS_BACK'), 'back.png');
 		if ($getFullScreen == true)
 		{
 			$listsMenu->addItem('menu_item_normal_picture', ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=0',
@@ -245,6 +247,7 @@ if ($get_req != 'csv')
 		$table = new HtmlTable('adm_lists_table', $page, $hoverRows, $datatable, $classTable);
 	}
 }
+
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
 if(!isAwardsDbInstalled()){

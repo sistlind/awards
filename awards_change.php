@@ -34,15 +34,15 @@ $getAwardID  = admFuncVariableIsValid($_GET, 'awa_id', 'numeric', array('default
 
 if ($getAwardID > 0)
 {
-$EditMode=True;
+    $EditMode=True;
 }else
-{
-$EditMode=False;
+{   
+    $EditMode=False;
 }
-
-// Einbinden der Sprachdatei
-$gL10n->addLanguagePath(PLUGIN_PATH. '/'.$plugin_folder.'/languages');
-
+if(ADMIDIO_VERSION_MAIN<4) {
+    // Einbinden der Sprachdatei
+    $gL10n->addLanguagePath(PLUGIN_PATH. '/'.$plugin_folder.'/languages');
+}
 $gNavigation->addUrl(CURRENT_URL);
 
 if($EditMode)
@@ -382,7 +382,7 @@ if ($plg_role_enabled ==1)
 	}
 	
 
-    if(ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR>=3)// table row rol_visible is no more sinve v3.3
+    if(ADMIDIO_VERSION_MAIN>3||ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR>=3)// table row rol_visible is no more sinve v3.3
     {
         $sql    = 	'SELECT rol_id, rol_name
 					FROM '. TBL_ROLES .'

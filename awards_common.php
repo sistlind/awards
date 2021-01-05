@@ -9,31 +9,32 @@
  *****************************************************************************/
 
 function getPath($filepath){
-$plugin_folder_pos = strpos($filepath, 'adm_plugins') + 11;
-$plugin_file_pos   = strpos($filepath, basename($filepath));
-$plugin_path       = substr($filepath, 0, $plugin_folder_pos);
-return $plugin_path;
+    $plugin_folder_pos = strpos($filepath, 'adm_plugins') + 11;
+    $plugin_file_pos   = strpos($filepath, basename($filepath));
+    $plugin_path       = substr($filepath, 0, $plugin_folder_pos);
+    return $plugin_path;
 }
 function getFolder($filepath){
-$plugin_folder_pos = strpos($filepath, 'adm_plugins') + 11;
-$plugin_file_pos   = strpos($filepath, basename($filepath));
-$plugin_folder     = substr($filepath, $plugin_folder_pos+1, $plugin_file_pos-$plugin_folder_pos-2);
-return $plugin_folder;
+    $plugin_folder_pos = strpos($filepath, 'adm_plugins') + 11;
+    $plugin_file_pos   = strpos($filepath, basename($filepath));
+    $plugin_folder     = substr($filepath, $plugin_folder_pos+1, $plugin_file_pos-$plugin_folder_pos-2);
+    return $plugin_folder;
 }
 
 function isAwardsDbInstalled(){
-global $gDb;
-$sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
-$query=$gDb->query($sql_select);
-
-return ($gDb->num_rows($query)===0)?false:true;
+    global $gDb;
+    $sql_select="SHOW TABLES LIKE '".TBL_USER_AWARDS."'"; 
+    $query=$gDb->query($sql_select);
+    return ($query->rowcount()===0)?false:true;
 }
 
 
 $plugin_folder=getFolder(__FILE__);
 $plugin_path=getPath(__FILE__);
-// Einbinden der Sprachdatei
-$gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
+if(ADMIDIO_VERSION_MAIN<4) {
+    // Einbinden der Sprachdatei
+    $gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
+}
 
 if(file_exists($plugin_path. '/'.$plugin_folder.'/awards_config.php')) {
 	$awa_debug_config_exists ='True';
@@ -89,11 +90,11 @@ require_once(SERVER_PATH. '/adm_program/system/classes/formelements.php');
 require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');
 //require_once(SERVER_PATH. '/adm_program/system/common.php');
 }
-else if(ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR<3)//since v3
+else if(ADMIDIO_VERSION_MAIN===3&&ADMIDIO_VERSION_MINOR<3)//since v3
 {
 require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');
 }
-else if(ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR>=3)//since v3
+else if(ADMIDIO_VERSION_MAIN>3||ADMIDIO_VERSION_MAIN===3&&ADMIDIO_VERSION_MINOR>=3)//since v3 including first v4
 {
 require_once(SERVER_PATH. '/adm_program/system/classes/TableAccess.php');
 }
