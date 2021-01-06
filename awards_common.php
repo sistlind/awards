@@ -153,15 +153,15 @@ $sql    = 'SELECT awa_id, awa_usr_id, awa_org_id, awa_cat_id, awa_name, awa_info
 	ORDER BY awa_cat_seq, awa_date DESC,last_name,first_name';
 	//echo $sql;
 	$query=$gDb->query($sql);
-	if ($gDb->num_rows($query)===0)
+	if ($query->rowcount()===0)
 	{
 		return false;
 	}
-	$awards=array();
-	while($row=$gDb->fetch_array($query))
-	{	
-		$awards[]=$row;
-	}
+	$awards=$query->fetchAll();
+	//while($row=$query->fetchAll())
+	//{	
+	//	$awards[]=$row;
+	//}
 
 return $awards;
 }

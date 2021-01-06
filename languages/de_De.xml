@@ -50,4 +50,5 @@
   <string name="AWA_INSTALL_DB_READY">Datenbank initialisiert</string>
 <!-- Anzeige der Auszeichnungen -->
   <string name="AWA_SHOW_ALL">Alle Organisationen anzeigen</string>
+  <string name="AWA_FULL_SCREEN">Vollbildansicht</string>
 </resources>

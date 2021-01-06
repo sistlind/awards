@@ -50,4 +50,5 @@
   <string name="AWA_INSTALL_DB_READY">Database initialized</string>
 <!-- Anzeige der Auszeichnungen -->
   <string name="AWA_SHOW_ALL">Show all organizations</string>
+  <string name="AWA_FULL_SCREEN">Full screen</string>
 </resources>
