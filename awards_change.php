@@ -39,10 +39,7 @@ if ($getAwardID > 0)
 {   
     $EditMode=False;
 }
-if(ADMIDIO_VERSION_MAIN<4) {
-    // Einbinden der Sprachdatei
-    $gL10n->addLanguagePath(PLUGIN_PATH. '/'.$plugin_folder.'/languages');
-}
+
 $gNavigation->addUrl(CURRENT_URL);
 
 if($EditMode)
@@ -106,7 +103,7 @@ if($EditMode && !isset($_POST['submit']))
 if(isset($POST_award_name_old_id) && ($POST_award_name_old_id>0))
 	{
 		$sql    = 'SELECT awa_name FROM '.TBL_USER_AWARDS.'  Where awa_id=\''.$POST_award_name_old_id.'\';';
-		$result= $gDb->fetch_array($gDb->query($sql));
+		$result= $gDb->query($sql)->fetch();
 		$POST_award_name_old_name=$result['awa_name'];
 	}
 
@@ -131,7 +128,7 @@ if($plg_debug_enabled == 1)//Debug Teil 2!
 
 //Letzte ID der Datenbank merken um doppelte Einträge zu verhindern
 $sql    = 'SELECT COUNT(*) FROM '.TBL_USER_AWARDS.' ;';
-$result= $gDb->fetch_array($gDb->query($sql));
+$result= $gDb->query($sql)->fetch();
 if ($result['COUNT(*)']==0)
 {
 	$newID=1;
@@ -140,10 +137,10 @@ else
 {
 	$sql    = 'SELECT MAX(awa_id) as maxID FROM '.TBL_USER_AWARDS.' ;';
 	//echo $sql;
-	$result= $gDb->fetch_array($gDb->query($sql));
+	$result= $gDb->query($sql)->fetch();
 	$newID=$result['maxID']+1;
-}
 
+}
 
 if (isset($_POST['submit']))
 {
@@ -227,7 +224,7 @@ if ($POST_award_user_id>0)
 	if($POST_award_name_old_id>0)
 	{
 		$sql    = 'SELECT awa_name FROM '.TBL_USER_AWARDS.'  Where awa_id=\''.$POST_award_name_old_id.'\';';
-		$result= $gDb->fetch_array($gDb->query($sql));
+		$result= $gDb->query($sql)->fetch();
 		$NewAWAObj->setValue('awa_name',$result['awa_name']);
 	}else
 	{
@@ -238,14 +235,14 @@ if ($POST_award_user_id>0)
 	$NewAWAObj->save();
 	$page->addHtml('<h2>'.$gL10n->get('AWA_SUCCESS').'</h2>');
 	if (!$EditMode){
-		$page->addHtml('<p><img src="'. THEME_PATH. '/icons/ok.png"><font color="#3ADF00">'.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
-		$page->addHtml('<h2>'.$gL10n->get('AWA_NEW_ENTRY').'</h2>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
+		$page->addHtml('<h2>'.$gL10n->get('AWA_NEXT_ENTRY').'</h2>');
 		unset($POST_award_user_id);
 		$newID+=1;
 	}else
 	{
-		$page->addHtml('<p><img src="'. THEME_PATH. '/icons/ok.png"><font color="#3ADF00">'.$gL10n->get('AWA_SUCCESS_CHANGE').'</font></p>');
-		$page->addHtml('<h2>'.$gL10n->get('AWA_NEW_ENTRY').'</h2>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_CHANGE').'</font></p>');
+		$page->addHtml('<h2>'.$gL10n->get('AWA_NEXT_ENTRY').'</h2>');
 	}
 }
 
@@ -266,7 +263,7 @@ if ($POST_award_role_id>0)
 		}
 		
 		$query=$gDb->query($sql);
-		while($row=$gDb->fetch_array($query))
+		while($row=$query->fetch())
 		{//TODO: direkt in einer Datenbankabfrage ohne schleife !
 		$POST_award_user_id = $row['mem_usr_id'];
 		
@@ -277,7 +274,7 @@ if ($POST_award_role_id>0)
 		if($POST_award_name_old_id>0)
 		{
 			$sql    = 'SELECT awa_name FROM '.TBL_USER_AWARDS.'  Where awa_id=\''.$POST_award_name_old_id.'\';';
-			$result= $gDb->fetch_array($gDb->query($sql));
+			$result= $gDb->query($sql)->fetch();
 			$NewAWAObj->setValue('awa_name',$result['awa_name']);
 		}else
 		{
@@ -346,7 +343,7 @@ $sql    = 'SELECT usr_id, last_name.usd_value as last_name, first_name.usd_value
               AND birthday.usd_usf_id = '. $gProfileFields->getProperty('BIRTHDAY', 'usf_id'). '
              WHERE usr_valid = 1'.$memberCondition.' ORDER BY last_name.usd_value, first_name.usd_value';
 $query=$gDb->query($sql);
-while($row=$gDb->fetch_array($query))
+while($row=$query->fetch())
 {
 	if (isset($POST_award_user_id) && ($row['usr_id']==$POST_award_user_id))
 	{
@@ -381,22 +378,7 @@ if ($plg_role_enabled ==1)
 						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option>');
 	}
 	
-
-    if(ADMIDIO_VERSION_MAIN>3||ADMIDIO_VERSION_MAIN>=3&&ADMIDIO_VERSION_MINOR>=3)// table row rol_visible is no more sinve v3.3
-    {
-        $sql    = 	'SELECT rol_id, rol_name
-					FROM '. TBL_ROLES .'
-					WHERE rol_valid =1
-					';
-    }
-    else
-    {
-        $sql    = 	'SELECT rol_id, rol_name
-					FROM '. TBL_ROLES .'
-					WHERE rol_valid =1
-					AND rol_visible =1
-					';
-    }
+    $sql    = 	'SELECT rol_id, rol_name FROM '. TBL_ROLES .' WHERE rol_valid =1';
 
 	if ($plg_cat_id>0)
 	{// Nur Rollen aus bestimmter Kategorien auflisten
@@ -404,9 +386,9 @@ if ($plg_role_enabled ==1)
 	}
 
 	$query=$gDb->query($sql);
-	while($row=$gDb->fetch_array($query))
+	while($row=$query->fetch())
 	{
-			if ($row['rol_id']==$POST_award_role_id)
+		if ($row['rol_id']==$POST_award_role_id)
 		{
 			$selected='selected';
 		}else{
@@ -436,10 +418,10 @@ $page->addHtml('<dl><dt><label for="award_cat_id">'.$gL10n->get('AWA_CAT').'</la
 //Kategorie auswahl füllen
 $sql    = 'SELECT cat_id, cat_name FROM '.$g_tbl_praefix.'_categories WHERE cat_type=\'AWA\' AND cat_default=1;';
 $query=$gDb->query($sql);
-$default_category=$gDb->fetch_array($query);
+$default_category=$query->fetch();
 $sql    = 'SELECT cat_id, cat_name FROM '.$g_tbl_praefix.'_categories WHERE cat_type=\'AWA\' ORDER BY cat_sequence;';
 $query=$gDb->query($sql);
-while($row=$gDb->fetch_array($query))
+while($row=$query->fetch())
 {
 	if ($row['cat_id']==$POST_award_cat_id)
 	{
@@ -466,9 +448,9 @@ $sql    = 'SELECT awa_name, awa_id FROM '.TBL_USER_AWARDS.'  ORDER BY awa_name A
 $query=$gDb->query($sql);
 $awardoldnames=array();
 if($query != false){
-    while($sqlrow=$gDb->fetch_array($query))
+    while($sqlrow=$query->fetch())
 	    {
-            //echo $sqlrow[0];
+          //  echo $sqlrow[0];
            if(preg_match('/"'.preg_quote($sqlrow['awa_name'], '/').'"/i' , json_encode($awardoldnames)))
            {
             //skip existing entries
@@ -512,7 +494,7 @@ $page->addHtml('<dl>
                 </dl>
             
 <div class="formSubmit">
-            <button id="btnSave" type="submit" name="submit" value="submit"><img src="'. THEME_PATH. '/icons/disk.png" alt="'.$gL10n->get('SYS_SAVE').'" />&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
+            <button id="btnSave" type="submit" name="submit" value="submit"><i class="fas fa-save"></i>&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
         </div>
     </div>
 </div>

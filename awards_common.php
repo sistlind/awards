@@ -31,10 +31,6 @@ function isAwardsDbInstalled(){
 
 $plugin_folder=getFolder(__FILE__);
 $plugin_path=getPath(__FILE__);
-if(ADMIDIO_VERSION_MAIN<4) {
-    // Einbinden der Sprachdatei
-    $gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
-}
 
 if(file_exists($plugin_path. '/'.$plugin_folder.'/awards_config.php')) {
 	$awa_debug_config_exists ='True';
@@ -76,36 +72,15 @@ $tablename=$g_tbl_praefix.'_user_awards';
 define("TBL_USER_AWARDS",$tablename);
 unset($tablename);
 
-
-if(ADMIDIO_VERSION_MAIN<3)//up to v3
-{
-require_once(SERVER_PATH. '/adm_program/system/classes/form_elements.php');
-require_once(SERVER_PATH. '/adm_program/system/classes/table_text.php');
-require(SERVER_PATH. '/adm_program/system/overall_header.php');
-require_once(SERVER_PATH. '/adm_program/system/classes/list_configuration.php');
-}
-else if(ADMIDIO_VERSION_MAIN===3&&ADMIDIO_VERSION_MINOR===0)//since v3
-{
-require_once(SERVER_PATH. '/adm_program/system/classes/formelements.php');
-require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');
-//require_once(SERVER_PATH. '/adm_program/system/common.php');
-}
-else if(ADMIDIO_VERSION_MAIN===3&&ADMIDIO_VERSION_MINOR<3)//since v3
-{
-require_once(SERVER_PATH. '/adm_program/system/classes/tabletext.php');
-}
-else if(ADMIDIO_VERSION_MAIN>3||ADMIDIO_VERSION_MAIN===3&&ADMIDIO_VERSION_MINOR>=3)//since v3 including first v4
-{
 require_once(SERVER_PATH. '/adm_program/system/classes/TableAccess.php');
-}
 
 
 
 function awa_load_awards($userid,$show_all)
 {
-global $gCurrentOrganization;
-global $gProfileFields;
-global $gDb;
+    global $gCurrentOrganization;
+    global $gProfileFields;
+    global $gDb;
 
 	$restriction="";
 	if (intval($userid)>0)
@@ -124,8 +99,7 @@ global $gDb;
 		}
 	}
 
-
-$sql    = 'SELECT awa_id, awa_usr_id, awa_org_id, awa_cat_id, awa_name, awa_info, awa_date, 
+    $sql    = 'SELECT awa_id, awa_usr_id, awa_org_id, awa_cat_id, awa_name, awa_info, awa_date, 
 		awa_cat_seq.cat_sequence as awa_cat_seq,
 		awa_cat_name.cat_name as awa_cat_name,
 		awa_org_name.org_longname as awa_org_name,
@@ -158,10 +132,6 @@ $sql    = 'SELECT awa_id, awa_usr_id, awa_org_id, awa_cat_id, awa_name, awa_info
 		return false;
 	}
 	$awards=$query->fetchAll();
-	//while($row=$query->fetchAll())
-	//{	
-	//	$awards[]=$row;
-	//}
 
 return $awards;
 }

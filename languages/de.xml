@@ -31,7 +31,7 @@
   <string name="AWA_SUCCESS">Erfolg</string>
   <string name="AWA_SUCCESS_NEW">Daten eingetragen!</string>
   <string name="AWA_SUCCESS_CHANGE">Daten geändert!</string>
-  <string name="AWA_NEW_ENTRY">Nächster Datensatz</string>
+  <string name="AWA_NEXT_ENTRY">Nächster Datensatz</string>
 <!-- Fehlermeldungen -->
   <string name="AWA_ERR_NO_DB">Datenbank nicht gefunden</string>
   <string name="AWA_ERR_DOUBLE_ID">ID Bereits vorhanden, doppelter Aufruf?</string>

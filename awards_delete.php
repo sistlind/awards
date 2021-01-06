@@ -18,11 +18,6 @@ if($gCurrentUser->editUsers() == false)
 
 $getAwardID  = admFuncVariableIsValid($_GET, 'awa_id', 'numeric', array('defaultValue' => 0));
 
-
-// Einbinden der Sprachdatei
-$gL10n->addLanguagePath($plugin_path.'/'.$plugin_folder.'/languages');
-
-
 //Begin der Seite
 $headline  = $gL10n->get('AWA_HEADLINE');
 $page = new HtmlPage($headline);
@@ -42,15 +37,9 @@ if(!isAwardsDbInstalled()){
 
 if ($getAwardID<1)
 {
-$page->addHtml("Falscher Seitenaufruf!");
-$page->addHtml('
-        <span class="iconTextLink">
-            <a href="'.ADMIDIO_URL .'/adm_program/system/back.php"><img
-            src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
-            <a href="'.ADMIDIO_URL .'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
-        </span>');
-$page->show();
-exit;
+    $page->addHtml("Falscher Seitenaufruf!");
+    $page->show();
+    exit;
 }
 
 
@@ -84,7 +73,7 @@ else
 	<div class="formLayout" id="edit_awards_form">
 	    <div class="formBody">
 		<div class="formSubmit">
-		    <button id="btnSave" type="submit" name="submit_ok" value="submit_ok"><img src="'. THEME_PATH. '/icons/disk.png" alt="OK"/>&nbsp;OK</button>
+		    <button id="btnSave" type="submit" name="submit_ok" value="submit_ok"><i class="fas fa-trash"></i>&nbsp;OK</button>
 		</div>
 	    </div>
 	</div>
@@ -92,12 +81,6 @@ else
 }
 
 
-$page->addHtml('
-    <span class="iconTextLink">
-        <a href="'.ADMIDIO_URL .'/adm_program/system/back.php"><img
-        src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
-        <a href="'.ADMIDIO_URL .'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
-    </span>');
 
 $page->show();
 ?>

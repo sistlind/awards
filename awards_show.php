@@ -357,11 +357,11 @@ foreach ($awards as $row)
 		if ($gCurrentUser->editUsers() == true && $get_req == 'html')//Ändern/Löschen Buttons für berechtigte User
 		{
 			$tempValue = '';
-			$tempValue .= '<a class="iconLink" href="'.ADMIDIO_URL . FOLDER_PLUGINS .'/'.$plugin_folder.'/awards_delete.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" /></a>';
-			$tempValue .='</a>&nbsp;&nbsp;';
-			$tempValue .='<a class="iconLink" href="'.ADMIDIO_URL . FOLDER_PLUGINS .'/'.$plugin_folder.'/awards_change.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'"/>';
+			$tempValue .= '<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_delete.php?awa_id='.$row['awa_id'].'">';
+			$tempValue .='<i class="fas fa-trash"></i>'.$gL10n->get('AWA_DELETE_HONOR').'</a>';
+			$tempValue .='&nbsp;&nbsp;';
+			$tempValue .='<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_change.php?awa_id='.$row['awa_id'].'">';
+			$tempValue .='<i class="fas fa-edit"></i>'.$gL10n->get('AWA_EDIT_HONOR').'</a>';
 					
 			$columnValues[] = $tempValue;
 		}

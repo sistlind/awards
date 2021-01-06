@@ -24,12 +24,9 @@ if ($awards==false)
 	return;
 }
 
-	//Daten vorhanden, Ehrungen ausgeben!
-	$gL10n->addLanguagePath(SERVER_PATH. '/adm_plugins/awards/languages');
-
-	$page->addHtml('<div class="panel panel-default" id="awards_box">
-				<div class="panel-heading">'.$gL10n->get('AWA_HEADLINE').'&nbsp;</div>
-                <div id="awards_box_body" class="panel-body">');
+	$page->addHtml('<div class="card admidio-field-group" id="awards_box">
+				<div class="card-header">'.$gL10n->get('AWA_HEADLINE').'&nbsp;</div>
+                <div id="awards_box_body" class="card-body">');
 //Tabellenkopf
 unset($PrevCatName);
 foreach($awards as $row)
@@ -48,10 +45,10 @@ foreach($awards as $row)
 	$page->addHtml('<div style="text-align: left;float:left;">');
 	$page->addHtml($row['awa_name']);
 //Multi-Org-Installation?
-	$sql='Select COUNT(*) FROM '.TBL_ORGANIZATIONS;
+	$sql='Select COUNT(*) as count FROM '.TBL_ORGANIZATIONS;
 	$query=$gDb->query($sql);
-	$result=$gDb->fetch_array($query);
-	if($result[0]>1)//only show organisation, if multiple organisations are present
+	$result=$query->fetch();
+	if($result['count']>1)//only show organisation, if multiple organisations are present
 	{
 		$page->addHtml(' ('.$row['awa_org_name'].')');
 	}
@@ -64,8 +61,10 @@ foreach($awards as $row)
 	$page->addHtml($gL10n->get('AWA_SINCE').' '.date('d.m.Y',strtotime($row['awa_date'])).' ');
 	if($gCurrentUser->hasRightEditProfile($user))//Ändern/Löschen Buttons für berechtigte User
 	{
-	 $page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'"><img src="'.THEME_PATH.'/icons/delete.png" alt="'.$gL10n->get('AWA_DELETE_HONOR').'" title="'.$gL10n->get('AWA_DELETE_HONOR').'" /></a>');
-	 $page->addHtml('<a class="iconLink" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'"><img src="'.THEME_PATH.'/icons/edit.png" alt="'.$gL10n->get('AWA_EDIT_HONOR').'" title="'.$gL10n->get('AWA_EDIT_HONOR').'" /></a>');
+	 $page->addHtml('<a class="admidio-icon-link" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'">
+        <i class="fas fa-trash"></i>'.$gL10n->get('AWA_DELETE_HONOR').'</a>');
+	 $page->addHtml('<a class="admidio-icon-link" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'">
+        <i class="fas fa-edit"></i>'.$gL10n->get('AWA_EDIT_HONOR').'</a>');
 	}
 	$page->addHtml('</div>');//Float right
 	$page->addHtml('<div style="clear:both"></div></li>');
