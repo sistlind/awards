@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+  <string name="Awards">Awards</string>
   <string name="AWA_HEADLINE">Awards</string>
   <string name="AWA_INSTALL">Install</string>
   <string name="AWA_HEADLINE_CHANGE">Modify an awards</string>

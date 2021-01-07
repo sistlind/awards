@@ -21,7 +21,7 @@ function isAwardsDbInstalled(){
 $plugin_folder='/'.basename(__DIR__);
 $plugin_path=dirname(__DIR__);
 
-
+	$awa_debug_config_exists ='False';
 if(file_exists($plugin_path.$plugin_folder.'/awards_config.php')) {
 	$awa_debug_config_exists ='True';
 	require_once($plugin_path.$plugin_folder.'/awards_config.php');
@@ -49,8 +49,8 @@ if(isset($plg_debug_enabled) == false || is_numeric($plg_debug_enabled) == false
 }
 if($plg_debug_enabled == 1)//Debug Teil 1!
 {
-	echo '<br>Plugin-Path: '.PLUGIN_PATH.$plugin_folder.'/';
-	echo '<br>Config-Path: '.PLUGIN_PATH.$plugin_folder.'/config.php';
+	echo '<br>Plugin-Path: '.$plugin_path.$plugin_folder.'/';
+	echo '<br>Config-Path: '.$plugin_path.$plugin_folder.'/config.php';
 	echo '<br>Config-exists: '.$awa_debug_config_exists;
 }
 
