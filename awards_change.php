@@ -8,18 +8,7 @@
  *                  
  *****************************************************************************/
  
- // create path to plugin (Besser hier um die awards_common.php auch immer zu erreichen)
-$plugin_folder_pos = strpos(__FILE__, 'adm_plugins') + 11;
-$plugin_file_pos   = strpos(__FILE__, basename(__FILE__));
-$plugin_folder     = substr(__FILE__, $plugin_folder_pos+1, $plugin_file_pos-$plugin_folder_pos-2);
-
-if(!defined('PLUGIN_PATH')) 
-{
-    define('PLUGIN_PATH', substr(__FILE__, 0, $plugin_folder_pos));
-}
- 
-require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
-require_once(PLUGIN_PATH. '/'.$plugin_folder.'/awards_common.php');
+require_once(__DIR__ .'/awards_common.php');
 
 
 

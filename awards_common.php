@@ -7,19 +7,9 @@
  * https://github.com/sistlind/awards
  *                  
  *****************************************************************************/
+require_once(__DIR__ . '/../../adm_program/system/common.php');
+require_once(__DIR__ . '/../../adm_program/system/classes/TableAccess.php');
 
-function getPath($filepath){
-    $plugin_folder_pos = strpos($filepath, 'adm_plugins') + 11;
-    $plugin_file_pos   = strpos($filepath, basename($filepath));
-    $plugin_path       = substr($filepath, 0, $plugin_folder_pos);
-    return $plugin_path;
-}
-function getFolder($filepath){
-    $plugin_folder_pos = strpos($filepath, 'adm_plugins') + 11;
-    $plugin_file_pos   = strpos($filepath, basename($filepath));
-    $plugin_folder     = substr($filepath, $plugin_folder_pos+1, $plugin_file_pos-$plugin_folder_pos-2);
-    return $plugin_folder;
-}
 
 function isAwardsDbInstalled(){
     global $gDb;
@@ -28,13 +18,13 @@ function isAwardsDbInstalled(){
     return ($query->rowcount()===0)?false:true;
 }
 
+$plugin_folder='/'.basename(__DIR__);
+$plugin_path=dirname(__DIR__);
 
-$plugin_folder=getFolder(__FILE__);
-$plugin_path=getPath(__FILE__);
 
-if(file_exists($plugin_path. '/'.$plugin_folder.'/awards_config.php')) {
+if(file_exists($plugin_path.$plugin_folder.'/awards_config.php')) {
 	$awa_debug_config_exists ='True';
-	require_once($plugin_path. '/'.$plugin_folder.'/awards_config.php');
+	require_once($plugin_path.$plugin_folder.'/awards_config.php');
 }
 // pruefen, ob alle Einstellungen in config.php gesetzt wurden
 // falls nicht, hier noch mal die Default-Werte setzen
@@ -59,8 +49,8 @@ if(isset($plg_debug_enabled) == false || is_numeric($plg_debug_enabled) == false
 }
 if($plg_debug_enabled == 1)//Debug Teil 1!
 {
-	echo '<br>Plugin-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/';
-	echo '<br>Config-Path: '.PLUGIN_PATH. '/'.$plugin_folder.'/config.php';
+	echo '<br>Plugin-Path: '.PLUGIN_PATH.$plugin_folder.'/';
+	echo '<br>Config-Path: '.PLUGIN_PATH.$plugin_folder.'/config.php';
 	echo '<br>Config-exists: '.$awa_debug_config_exists;
 }
 
@@ -71,8 +61,6 @@ if($plg_debug_enabled == 1)//Debug Teil 1!
 $tablename=$g_tbl_praefix.'_user_awards';
 define("TBL_USER_AWARDS",$tablename);
 unset($tablename);
-
-require_once(SERVER_PATH. '/adm_program/system/classes/TableAccess.php');
 
 
 

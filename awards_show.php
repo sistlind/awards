@@ -7,12 +7,8 @@
  * https://github.com/sistlind/awards
  *                  
  *****************************************************************************/
-// Pfad des Plugins ermitteln
 
-require_once(substr(__FILE__, 0,strpos(__FILE__, 'adm_plugins')-1).'/adm_program/system/common.php');
-require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
-$plugin_folder='/'.getFolder(__FILE__);
-$plugin_path=getPath(__FILE__);
+require_once(__DIR__ .'/awards_common.php');
 
 
 if($gCurrentUser->editUsers() == false)//%TODO: Berechtigungen

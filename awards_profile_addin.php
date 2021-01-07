@@ -10,7 +10,7 @@
 //Falls Datenbank nicht vorhanden überspringen
 $getUserId = admFuncVariableIsValid($_GET, 'user_id', 'numeric', array('defaultValue' => $gCurrentUser->getValue('usr_id')));
 
-require_once(SERVER_PATH. '/adm_plugins/awards/awards_common.php');
+require_once(__DIR__ .'/awards_common.php');
 
 if(!isAwardsDbInstalled())
 {return;}
