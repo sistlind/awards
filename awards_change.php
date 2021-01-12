@@ -107,7 +107,7 @@ if($plg_debug_enabled == 1)//Debug Teil 2!
 	echo '<br>rolid: '.$POST_award_role_id;
 	echo '<br>leader: '.$POST_award_leader;
 	echo '<br>catid: '.$POST_award_cat_id;
-	echo '<br>nameoldid: '.$POST_award_name_old;
+	echo '<br>nameoldid: '.$POST_award_name_old_id;
 	echo '<br>namenew: '.$POST_award_name_new;
 	echo '<br>info: '.$POST_award_info;
 	echo '<br>date: '.$POST_award_date;

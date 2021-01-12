@@ -1,3 +1,7 @@
+1.1.0(2020-01-12)
+    * Fixed full screen view
+    * Change handling of included files
+    * Fixed php warning in debug mode
 1.0.0(2020-01-06)
     * Compatibility to Admidio v4.0.1
 0.6.0(2018-04-25)

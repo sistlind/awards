@@ -52,4 +52,5 @@
 <!-- Anzeige der Auszeichnungen -->
   <string name="AWA_SHOW_ALL">Show all organizations</string>
   <string name="AWA_FULL_SCREEN">Full screen</string>
+  <string name="AWA_NORMAL_SCREEN">Normal view</string>
 </resources>

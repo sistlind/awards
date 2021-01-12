@@ -15,6 +15,7 @@ if($gCurrentUser->editUsers() == false)//%TODO: Berechtigungen
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
+$gNavigation->addUrl(CURRENT_URL);
 
 $show_all	   = admFuncVariableIsValid($_GET, 'awa_show_all', 'string', array('defaultValue'=> 'false'));
 $get_req       = admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue' => 'html', 'validValues' => array('csv-ms', 'csv-oo', 'html', 'print', 'pdf', 'pdfl' )));
@@ -150,7 +151,7 @@ if ($get_req != 'csv')
 		$page = new HtmlPage($headline);
 		if ($getFullScreen == true)
 		{
-			$page->hideThemeHtml();
+		    $page->setInlineMode();
 		}
 
 		$page->setTitle($title);
@@ -169,7 +170,7 @@ if ($get_req != 'csv')
 		// get module menu
 		if ($getFullScreen == true)
 		{
-            $page->addPageFunctionsMenuItem('menu_item_normal_picture', $gL10n->get('SYS_NORMAL_PICTURE'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=0','fa-compress');
+            $page->addPageFunctionsMenuItem('menu_item_normal_picture', $gL10n->get('AWA_NORMAL_SCREEN'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=0','fa-compress');
 		}
 		else
 		{
