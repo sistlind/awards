@@ -1,3 +1,5 @@
+1.2.0(2020-05-20)
+    * Fixed errors (white screen) while installation
 1.1.0(2020-01-12)
     * Fixed full screen view
     * Change handling of included files
