@@ -28,6 +28,8 @@ $getAwaName    = admFuncVariableIsValid($_GET, 'awa_name', 'string');
 $title = $gL10n->get('AWA_HEADLINE');
 $headline = $gL10n->get('AWA_HEADLINE');
 
+$user = new User($gDb, $gProfileFields);
+
 // initialize some special mode parameters
 $separator   = '';
 $valueQuotes = '';
@@ -339,7 +341,8 @@ foreach ($awards as $row)
 				
 		if ($get_req == 'html' )
 		{
-			$columnValues[] = '<a href="'.ADMIDIO_URL.'/adm_program/modules/profile/profile.php?user_id='.$row['awa_usr_id'].'">'.
+		    $user->readDataById($row['awa_usr_id']);
+		    $columnValues[] = '<a href="'.SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_MODULES.'/profile/profile.php', array('user_uuid' => $user->getValue('usr_uuid'))).'">'.
 					$row['last_name'].', '.$row['first_name'].'</a>';
 		}
 		else 
