@@ -477,7 +477,7 @@ $page->addHtml('    <dt><label for="award_name_new">'.$gL10n->get('AWA_HONOR_NEW
 $page->addHtml('<dl>
                     <dt><label for="award_date">'.$gL10n->get('AWA_HONOR_DATE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
                     <dd>
-                    <input type="text" id="award_date" name="award_date" data-provide="datepicker" data-date-format="dd.mm.yyyy" style="width: 80px;" 
+                    <input type="text" id="award_date" name="award_date" data-provide="datepicker" data-date-format="dd.mm.yyyy" style="width: 90px;" 
                         maxlength="10"  value="'.$POST_award_date.'"  />'.$gL10n->get('AWA_HONOR_DATE_FORMAT').'
                     <span id="calendardiv" style="position: absolute; visibility: hidden;"></span></dd>
                 </dl>
@@ -488,13 +488,6 @@ $page->addHtml('<dl>
     </div>
 </div>
 </form>
-</p>
-<p>
-        <span class="iconTextLink">
-            <a href="'.ADMIDIO_URL.'/adm_program/system/back.php"><img
-            src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
-            <a href="'.ADMIDIO_URL.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
-        </span>
 </p>');
 
 $page->show();
