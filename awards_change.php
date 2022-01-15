@@ -276,7 +276,7 @@ if ($POST_award_role_id>0)
 		unset($POST_award_user_id);
 		$newID+=1;
 		}
-		unset($POST_award_role_id);
+		$POST_award_role_id = 0;
 		//unset($POST_award_cat_id);
 		//unset($POST_award_leader);
 		//unset($POST_award_name_old_id);
@@ -347,58 +347,56 @@ if ($plg_role_enabled ==0)
 {
 	$page->addHtml('</select></dl>');
 }
-
-// Wenn Rollen aktiv entsprechende Felder anzeigen
-if ($plg_role_enabled ==1)
+else                                         // Wenn Rollen aktiv entsprechende Felder anzeigen   
 {
 	$page->addHtml('</select>');
 	
-	//Rollen auflisten
-	$page->addHtml('<dt><label for="award_rol_id">'.$gL10n->get('AWA_ROLE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
-						<dd>');
-	if($EditMode)
+	if($EditMode && !isset($_POST['submit']))
 	{
-		$page->addHtml('<select id="award_role_id" name="award_role_id" disabled>
-						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option>');
+		$page->addHtml('<select id="award_role_id" name="award_role_id" disabled hidden>
+						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option></select>');
 	}
 	else
 	{
+	    //Rollen auflisten
+	    $page->addHtml('<dt><label for="award_rol_id">'.$gL10n->get('AWA_ROLE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
+						<dd>');
+	    
 		$page->addHtml('<select id="award_role_id" name="award_role_id">
 						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option>');
-	}
 	
-    $sql    = 	'SELECT rol_id, rol_name FROM '. TBL_ROLES .' WHERE rol_valid =1';
+        $sql    = 	'SELECT rol_id, rol_name FROM '. TBL_ROLES .' WHERE rol_valid =1';
 
-	if ($plg_cat_id>0)
-	{// Nur Rollen aus bestimmter Kategorien auflisten
-		$sql    .= ' AND rol_cat_id ='.$plg_cat_id;
-	}
+        if ($plg_cat_id>0)
+        {// Nur Rollen aus bestimmter Kategorien auflisten
+            $sql    .= ' AND rol_cat_id ='.$plg_cat_id;
+        }
 
-	$query=$gDb->query($sql);
-	while($row=$query->fetch())
-	{
-		if ($row['rol_id']==$POST_award_role_id)
-		{
+        $query=$gDb->query($sql);
+        while($row=$query->fetch())
+        {
+            if ($row['rol_id']==$POST_award_role_id)
+            {
 			$selected='selected';
-		}else{
+            }else{
 			$selected='';
-		}
-		$page->addHtml('<option value="'.$row['rol_id'].'"'.$selected.'>'.$row['rol_name'].'</option>');
-	}
-	if ($plg_leader_checked == 1)
-	{
-		$page->addHtml('</select><br>
+            }
+            $page->addHtml('<option value="'.$row['rol_id'].'"'.$selected.'>'.$row['rol_name'].'</option>');
+        }
+        if ($plg_leader_checked == 1)
+        {
+            $page->addHtml('</select><br>
 						<label for="award_leader">'.$gL10n->get('AWA_LEADER').':  </label>
-						<input type=checkbox name="award_leader" value="1" checked>
-						</dl>');
-	}
-	else
-	{
-		$page->addHtml('</select><br>
+						<input type=checkbox name="award_leader" value="1" checked>');
+        }
+        else
+        {
+            $page->addHtml('</select><br>
 					<label for="award_leader">'.$gL10n->get('AWA_LEADER').':  </label>
-					<input type=checkbox name="award_leader" value="1">
-					</dl>');
+					<input type=checkbox name="award_leader" value="1">');
+        }
 	}
+	$page->addHtml('</dl>');
 }
 $page->addHtml('<dl><dt><label for="award_cat_id">'.$gL10n->get('AWA_CAT').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
                     <dd>
