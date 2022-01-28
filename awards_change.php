@@ -139,21 +139,21 @@ if (isset($_POST['submit']))
 	//Eingaben OK?
 if (($POST_award_new_id !=$newID) && !($EditMode))
 	{//Doppelter Aufruf?
-	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_DOUBLE_ID').'</p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_ID').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ($plg_role_enabled==1)
 	{
 	if (($POST_award_user_id==0)&&($POST_award_role_id==0) )
 		{//Mitglied oder Rolle Pflicht!
-		$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_USER_OR_ROLE').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER_OR_ROLE').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	if (($POST_award_user_id>0)&&($POST_award_role_id>0) )
 		{//Rolle oder Mitglied - nicht beides!
 		$POST_award_user_id='';
 		$POST_award_role_id='';
-		$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_USER_OR_ROLE').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_USER_OR_ROLE').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	/* Abfrage kollidiert mit Standardwert für leader
@@ -170,28 +170,28 @@ else
 	{
 	if ($POST_award_user_id==0)
 		{//Name Pflicht!
-		$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_USER').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	}
 if ($POST_award_cat_id==0)
 	{//Kategorie Pflicht!
-	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_CAT').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_CAT').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ((strlen($POST_award_name_new)>0)&&($POST_award_name_old_id>0))
 	{//Nur ein Titelfeld füllen!
-	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_DOUBLE_TITLE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_TITLE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ((strlen($POST_award_name_new)<1)&&($POST_award_name_old_id==0))
 	{//Titel Pflicht
-	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_TITLE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_TITLE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if (strlen($POST_award_date)<4)//TODO: Besserer Check
 	{//Datum Pflicht !
-	$ErrorStr.='<p><img src="'. THEME_PATH. '/icons/error_big.png"><font color="#FF0000">'.$gL10n->get('AWA_ERR_NO_DATE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_DATE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if($INPUTOK)
@@ -276,14 +276,14 @@ if ($POST_award_role_id>0)
 		unset($POST_award_user_id);
 		$newID+=1;
 		}
-		unset($POST_award_role_id);
+		$POST_award_role_id = 0;
 		//unset($POST_award_cat_id);
 		//unset($POST_award_leader);
 		//unset($POST_award_name_old_id);
 		//unset($POST_award_name_new);
 		//unset($POST_award_info);
 		//unset($POST_award_date);
-		$page->addHtml('<p><img src="'. THEME_PATH. '/icons/ok.png"><font color="#3ADF00">'.$recordCount.' '.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$recordCount.' '.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
 }
 	}else
 {
@@ -347,58 +347,56 @@ if ($plg_role_enabled ==0)
 {
 	$page->addHtml('</select></dl>');
 }
-
-// Wenn Rollen aktiv entsprechende Felder anzeigen
-if ($plg_role_enabled ==1)
+else                                         // Wenn Rollen aktiv entsprechende Felder anzeigen   
 {
 	$page->addHtml('</select>');
 	
-	//Rollen auflisten
-	$page->addHtml('<dt><label for="award_rol_id">'.$gL10n->get('AWA_ROLE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
-						<dd>');
-	if($EditMode)
+	if($EditMode && !isset($_POST['submit']))
 	{
-		$page->addHtml('<select id="award_role_id" name="award_role_id" disabled>
-						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option>');
+		$page->addHtml('<select id="award_role_id" name="award_role_id" disabled hidden>
+						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option></select>');
 	}
 	else
 	{
+	    //Rollen auflisten
+	    $page->addHtml('<dt><label for="award_rol_id">'.$gL10n->get('AWA_ROLE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
+						<dd>');
+	    
 		$page->addHtml('<select id="award_role_id" name="award_role_id">
 						<option value="0">'.$gL10n->get('AWA_ROLE_SELECT').'</option>');
-	}
 	
-    $sql    = 	'SELECT rol_id, rol_name FROM '. TBL_ROLES .' WHERE rol_valid =1';
+        $sql    = 	'SELECT rol_id, rol_name FROM '. TBL_ROLES .' WHERE rol_valid =1';
 
-	if ($plg_cat_id>0)
-	{// Nur Rollen aus bestimmter Kategorien auflisten
-		$sql    .= ' AND rol_cat_id ='.$plg_cat_id;
-	}
+        if ($plg_cat_id>0)
+        {// Nur Rollen aus bestimmter Kategorien auflisten
+            $sql    .= ' AND rol_cat_id ='.$plg_cat_id;
+        }
 
-	$query=$gDb->query($sql);
-	while($row=$query->fetch())
-	{
-		if ($row['rol_id']==$POST_award_role_id)
-		{
+        $query=$gDb->query($sql);
+        while($row=$query->fetch())
+        {
+            if ($row['rol_id']==$POST_award_role_id)
+            {
 			$selected='selected';
-		}else{
+            }else{
 			$selected='';
-		}
-		$page->addHtml('<option value="'.$row['rol_id'].'"'.$selected.'>'.$row['rol_name'].'</option>');
-	}
-	if ($plg_leader_checked == 1)
-	{
-		$page->addHtml('</select><br>
+            }
+            $page->addHtml('<option value="'.$row['rol_id'].'"'.$selected.'>'.$row['rol_name'].'</option>');
+        }
+        if ($plg_leader_checked == 1)
+        {
+            $page->addHtml('</select><br>
 						<label for="award_leader">'.$gL10n->get('AWA_LEADER').':  </label>
-						<input type=checkbox name="award_leader" value="1" checked>
-						</dl>');
-	}
-	else
-	{
-		$page->addHtml('</select><br>
+						<input type=checkbox name="award_leader" value="1" checked>');
+        }
+        else
+        {
+            $page->addHtml('</select><br>
 					<label for="award_leader">'.$gL10n->get('AWA_LEADER').':  </label>
-					<input type=checkbox name="award_leader" value="1">
-					</dl>');
+					<input type=checkbox name="award_leader" value="1">');
+        }
 	}
+	$page->addHtml('</dl>');
 }
 $page->addHtml('<dl><dt><label for="award_cat_id">'.$gL10n->get('AWA_CAT').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
                     <dd>
@@ -477,7 +475,7 @@ $page->addHtml('    <dt><label for="award_name_new">'.$gL10n->get('AWA_HONOR_NEW
 $page->addHtml('<dl>
                     <dt><label for="award_date">'.$gL10n->get('AWA_HONOR_DATE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
                     <dd>
-                    <input type="text" id="award_date" name="award_date" data-provide="datepicker" data-date-format="dd.mm.yyyy" style="width: 80px;" 
+                    <input type="text" id="award_date" name="award_date" data-provide="datepicker" data-date-format="dd.mm.yyyy" style="width: 90px;" 
                         maxlength="10"  value="'.$POST_award_date.'"  />'.$gL10n->get('AWA_HONOR_DATE_FORMAT').'
                     <span id="calendardiv" style="position: absolute; visibility: hidden;"></span></dd>
                 </dl>
@@ -488,13 +486,6 @@ $page->addHtml('<dl>
     </div>
 </div>
 </form>
-</p>
-<p>
-        <span class="iconTextLink">
-            <a href="'.ADMIDIO_URL.'/adm_program/system/back.php"><img
-            src="'. THEME_PATH. '/icons/back.png" alt="'.$gL10n->get('SYS_BACK').'" /></a>
-            <a href="'.ADMIDIO_URL.'/adm_program/system/back.php">'.$gL10n->get('SYS_BACK').'</a>
-        </span>
 </p>');
 
 $page->show();

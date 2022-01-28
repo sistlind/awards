@@ -8,23 +8,25 @@
  *                  
  *****************************************************************************/
 //Falls Datenbank nicht vorhanden überspringen
-$getUserId = admFuncVariableIsValid($_GET, 'user_id', 'numeric', array('defaultValue' => $gCurrentUser->getValue('usr_id')));
+$getUserUuid   = admFuncVariableIsValid($_GET, 'user_uuid', 'string', array('defaultValue' => $gCurrentUser->getValue('usr_uuid')));
 
 require_once(__DIR__ .'/awards_common.php');
 
 if(!isAwardsDbInstalled())
 {return;}
-//Ehrungen aus Datenbank laden
-$awards=awa_load_awards($getUserId,true);
 
-$user = new User($gDb, $gProfileFields, $getUserId);
+$user = new User($gDb, $gProfileFields);
+$user->readDataByUuid($getUserUuid);
+
+//Ehrungen aus Datenbank laden
+$awards=awa_load_awards($user->getValue('usr_id'),true);
 
 if ($awards==false)
 {
 	return;
 }
 
-	$page->addHtml('<div class="card admidio-field-group" id="awards_box">
+$page->addHtml('<div class="card admidio-field-group" id="awards_box">
 				<div class="card-header">'.$gL10n->get('AWA_HEADLINE').'&nbsp;</div>
                 <div id="awards_box_body" class="card-body">');
 //Tabellenkopf
@@ -62,9 +64,9 @@ foreach($awards as $row)
 	if($gCurrentUser->hasRightEditProfile($user))//Ändern/Löschen Buttons für berechtigte User
 	{
 	 $page->addHtml('<a class="admidio-icon-link" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'">
-        <i class="fas fa-trash"></i>'.$gL10n->get('AWA_DELETE_HONOR').'</a>');
+        <i class="fas fa-trash" data-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>');
 	 $page->addHtml('<a class="admidio-icon-link" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'">
-        <i class="fas fa-edit"></i>'.$gL10n->get('AWA_EDIT_HONOR').'</a>');
+        <i class="fas fa-edit" data-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>');
 	}
 	$page->addHtml('</div>');//Float right
 	$page->addHtml('<div style="clear:both"></div></li>');
