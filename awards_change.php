@@ -3,14 +3,12 @@
  * Awards
  *
  * Diese Plugin ordnet Mitgliedern Ehrungen/Auszeichnungen/Lehrgänge zu
- * 
+ *
  * https://github.com/sistlind/awards
- *                  
+ *
  *****************************************************************************/
- 
+
 require_once(__DIR__ .'/awards_common.php');
-
-
 
 
 //Berechtigung checken
@@ -25,7 +23,7 @@ if ($getAwardID > 0)
 {
     $EditMode=True;
 }else
-{   
+{
     $EditMode=False;
 }
 
@@ -438,14 +436,24 @@ $query=$gDb->query($sql);
 $awardoldnames=array();
 if($query != false){
     while($sqlrow=$query->fetch())
-	    {
-          //  echo $sqlrow[0];
-           if(preg_match('/"'.preg_quote($sqlrow['awa_name'], '/').'"/i' , json_encode($awardoldnames)))
-           {
-            //skip existing entries
+         {
+           //echo "<pre>";
+	   //print_r( $sqlrow);
+           //print_r ($awardoldnames);
+           //echo json_encode($awardoldnames);
+           //echo "----------------------------------";
+	   //echo "</pre>";
+           $skip=False;
+           foreach ($awardoldnames as $entry)
+	   {
+              if ($sqlrow['awa_name']==$entry['awa_name']) 
+                {
+                 $skip=True;
+                 break;
+                }
            }
-           else{
-               $awardoldnames[]=$sqlrow;
+           if (!$skip){
+           	$awardoldnames[]=$sqlrow;
            }
         }
 }
