@@ -28,6 +28,8 @@ $getAwaName    = admFuncVariableIsValid($_GET, 'awa_name', 'string');
 $title = $gL10n->get('AWA_HEADLINE');
 $headline = $gL10n->get('AWA_HEADLINE');
 
+$user = new User($gDb, $gProfileFields);
+
 // initialize some special mode parameters
 $separator   = '';
 $valueQuotes = '';
@@ -339,7 +341,8 @@ foreach ($awards as $row)
 				
 		if ($get_req == 'html' )
 		{
-			$columnValues[] = '<a href="'.ADMIDIO_URL.'/adm_program/modules/profile/profile.php?user_id='.$row['awa_usr_id'].'">'.
+		    $user->readDataById($row['awa_usr_id']);
+		    $columnValues[] = '<a href="'.SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_MODULES.'/profile/profile.php', array('user_uuid' => $user->getValue('usr_uuid'))).'">'.
 					$row['last_name'].', '.$row['first_name'].'</a>';
 		}
 		else 
@@ -355,11 +358,11 @@ foreach ($awards as $row)
 		{
 			$tempValue = '';
 			$tempValue .= '<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_delete.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<i class="fas fa-trash"></i>'.$gL10n->get('AWA_DELETE_HONOR').'</a>';
+			$tempValue .='<i class="fas fa-trash" data-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>';
 			$tempValue .='&nbsp;&nbsp;';
 			$tempValue .='<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_change.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<i class="fas fa-edit"></i>'.$gL10n->get('AWA_EDIT_HONOR').'</a>';
-					
+			$tempValue .='<i class="fas fa-edit" data-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>';
+			             
 			$columnValues[] = $tempValue;
 		}
 	}
@@ -417,7 +420,7 @@ if ($get_req == 'csv')
 	ob_clean();
 	ob_flush();
 	flush();
-	if ($charset == 'ISO-8859-1')
+	if ($charset == 'iso-8859-1')
 	{
 		echo utf8_decode($CSVstr);
 	}

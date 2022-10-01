@@ -14,7 +14,7 @@ require_once(__DIR__ .'/awards_common.php');
 $gNavigation->clear();
 $gNavigation->addUrl(CURRENT_URL);
 
-if($gCurrentUser->isWebmaster() == false)//%TODO: Berechtigungen
+if($gCurrentUser->isAdministrator() == false)//%TODO: Berechtigungen
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
@@ -32,8 +32,8 @@ if(isAwardsDbInstalled($gDb)){//Datenbank vorhanden
 	//$sql='DROP TABLE '.TBL_USER_AWARDS;
 	//$result=$gDb->query($sql);
 } else {//Datenbank nicht vorhanden
-
-	$page->addHtml('<p>'.$gL10n->get('AWA_INSTALL_DB_NOT_READY',TBL_USER_AWARDS).'</p>'); 
+    
+    $page->addHtml('<p>'.$gL10n->get('AWA_INSTALL_DB_NOT_READY', array(TBL_USER_AWARDS)).'</p>'); 
 	$page->addHtml('<p>'.$gL10n->get('AWA_INSTALL_CREATE_DB').'</p>'); 
 
 	$sql='CREATE TABLE '.TBL_USER_AWARDS.'

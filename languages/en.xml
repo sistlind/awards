@@ -37,7 +37,8 @@
   <string name="AWA_ERR_NO_DB">Database not found</string>
   <string name="AWA_ERR_DOUBLE_ID">ID already exists, page refresh?</string>
   <string name="AWA_ERR_NO_USER">Select a member!</string>
-  <string name="AWA_ERR_USER_OR_ROLE">Select member or role!</string>
+  <string name="AWA_ERR_NO_USER_OR_ROLE">Select member or role!</string>
+  <string name="AWA_ERR_USER_OR_ROLE">Select either member or role! (not both at the same time)</string>
   <string name="AWA_ERR_NO_CAT">Select a category!</string>
   <string name="AWA_ERR_DOUBLE_TITLE">Use either a new title, or an old one, not both!</string>
   <string name="AWA_ERR_NO_TITLE">You have to set a title!</string>
