@@ -397,7 +397,7 @@ foreach ($awards as $row)
 // Settings for export file
 if ($get_req == 'csv' || $get_req == 'pdf')
 {
-	$filename = $g_organization. '-'.$gL10n->get('AWA_DOWNLOAD_NAME').'_'.date('Ymd_Hm');
+	$filename = $gCurrentOrganization->getValue('org_shortname'). '-'.$gL10n->get('AWA_DOWNLOAD_NAME').'_'.date('Ymd_Hm');
 	$filename .= '.'.$get_req;
 
 	// for IE the filename must have special chars in hexadecimal
