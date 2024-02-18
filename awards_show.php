@@ -88,16 +88,16 @@ if($get_req == 'html' && strpos($gNavigation->getUrl(), 'awards_show.php') === f
 	$gNavigation->addUrl(CURRENT_URL);
 }
 
-
+$page = new HtmlPage($headline);
 if ($get_req != 'csv')
 {
 	$datatable = false;
 	$hoverRows = false;
 
+
 	if ($get_req == 'print')
 	{
 		// create html page object without the custom theme files
-		$page = new HtmlPage('awa_show_page_id',$headline);
 		$page->setInlineMode();
 		$page->setPrintMode();
 
@@ -107,7 +107,7 @@ if ($get_req != 'csv')
 	}
 	elseif ($get_req == 'pdf')
 	{
-		require_once(ADMIDIO_PATH. FOLDER_LIBS_SERVER .'/tcpdf/tcpdf.php');
+		require_once(ADMIDIO_PATH. FOLDER_LIBS_SERVER .'/tecnickcom/tcpdf/tcpdf.php');
 		$pdf = new TCPDF($orientation, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 		// set document information
@@ -130,7 +130,7 @@ if ($get_req != 'csv')
 		$pdf->SetFooterMargin(0);
 
 		//headline for PDF
-		$pdf->SetHeaderData('', '', $headline, '');
+		$pdf->SetHeaderData('', 0, $headline, '');
 
 		// set font
 		$pdf->SetFont('times', '', 10);
@@ -139,7 +139,7 @@ if ($get_req != 'csv')
 		$pdf->AddPage();
 
 		// Create table object for display
-		$table = new HtmlTable('adm_lists_table', null, $hoverRows, $datatable, $classTable);
+		$table = new HtmlTable('adm_lists_table', $page, $hoverRows, $datatable, $classTable);
 		$table->addAttribute('border', '1');
 		$table->addTableHeader();
 		$table->addRow();
@@ -149,8 +149,6 @@ if ($get_req != 'csv')
 		$datatable = true;
 		$hoverRows = true;
 
-		// create html page object
-		$page = new HtmlPage($headline);
 		if ($getFullScreen == true)
 		{
 		    $page->setInlineMode();
@@ -198,7 +196,7 @@ if ($get_req != 'csv')
         $page->addPageFunctionsMenuItem('awa_item_lists_pdfl', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_LANDSCAPE').')',$export_link.'=pdfl','fa-file-pdf','awa_item_lists_export');
         $page->addPageFunctionsMenuItem('awa_item_lists_csv', $gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')',$export_link.'=csv-oo','fa-file-pdf', 'awa_item_lists_export');
 
-		$filterNavbar = new HtmlNavbar('menu_list_filter', null, null, 'filter');
+		$filterNavbar = new HtmlNavbar('menu_list_filter', 'show_awards', null, 'filter');
 			
 		$form = new HtmlForm('navbar_filter_form', ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/awards_show.php', $page, array('type' => 'navbar', 'setFocus' => false));
 		$form->addInput('filter', '', $getFilter);
@@ -224,7 +222,8 @@ if ($get_req != 'csv')
 		$page->addHtml($filterNavbar->show());
 
 		$table = new HtmlTable('adm_lists_table', $page, $hoverRows, $datatable, $classTable);
-		$table->setDatatablesRowsPerPage($gSettingsManager->getInt('members_users_per_page'));
+		#$table->setDatatablesRowsPerPage($gSettingsManager->getInt('members_users_per_page'));
+
 	}
 	else
 	{
@@ -389,7 +388,7 @@ foreach ($awards as $row)
 		}
 		else
 		{
-			$table->addRowByArray($columnValues, null, array('nobr' => 'true'));
+			$table->addRowByArray($columnValues, 'show_awards', array('nobr' => 'true'));
 		}
 	}
 }
