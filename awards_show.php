@@ -92,6 +92,7 @@ if($get_req == 'html' && strpos($gNavigation->getUrl(), 'awards_show.php') === f
 }
 
 $page = new HtmlPage($headline);
+$page->setContentFullWidth(); 
 if ($get_req != 'csv')
 {
 	$datatable = false;
