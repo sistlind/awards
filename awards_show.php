@@ -174,31 +174,31 @@ if ($get_req != 'csv')
 		// get module menu
 		if ($getFullScreen == true)
 		{
-            $page->addPageFunctionsMenuItem('menu_item_normal_picture', $gL10n->get('AWA_NORMAL_SCREEN'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=0','fa-compress');
+            $page->addPageFunctionsMenuItem('menu_item_normal_picture', $gL10n->get('AWA_NORMAL_SCREEN'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=0','bi-fullscreen-exit');
 		}
 		else
 		{
-            $page->addPageFunctionsMenuItem('menu_item_full_screen', $gL10n->get('AWA_FULL_SCREEN'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=1','fa-expand');
+            $page->addPageFunctionsMenuItem('menu_item_full_screen', $gL10n->get('AWA_FULL_SCREEN'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=1','bi-fullscreen');
 		}
 		 
-         $page->addPageFunctionsMenuItem('menu_item_print_view', $gL10n->get('SYS_PRINT_PREVIEW'),'javascript:void(0);','fa-print');
+         $page->addPageFunctionsMenuItem('menu_item_print_view', $gL10n->get('SYS_PRINT_PREVIEW'),'javascript:void(0);','bi-printer');
 		 
 		if ($show_all == true)
 		{ 
-            $page->addPageFunctionsMenuItem('awa_show_only_my_org', $gL10n->get('AWA_SHOW_ALL'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=0','fa-check-square');
+            $page->addPageFunctionsMenuItem('awa_show_only_my_org', $gL10n->get('AWA_SHOW_ALL'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=0','bi-check-square');
 		}
 		else
 		{
-            $page->addPageFunctionsMenuItem('awa_show_all', $gL10n->get('AWA_SHOW_ALL'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=1','fa-square');
+            $page->addPageFunctionsMenuItem('awa_show_all', $gL10n->get('AWA_SHOW_ALL'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=1','bi-square');
 		}
 		
         // dropdown menu item with all export possibilities
-        $page->addPageFunctionsMenuItem('awa_item_lists_export', $gL10n->get('SYS_EXPORT'), '#', 'fa-file-download');
+        $page->addPageFunctionsMenuItem('awa_item_lists_export', $gL10n->get('SYS_EXPORT'), '#', 'bi-download');
         $export_link=ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=0&amp;export_mode';
-        $page->addPageFunctionsMenuItem('awa_item_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'),$export_link.'=csv-ms','fa-file-excel', 'awa_item_lists_export');
-        $page->addPageFunctionsMenuItem('awa_item_lists_pdf', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_PORTRAIT').')',$export_link.'=pdf','fa-file-pdf', 'awa_item_lists_export');
-        $page->addPageFunctionsMenuItem('awa_item_lists_pdfl', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_LANDSCAPE').')',$export_link.'=pdfl','fa-file-pdf','awa_item_lists_export');
-        $page->addPageFunctionsMenuItem('awa_item_lists_csv', $gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')',$export_link.'=csv-oo','fa-file-pdf', 'awa_item_lists_export');
+        $page->addPageFunctionsMenuItem('awa_item_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'),$export_link.'=csv-ms','bi-file-earmark-excel', 'awa_item_lists_export');
+        $page->addPageFunctionsMenuItem('awa_item_lists_pdf', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_PORTRAIT').')',$export_link.'=pdf','bi-file-earmark-pdf', 'awa_item_lists_export');
+        $page->addPageFunctionsMenuItem('awa_item_lists_pdfl', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_LANDSCAPE').')',$export_link.'=pdfl','bi-file-earmark-pdf','awa_item_lists_export');
+        $page->addPageFunctionsMenuItem('awa_item_lists_csv', $gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')',$export_link.'=csv-oo','bi-filetype-csv', 'awa_item_lists_export');
 
 		$filterNavbar = new HtmlNavbar('menu_list_filter', 'show_awards', null, 'filter');
 			
@@ -361,10 +361,10 @@ foreach ($awards as $row)
 		{
 			$tempValue = '';
 			$tempValue .= '<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_delete.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<i class="fas fa-trash" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>';
+			$tempValue .='<i class="bi bi-trash" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>';
 			$tempValue .='&nbsp;&nbsp;';
 			$tempValue .='<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_change.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<i class="fas fa-edit" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>';
+			$tempValue .='<i class="fas bi-pencil-square" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>';
 			             
 			$columnValues[] = $tempValue;
 		}

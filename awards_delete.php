@@ -75,7 +75,7 @@ else
 	<div class="formLayout" id="edit_awards_form">
 	    <div class="formBody">
 		<div class="formSubmit">
-		    <button id="btnSave" type="submit" name="submit_ok" value="submit_ok"><i class="fas fa-trash"></i>&nbsp;OK</button>
+		    <button id="btnSave" type="submit" name="submit_ok" value="submit_ok"><i class="bi bi-trash"></i>&nbsp;OK</button>
 		</div>
 	    </div>
 	</div>

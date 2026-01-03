@@ -139,21 +139,21 @@ if (isset($_POST['submit']))
 	//Eingaben OK?
 if (($POST_award_new_id !=$newID) && !($EditMode))
 	{//Doppelter Aufruf?
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_ID').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_ID').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ($plg_role_enabled==1)
 	{
 	if (($POST_award_user_id==0)&&($POST_award_role_id==0) )
 		{//Mitglied oder Rolle Pflicht!
-		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER_OR_ROLE').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER_OR_ROLE').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	if (($POST_award_user_id>0)&&($POST_award_role_id>0) )
 		{//Rolle oder Mitglied - nicht beides!
 		$POST_award_user_id='';
 		$POST_award_role_id='';
-		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_USER_OR_ROLE').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_USER_OR_ROLE').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	/* Abfrage kollidiert mit Standardwert für leader
@@ -170,28 +170,28 @@ else
 	{
 	if ($POST_award_user_id==0)
 		{//Name Pflicht!
-		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	}
 if ($POST_award_cat_id==0)
 	{//Kategorie Pflicht!
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_CAT').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_CAT').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ((strlen($POST_award_name_new)>0)&&($POST_award_name_old_id>0))
 	{//Nur ein Titelfeld füllen!
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_TITLE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_TITLE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ((strlen($POST_award_name_new)<1)&&($POST_award_name_old_id==0))
 	{//Titel Pflicht
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_TITLE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_TITLE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if (strlen($POST_award_date)<4)//TODO: Besserer Check
 	{//Datum Pflicht !
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_DATE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_DATE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if($INPUTOK)
@@ -224,13 +224,13 @@ if ($POST_award_user_id>0)
 	$NewAWAObj->save();
 	$page->addHtml('<h2>'.$gL10n->get('AWA_SUCCESS').'</h2>');
 	if (!$EditMode){
-		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="bi bi-check-circle-fill"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
 		$page->addHtml('<h2>'.$gL10n->get('AWA_NEXT_ENTRY').'</h2>');
 		unset($POST_award_user_id);
 		$newID+=1;
 	}else
 	{
-		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_CHANGE').'</font></p>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="bi bi-check-circle-fill"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_CHANGE').'</font></p>');
 		$page->addHtml('<h2>'.$gL10n->get('AWA_NEXT_ENTRY').'</h2>');
 	}
 }
@@ -283,7 +283,7 @@ if ($POST_award_role_id>0)
 		//unset($POST_award_name_new);
 		//unset($POST_award_info);
 		//unset($POST_award_date);
-		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$recordCount.' '.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="bi bi-check-circle-fill"></i>&nbsp;'.$recordCount.' '.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
 }
 	}else
 {
@@ -491,7 +491,7 @@ $page->addHtml('<dl>
                 </dl>
             
 <div class="formSubmit">
-            <button id="btnSave" type="submit" name="submit" value="submit"><i class="fas fa-save"></i>&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
+            <button id="btnSave" type="submit" name="submit" value="submit"><i class="bi bi-save"></i>&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
         </div>
     </div>
 </div>
