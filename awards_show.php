@@ -192,7 +192,7 @@ if ($get_req != 'csv')
 		}
 		
         // dropdown menu item with all export possibilities
-        $page->addPageFunctionsMenuItem('awa_item_lists_export', $gL10n->get('SYS_EXPORT_TO'), '#', 'fa-file-download');
+        $page->addPageFunctionsMenuItem('awa_item_lists_export', $gL10n->get('SYS_EXPORT'), '#', 'fa-file-download');
         $export_link=ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=0&amp;export_mode';
         $page->addPageFunctionsMenuItem('awa_item_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'),$export_link.'=csv-ms','fa-file-excel', 'awa_item_lists_export');
         $page->addPageFunctionsMenuItem('awa_item_lists_pdf', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_PORTRAIT').')',$export_link.'=pdf','fa-file-pdf', 'awa_item_lists_export');
