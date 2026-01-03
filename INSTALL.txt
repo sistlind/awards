@@ -13,7 +13,7 @@ ACHTUNG: Die Kategorienbearbeitung funktioniert wegen eines Bugs nicht mit der A
 3.) Menü konfigurieren, folgende Links im Menü hinzufügen:
 	Ehrungen anzeigen -> /adm_plugins/awards/awards_show.php
 	Ehrungen zuweisen -> /adm_plugins/awards/awards_change.php
-	Ehrungskategorien bearbeiten -> /adm_program/modules/categories/categories.php?type=AWA
+	Ehrungskategorien bearbeiten -> /adm_program/modules/categories.php?type=AWA
 4.) Um die Ehrungen auch auf den Profilseiten anzuzeigen muss die Codezeile:
     "include_once(ADMIDIO_PATH . FOLDER_PLUGINS .'/awards/awards_profile_addin.php');"
     Am Ende der Datei adm_program/modules/profile/profile.php VOR $page->show(); eingefügt werden.

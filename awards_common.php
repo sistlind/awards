@@ -7,8 +7,8 @@
  * https://github.com/sistlind/awards
  *                  
  *****************************************************************************/
-require_once(__DIR__ . '/../../adm_program/system/common.php');
-require_once(__DIR__ . '/../../adm_program/system/classes/TableAccess.php');
+require_once(__DIR__ . '/../../system/common.php');
+//require_once(__DIR__ . '/../../system/classes/TableAccess.php');
 
 
 function isAwardsDbInstalled(){
