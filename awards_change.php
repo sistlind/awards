@@ -29,13 +29,17 @@ if ($getAwardID > 0)
     $EditMode=False;
 }
 
-$gNavigation->addUrl(CURRENT_URL);
-
 if($EditMode)
 {
-	$headline = $gL10n->get('AWA_HEADLINE_CHANGE');
+	$headline = $gL10n->get('AWA_EDIT_HONOR');
+	if(strpos($gNavigation->getUrl(), 'awards_change.php') === false)
+	{
+	    $gNavigation->addUrl(CURRENT_URL, $headline);
+	}
 }else{
 	$headline = $gL10n->get('AWA_HEADLINE');
+	$gNavigation->addStartUrl(CURRENT_URL, $headline, 'bi-award');
+	
 }
 
 $page = new HtmlPage($headline);

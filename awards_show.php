@@ -18,7 +18,7 @@ if($gCurrentUser->isAdministratorUsers() == false)//%TODO: Berechtigungen
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
-$gNavigation->addUrl(CURRENT_URL);
+//$gNavigation->addUrl(CURRENT_URL);
 
 $show_all	   = admFuncVariableIsValid($_GET, 'awa_show_all', 'string', array('defaultValue'=> 'false'));
 $get_req       = admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue' => 'html', 'validValues' => array('csv-ms', 'csv-oo', 'html', 'print', 'pdf', 'pdfl' )));
@@ -88,7 +88,7 @@ $CSVstr = '';   // enthaelt die komplette CSV-Datei als String
 // if html mode and last url was not a list view then save this url to navigation stack
 if($get_req == 'html' && strpos($gNavigation->getUrl(), 'awards_show.php') === false)
 {
-	$gNavigation->addUrl(CURRENT_URL);
+    $gNavigation->addStartUrl(CURRENT_URL, $title, 'bi-award');
 }
 
 $page = new HtmlPage($headline);
@@ -200,7 +200,8 @@ if ($get_req != 'csv')
         $page->addPageFunctionsMenuItem('awa_item_lists_pdfl', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_LANDSCAPE').')',$export_link.'=pdfl','bi-file-earmark-pdf','awa_item_lists_export');
         $page->addPageFunctionsMenuItem('awa_item_lists_csv', $gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')',$export_link.'=csv-oo','bi-filetype-csv', 'awa_item_lists_export');
 
-		$filterNavbar = new HtmlNavbar('menu_list_filter', 'show_awards', null, 'filter');
+	//	$filterNavbar = new HtmlNavbar('menu_list_filter', 'show_awards', null, 'filter');
+		$filterNavbar = new HtmlNavbar('menu_list_filter', '', null, 'filter');
 			
 		$form = new HtmlForm('navbar_filter_form', ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/awards_show.php', $page, array('type' => 'navbar', 'setFocus' => false));
 		$form->addInput('filter', '', $getFilter);

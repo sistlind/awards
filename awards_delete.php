@@ -21,10 +21,14 @@ if($gCurrentUser->isAdministratorUsers() == false)
 $getAwardID  = admFuncVariableIsValid($_GET, 'awa_id', 'numeric', array('defaultValue' => 0));
 
 //Begin der Seite
-$headline  = $gL10n->get('AWA_HEADLINE');
+$headline  = $gL10n->get('AWA_DELETE_HONOR');
+
+if(strpos($gNavigation->getUrl(), 'awards_delete.php') === false)
+{
+    $gNavigation->addUrl(CURRENT_URL, $headline);
+}
+
 $page = new HtmlPage($headline);
-
-
 
 //Falls Datenbank nicht vorhanden Install-Skript starten
 if(!isAwardsDbInstalled()){
@@ -36,7 +40,6 @@ if(!isAwardsDbInstalled()){
 	return;
 }
 
-
 if ($getAwardID<1)
 {
     $page->addHtml("Falscher Seitenaufruf!");
@@ -44,11 +47,11 @@ if ($getAwardID<1)
     exit;
 }
 
-
-
 $NewAWAObj = new Entity($gDb, $g_tbl_praefix.'_user_awards', 'awa', $getAwardID);
 
-$userobj= new User($gDb, $gProfileFields,$NewAWAObj->getValue('awa_usr_id'));
+// toDo: Error-Handling einbauen; wenn durch den User nach dem Löschen im Browserverlauf zurückgegangen wird, wird das Script mit derselben awa_id nochmals aufgerufen,
+// dies erzeugt einen Fehler, da die Ehrung ja bereits gelöscht wurde; Interimslösung: (int) in der nächsten Zeile --> sollte aber besser gelöst werden
+$userobj= new User($gDb, $gProfileFields,(int) $NewAWAObj->getValue('awa_usr_id'));
 
 if (isset($_POST['submit_ok']))
 {
@@ -62,7 +65,6 @@ if (isset($_POST['submit_ok']))
 }
 else
 {
-	$gNavigation->addUrl(CURRENT_URL);
 	$page->addHtml('Ehrung vom '.$NewAWAObj->getValue('awa_date').': <b>'.$NewAWAObj->getValue('awa_name'));
 	if (strlen($NewAWAObj->getValue('awa_info'))>0)
 	{
