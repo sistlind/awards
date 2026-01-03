@@ -8,10 +8,13 @@
  *                  
  *****************************************************************************/
 
+use Admidio\Infrastructure\Utils\SecurityUtils;
+use Admidio\Users\Entity\User;
+
 require_once(__DIR__ .'/awards_common.php');
 
 
-if($gCurrentUser->editUsers() == false)//%TODO: Berechtigungen
+if($gCurrentUser->isAdministratorUsers() == false)//%TODO: Berechtigungen
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
@@ -294,7 +297,7 @@ elseif ($get_req == 'html' || $get_req == 'print')
 	$columnAlign[]  = 'left';
 	$columnValues[] = $gL10n->get('AWA_HONOR_INFO');
 	
-	if ($gCurrentUser->editUsers() == true && $get_req == 'html')    //Ändern/Löschen Buttons für berechtigte User
+	if ($gCurrentUser->isAdministratorUsers() == true && $get_req == 'html')    //Ändern/Löschen Buttons für berechtigte User
 	{
 		$columnAlign[]  = 'center';
 		$columnValues[] = '&nbsp;';
@@ -353,7 +356,7 @@ foreach ($awards as $row)
 		$columnValues[] = $row['awa_name'];
 		$columnValues[] = $row['awa_info'];
 				
-		if ($gCurrentUser->editUsers() == true && $get_req == 'html')//Ändern/Löschen Buttons für berechtigte User
+		if ($gCurrentUser->isAdministratorUsers() == true && $get_req == 'html')//Ändern/Löschen Buttons für berechtigte User
 		{
 			$tempValue = '';
 			$tempValue .= '<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_delete.php?awa_id='.$row['awa_id'].'">';

@@ -7,10 +7,13 @@
  * https://github.com/sistlind/awards
  *                  
  *****************************************************************************/
+use Admidio\Infrastructure\Entity\Entity;
+use Admidio\Users\Entity\User;
+
 require_once(__DIR__ .'/awards_common.php');
 
 //Berechtigung checken
-if($gCurrentUser->editUsers() == false)
+if($gCurrentUser->isAdministratorUsers() == false)
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
@@ -43,7 +46,7 @@ if ($getAwardID<1)
 
 
 
-$NewAWAObj = new TableAccess($gDb, $g_tbl_praefix.'_user_awards', 'awa', $getAwardID);
+$NewAWAObj = new Entity($gDb, $g_tbl_praefix.'_user_awards', 'awa', $getAwardID);
 
 $userobj= new User($gDb, $gProfileFields,$NewAWAObj->getValue('awa_usr_id'));
 

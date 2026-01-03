@@ -8,11 +8,13 @@
  *
  *****************************************************************************/
 
+use Admidio\Infrastructure\Entity\Entity;
+
 require_once(__DIR__ .'/awards_common.php');
 
 
 //Berechtigung checken
-if($gCurrentUser->editUsers() == false)
+if($gCurrentUser->isAdministratorUsers() == false)
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
@@ -64,7 +66,7 @@ if(!isAwardsDbInstalled()){
 
 if($EditMode && !isset($_POST['submit']))
 {
-	$AWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
+	$AWAObj = new Entity($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
 	$POST_award_user_id=$AWAObj->getValue('awa_usr_id');
 	$POST_award_cat_id=$AWAObj->getValue('awa_cat_id');
 	$POST_award_name_new=$AWAObj->getValue('awa_name');
@@ -200,10 +202,10 @@ if ($POST_award_user_id>0)
 {
 	if($EditMode)
 	{
-		$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
+		$NewAWAObj = new Entity($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
 	}else
 	{
-		$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa');
+		$NewAWAObj = new Entity($gDb, TBL_USER_AWARDS.' ', 'awa');
 	}
 	$NewAWAObj->setValue('awa_cat_id',$POST_award_cat_id);
 	$NewAWAObj->setValue('awa_org_id',$gCurrentOrganization->getValue('org_id'));
@@ -254,7 +256,7 @@ if ($POST_award_role_id>0)
 		{//TODO: direkt in einer Datenbankabfrage ohne schleife !
 		$POST_award_user_id = $row['mem_usr_id'];
 		
-		$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa');
+		$NewAWAObj = new Entity($gDb, TBL_USER_AWARDS.' ', 'awa');
 		$NewAWAObj->setValue('awa_cat_id',$POST_award_cat_id);
 		$NewAWAObj->setValue('awa_org_id',$gCurrentOrganization->getValue('org_id'));
 		$NewAWAObj->setValue('awa_usr_id',$POST_award_user_id);

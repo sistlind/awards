@@ -8,6 +8,8 @@
  *                  
  *****************************************************************************/
 //Falls Datenbank nicht vorhanden überspringen
+use Admidio\Users\Entity\User;
+
 $getUserUuid   = admFuncVariableIsValid($_GET, 'user_uuid', 'string', array('defaultValue' => $gCurrentUser->getValue('usr_uuid')));
 
 require_once(__DIR__ .'/awards_common.php');
