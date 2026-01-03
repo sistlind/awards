@@ -66,9 +66,9 @@ foreach($awards as $row)
 	if($gCurrentUser->hasRightEditProfile($user))//Ändern/Löschen Buttons für berechtigte User
 	{
 	 $page->addHtml('<a class="admidio-icon-link" href="'.$g_root_path.'/adm_plugins/awards/awards_delete.php?awa_id='.$row['awa_id'].'">
-        <i class="fas fa-trash" data-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>');
+        <i class="fas fa-trash" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>');
 	 $page->addHtml('<a class="admidio-icon-link" href="'.$g_root_path.'/adm_plugins/awards/awards_change.php?awa_id='.$row['awa_id'].'">
-        <i class="fas fa-edit" data-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>');
+        <i class="fas fa-edit" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>');
 	}
 	$page->addHtml('</div>');//Float right
 	$page->addHtml('<div style="clear:both"></div></li>');

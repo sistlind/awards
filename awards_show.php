@@ -361,10 +361,10 @@ foreach ($awards as $row)
 		{
 			$tempValue = '';
 			$tempValue .= '<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_delete.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<i class="fas fa-trash" data-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>';
+			$tempValue .='<i class="fas fa-trash" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>';
 			$tempValue .='&nbsp;&nbsp;';
 			$tempValue .='<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_change.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<i class="fas fa-edit" data-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>';
+			$tempValue .='<i class="fas fa-edit" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>';
 			             
 			$columnValues[] = $tempValue;
 		}
