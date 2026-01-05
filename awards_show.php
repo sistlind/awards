@@ -18,7 +18,6 @@ if($gCurrentUser->isAdministratorUsers() == false)//%TODO: Berechtigungen
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
-//$gNavigation->addUrl(CURRENT_URL);
 
 $show_all	   = admFuncVariableIsValid($_GET, 'awa_show_all', 'string', array('defaultValue'=> 'false'));
 $get_req       = admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue' => 'html', 'validValues' => array('csv-ms', 'csv-oo', 'html', 'print', 'pdf', 'pdfl' )));
@@ -86,9 +85,14 @@ switch ($get_req)
 $CSVstr = '';   // enthaelt die komplette CSV-Datei als String
 
 // if html mode and last url was not a list view then save this url to navigation stack
-if($get_req == 'html' && strpos($gNavigation->getUrl(), 'awards_show.php') === false)
+if(strpos($gNavigation->getUrl(), 'profile.php') == true)
 {
-    $gNavigation->addStartUrl(CURRENT_URL, $title, 'bi-award');
+    $gNavigation->addUrl(CURRENT_URL, $headline);
+}
+elseif($get_req == 'html' && strpos($gNavigation->getUrl(), 'awards_show.php') == false)
+{
+  
+    $gNavigation->addStartUrl(CURRENT_URL, $headline, 'bi-award');
 }
 
 $page = new HtmlPage($headline);
@@ -111,7 +115,7 @@ if ($get_req != 'csv')
 	}
 	elseif ($get_req == 'pdf')
 	{
-		require_once(ADMIDIO_PATH. FOLDER_LIBS_SERVER .'/tecnickcom/tcpdf/tcpdf.php');
+		//require_once(ADMIDIO_PATH. FOLDER_LIBS_SERVER .'/tecnickcom/tcpdf/tcpdf.php');
 		$pdf = new TCPDF($orientation, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 		// set document information

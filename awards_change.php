@@ -32,7 +32,7 @@ if ($getAwardID > 0)
 if($EditMode)
 {
 	$headline = $gL10n->get('AWA_EDIT_HONOR');
-	if(strpos($gNavigation->getUrl(), 'awards_change.php') === false)
+	if(strpos($gNavigation->getUrl(), 'awards_change.php') == false)
 	{
 	    $gNavigation->addUrl(CURRENT_URL, $headline);
 	}

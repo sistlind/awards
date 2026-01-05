@@ -23,7 +23,7 @@ $getAwardID  = admFuncVariableIsValid($_GET, 'awa_id', 'numeric', array('default
 //Begin der Seite
 $headline  = $gL10n->get('AWA_DELETE_HONOR');
 
-if(strpos($gNavigation->getUrl(), 'awards_delete.php') === false)
+if(strpos($gNavigation->getUrl(), 'awards_delete.php') == false)
 {
     $gNavigation->addUrl(CURRENT_URL, $headline);
 }
