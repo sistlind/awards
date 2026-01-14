@@ -1,19 +1,49 @@
-## Admidio vor v3.3.0
-1.) Entpacken in Plugin Ordner/awards
-2.) Einfügen in Theme/my_bottom:
-	include(SERVER_PATH.'/adm_plugins/awards/awards.php');
-3.) Seite  aufrufen und in der Sidebar im Bereich Ehrungen auf Installieren klicken
+## Requirements
+- Admidio v5.03 or higher
+- PHP 8.2 or higher
 
-## Admidio v3.3.0
-ACHTUNG: Die Kategorienbearbeitung funktioniert wegen eines Bugs nicht mit der Admidio Version v3.3.0, bitte awards nur in Verbindung mit älteren oder neueren Version verwenden!
+## Installation for Admidio v5.03+
 
-## Admidio ab v3.3.1
-1.) Entpacken in Plugin Ordner adm_plugins/awards
-2.) Einmalig den Link adm_plugins/awards/awards_install.php aufrufen
-3.) Menü konfigurieren, folgende Links im Menü hinzufügen:
-	Ehrungen anzeigen -> /adm_plugins/awards/awards_show.php
-	Ehrungen zuweisen -> /adm_plugins/awards/awards_change.php
-	Ehrungskategorien bearbeiten -> /adm_program/modules/categories/categories.php?type=AWA
-4.) Um die Ehrungen auch auf den Profilseiten anzuzeigen muss die Codezeile:
-    "include_once(ADMIDIO_PATH . FOLDER_PLUGINS .'/awards/awards_profile_addin.php');"
-    Am Ende der Datei adm_program/modules/profile/profile.php VOR $page->show(); eingefügt werden.
+1. Extract the plugin to the plugins folder: adm_plugins/awards
+2. Run the installation script once by visiting: adm_plugins/awards/awards_install.php
+3. Configure the menu by adding the following links:
+   - Show Awards → /adm_plugins/awards/awards_show.php (Icon: bi-award)
+   - Assign Awards → /adm_plugins/awards/awards_change.php (Icon: bi-award)
+   - Jubilee Report → /adm_plugins/awards/awards_jubilee.php (Icon: bi-award)
+   - Edit Award Categories → /modules/categories.php?type=AWA (Icon: bi-award)
+   
+   Note: You must have "Administrator Users" rights to manage AWA categories.
+   
+4. To display awards on profile pages, run the addin installation script after initial installation
+   and after each Admidio update:
+   <your-admidio-installation>/adm_plugins/awards/awards_install_addin.php
+   
+   Info:
+   To remove awards from profile pages, run the uninstall script:
+   <your-admidio-installation>/adm_plugins/awards/awards_uninstall_addin.php
+
+## Older Admidio Versions
+
+### Admidio v4.x
+For Admidio v4.x, please use Awards Plugin version 3.0.0.
+
+### Admidio v3.3.1+
+1. Extract to plugin folder adm_plugins/awards
+2. Run the link adm_plugins/awards/awards_install.php once
+3. Configure the menu, adding the following links:
+   Show awards → /adm_plugins/awards/awards_show.php
+   Assign awards → /adm_plugins/awards/awards_change.php
+   Edit award categories → /adm_program/modules/categories/categories.php?type=AWA
+4. To show awards on profile pages add the line:
+   "include_once(ADMIDIO_PATH . FOLDER_PLUGINS .'/awards/awards_profile_addin.php');"
+   at the end of adm_program/modules/profile/profile.php BEFORE $page->show();
+
+### Admidio v3.3.0
+WARNING: Category editing does not work due to a bug in Admidio v3.3.0.
+Please use awards only with older or newer versions!
+
+### Admidio before v3.3.0
+1. Extract to plugin folder /awards
+2. Add to Theme/my_bottom:
+   include(SERVER_PATH.'/adm_plugins/awards/awards.php');
+3. Open the page and click Install in the Awards section of the sidebar

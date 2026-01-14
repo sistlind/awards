@@ -1,3 +1,13 @@
+4.0.0 (2026-01-14)
+    * Compatibility to Admidio v5.03+
+    * Breaking change: Requires PHP 8.2+ and Admidio v5.03+
+    * Updated path structure: common.php moved from /adm_program/system/ to /system/
+    * Replaced TableAccess class with Entity class (Admidio v5 API)
+    * Updated UI to Bootstrap 5 (Bootstrap Icons instead of Font Awesome)
+    * Converted all database queries to prepared statements
+    * Added type hints and improved null-safety
+    * Updated icons from Font Awesome (fa-*) to Bootstrap Icons (bi-*)
+    * Updated data-toggle to data-bs-toggle for Bootstrap 5
 3.0.0(2024-02-18)
     * Compatibility to Admidio v4.3.3
 2.0.0(2022-01-28)

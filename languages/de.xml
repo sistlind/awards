@@ -54,4 +54,14 @@
   <string name="AWA_SHOW_ALL">Alle Organisationen anzeigen</string>
   <string name="AWA_FULL_SCREEN">Vollbildansicht</string>
   <string name="AWA_NORMAL_SCREEN">Normalansicht</string>
+<!-- Jubilee Report -->
+  <string name="AWA_JUBILEE_REPORT">Ehrungen Jubiläumsbericht</string>
+  <string name="AWA_JUBILEE_YEARS">Jubiläumsjahre</string>
+  <string name="AWA_JUBILEE_SELECT">Jahre auswählen</string>
+  <string name="AWA_ALL">Alle</string>
+  <string name="AWA_JUBILEE_SELECT_YEARS">Bitte wählen Sie die Jubiläumsjahre aus (25/40/50/60/70 Jahre)</string>
+  <string name="AWA_JUBILEE_NO_MEMBERS">Keine Mitglieder mit diesem Jubiläum gefunden</string>
+  <string name="AWA_YEARS">Jahre</string>
+  <string name="AWA_MEMBER_SINCE">Mitglied seit</string>
+  <string name="AWA_MEMBERS_FOUND">Mitglieder gefunden</string>
 </resources>
