@@ -212,15 +212,19 @@ function getJubileeMembers($jubileeYear, $getRoleUuid, $gDb, $gCurrentOrganizati
 
     $query = $gDb->queryPrepared($sql, $queryParams);
     
-    // Filter members by calculating exact years using DateTime (like BirthdayList)
+    // Filter members by calculating years based on year difference only
+    // Awards are presented once a year for the whole year, so month/day doesn't matter
     $members = array();
+    $currentYear = (int)date('Y');
+    
     while ($row = $query->fetch()) {
         if ($row['accession_date']) {
             try {
                 $dateBegin = new DateTime($row['accession_date']);
-                $dateNow = new DateTime();
-                $diff = $dateBegin->diff($dateNow);
-                $years = (int)$diff->format('%y');
+                $joinYear = (int)$dateBegin->format('Y');
+                
+                // Calculate years based on year difference only
+                $years = $currentYear - $joinYear;
                 
                 if ($years == $jubileeYear) {
                     $row['mem_begin'] = $row['accession_date']; // Use accession date as display date
