@@ -16,6 +16,23 @@ use Admidio\Infrastructure\Entity\Entity;
 $rootPath = dirname(__DIR__, 2);
 require_once($rootPath . '/system/common.php');
 
+// Register autoloader for Awards plugin classes
+spl_autoload_register(function ($class) {
+    $prefix = 'Plugins\\Awards\\classes\\';
+    $base_dir = __DIR__ . '/classes/';
+    
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) {
+        return;
+    }
+    
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+    
+    if (file_exists($file)) {
+        require_once $file;
+    }
+});
 
 /**
  * Check if the Awards database table is installed
@@ -35,6 +52,11 @@ function isAwardsDbInstalled(): bool
 
 $plugin_folder = '/' . basename(__DIR__);
 $plugin_path = dirname(__DIR__);
+
+// Define PLUGIN_FOLDER constant for use throughout the plugin
+if (!defined('PLUGIN_FOLDER')) {
+    define('PLUGIN_FOLDER', $plugin_folder);
+}
 
 $awa_debug_config_exists = 'False';
 if (file_exists($plugin_path . $plugin_folder . '/awards_config.php')) {

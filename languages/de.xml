@@ -2,6 +2,7 @@
 <resources>
   <string name="Awards">Ehrungen &amp; Auszeichnungen</string>
   <string name="AWA_HEADLINE">Ehrungen &amp; Auszeichnungen</string>
+  <string name="AWA_AWARDS_MANAGEMENT">Ehrungen verwalten</string>
   <string name="AWA_INSTALL">Installieren</string>
   <string name="AWA_HEADLINE_CHANGE">Ehrungen &amp; Auszeichnungen Änderungsdialog</string>
   <string name="AWA_LIST_AWARDS">Liste der Ehrungen</string>
@@ -63,5 +64,21 @@
   <string name="AWA_JUBILEE_NO_MEMBERS">Keine Mitglieder mit diesem Jubiläum gefunden</string>
   <string name="AWA_YEARS">Jahre</string>
   <string name="AWA_MEMBER_SINCE">Mitglied seit</string>
-  <string name="AWA_MEMBERS_FOUND">Mitglieder gefunden</string>
+  <string name="AWA_MEMBERS_FOUND">Mitglieder gefunden</string><!-- Preferences -->
+  <string name="AWA_PREFERENCES">Ehrungen Einstellungen</string>
+  <string name="AWA_JUBILEE_YEARS_CONFIG">Jubiläumsjahre konfigurieren</string>
+  <string name="AWA_JUBILEE_YEARS_DESC">Konfigurieren Sie, welche Jubiläumsjahre im Bericht angezeigt werden sollen.</string>
+  <string name="AWA_CURRENT_JUBILEE_YEARS">Aktuell konfigurierte Jahre</string>
+  <string name="AWA_ADD_JUBILEE_YEAR">Neues Jahr hinzufügen</string>
+  <string name="AWA_ENTER_YEAR_NUMBER">Jahreszahl eingeben (z.B. 25)</string>
+  <string name="AWA_YEAR_EXAMPLE">Beispiele: 10, 25, 40, 50, 60, 70</string>
+  <string name="AWA_YEAR_ADDED">Jahr erfolgreich hinzugefügt</string>
+  <string name="AWA_YEAR_REMOVED">Jahr erfolgreich entfernt</string>
+  <string name="AWA_YEAR_EXISTS">Dieses Jahr existiert bereits</string>
+  <string name="AWA_YEAR_NOT_FOUND">Jahr nicht gefunden</string>
+  <string name="AWA_YEAR_INVALID">Bitte geben Sie eine gültige Zahl zwischen 1 und 150 ein</string>
+  <string name="AWA_YEAR_REMOVE_CONFIRM">Jubiläumsjahr entfernen</string>
+  <string name="AWA_NO_YEARS_CONFIGURED">Noch keine Jubiläumsjahre konfiguriert</string>
+  <string name="AWA_ADD_YEAR">Hinzufügen</string>
+  <string name="AWA_EXPORT">Exportieren</string>
 </resources>

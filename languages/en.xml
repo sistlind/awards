@@ -2,6 +2,7 @@
 <resources>
   <string name="Awards">Awards</string>
   <string name="AWA_HEADLINE">Awards</string>
+  <string name="AWA_AWARDS_MANAGEMENT">Manage Awards</string>
   <string name="AWA_INSTALL">Install</string>
   <string name="AWA_HEADLINE_CHANGE">Modify an awards</string>
   <string name="AWA_LIST_AWARDS">List of all awards</string>
@@ -64,4 +65,21 @@
   <string name="AWA_YEARS">years</string>
   <string name="AWA_MEMBER_SINCE">Member since</string>
   <string name="AWA_MEMBERS_FOUND">members found</string>
+<!-- Preferences -->
+  <string name="AWA_PREFERENCES">Awards Preferences</string>
+  <string name="AWA_JUBILEE_YEARS_CONFIG">Configure Jubilee Years</string>
+  <string name="AWA_JUBILEE_YEARS_DESC">Configure which anniversary years should be recognized in the jubilee report.</string>
+  <string name="AWA_CURRENT_JUBILEE_YEARS">Currently Configured Years</string>
+  <string name="AWA_ADD_JUBILEE_YEAR">Add New Year</string>
+  <string name="AWA_ENTER_YEAR_NUMBER">Enter year number (e.g., 25)</string>
+  <string name="AWA_YEAR_EXAMPLE">Examples: 10, 25, 40, 50, 60, 70</string>
+  <string name="AWA_YEAR_ADDED">Year successfully added</string>
+  <string name="AWA_YEAR_REMOVED">Year successfully removed</string>
+  <string name="AWA_YEAR_EXISTS">This year already exists</string>
+  <string name="AWA_YEAR_NOT_FOUND">Year not found</string>
+  <string name="AWA_YEAR_INVALID">Please enter a valid year between 1 and 150</string>
+  <string name="AWA_YEAR_REMOVE_CONFIRM">Remove jubilee year</string>
+  <string name="AWA_NO_YEARS_CONFIGURED">No jubilee years configured yet</string>
+  <string name="AWA_ADD_YEAR">Add</string>
+  <string name="AWA_EXPORT">Export</string>
 </resources>

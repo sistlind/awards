@@ -13,7 +13,7 @@
 use Admidio\Users\Entity\User;
 use Admidio\Infrastructure\Utils\SecurityUtils;
 
-require_once(__DIR__ . '/awards_common.php');
+require_once(__DIR__ . '/../awards_common.php');
 
 
 if (!$gCurrentUser->isAdministratorUsers()) {
@@ -160,6 +160,10 @@ if ($get_req != 'csv') {
                  "awa_show_all='.$show_all.'&filter='.$getFilter.'&awa_cat='.$getAwaCat.'&awa_name='.$getAwaName.'&export_mode=print", "_blank");
             });', true);
         // get module menu - Updated for Admidio v5 Bootstrap Icons
+        // Add back button as first menu item
+        $page->addPageFunctionsMenuItem('menu_item_back', $gL10n->get('SYS_BACK'), 
+            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/index.php', 'bi-arrow-left-circle');
+        
         if ($getFullScreen == true) {
             $page->addPageFunctionsMenuItem('menu_item_normal_picture', $gL10n->get('AWA_NORMAL_SCREEN'), ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_show.php?export_mode=html&amp;awa_show_all=' . $show_all . '&amp;filter=' . $getFilter . '&amp;awa_cat=' . $getAwaCat . '&amp;awa_name=' . $getAwaName . '&amp;full_screen=0', 'bi-arrows-angle-contract');
         } else {
@@ -175,7 +179,7 @@ if ($get_req != 'csv') {
         }
 
         // dropdown menu item with all export possibilities
-        $page->addPageFunctionsMenuItem('awa_item_lists_export', $gL10n->get('SYS_EXPORT_TO'), '#', 'bi-download');
+        $page->addPageFunctionsMenuItem('awa_item_lists_export', $gL10n->get('AWA_EXPORT'), '#', 'bi-download');
         $export_link = ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_show.php?filter=' . $getFilter . '&amp;awa_cat=' . $getAwaCat . '&amp;awa_name=' . $getAwaName . '&amp;full_screen=' . $getFullScreen . '&amp;awa_show_all=0&amp;export_mode';
         $page->addPageFunctionsMenuItem('awa_item_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'), $export_link . '=csv-ms', 'bi-file-earmark-excel', 'awa_item_lists_export');
         $page->addPageFunctionsMenuItem('awa_item_lists_pdf', $gL10n->get('SYS_PDF') . ' (' . $gL10n->get('SYS_PORTRAIT') . ')', $export_link . '=pdf', 'bi-file-earmark-pdf', 'awa_item_lists_export');

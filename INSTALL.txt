@@ -5,22 +5,56 @@
 ## Installation for Admidio v5.03+
 
 1. Extract the plugin to the plugins folder: adm_plugins/awards
-2. Run the installation script once by visiting: adm_plugins/awards/awards_install.php
-3. Configure the menu by adding the following links:
-   - Show Awards → /adm_plugins/awards/awards_show.php (Icon: bi-award)
-   - Assign Awards → /adm_plugins/awards/awards_change.php (Icon: bi-award)
-   - Jubilee Report → /adm_plugins/awards/awards_jubilee.php (Icon: bi-award)
-   - Edit Award Categories → /modules/categories.php?type=AWA (Icon: bi-award)
+2. Run the installation script once by visiting: adm_plugins/awards/system/awards_install.php
+3. Configure the menu by adding the main plugin link:
+   - Awards Main Page → /adm_plugins/awards/index.php (Icon: bi-award)
+   
+   The main page provides tab navigation for:
+   - Manage Awards (assign/edit awards, configure settings)
+   - List All Awards (with export options)
+   - Jubilee Report (members with configurable anniversary years)
+   
+   Optional menu entries (direct links):
+   - Show Awards → /adm_plugins/awards/system/awards_show.php (Icon: bi-list-ul)
+   - Assign Awards → /adm_plugins/awards/system/awards_change.php (Icon: bi-award-fill)
+   - Jubilee Report → /adm_plugins/awards/system/awards_jubilee.php (Icon: bi-calendar-star)
+   - Edit Award Categories → /modules/categories.php?cat_type=AWA (Icon: bi-tag)
    
    Note: You must have "Administrator Users" rights to manage AWA categories.
    
-4. To display awards on profile pages, run the addin installation script after initial installation
+4. Configure Jubilee Years:
+   - Go to Awards Main Page → Manage Tab → "Configure Jubilee Years"
+   - Add/remove anniversary years that should be recognized (e.g., 10, 25, 40, 50, 60, 70)
+   - Default years: 25, 40, 50, 60, 70
+   
+5. To display awards on profile pages, run the addin installation script after initial installation
    and after each Admidio update:
-   <your-admidio-installation>/adm_plugins/awards/awards_install_addin.php
+   <your-admidio-installation>/adm_plugins/awards/system/awards_install_addin.php
    
    Info:
    To remove awards from profile pages, run the uninstall script:
-   <your-admidio-installation>/adm_plugins/awards/awards_uninstall_addin.php
+   <your-admidio-installation>/adm_plugins/awards/system/awards_uninstall_addin.php
+
+## Folder Structure
+
+adm_plugins/awards/
+├── index.php                  (Main entry point with tab navigation)
+├── awards_common.php          (Common functions and initialization)
+├── awards_profile_addin.php   (Profile page integration)
+├── classes/
+│   └── Config/
+│       └── ConfigTable.php    (Configuration management)
+├── system/
+│   ├── awards_change.php      (Assign/edit awards)
+│   ├── awards_show.php        (List awards with export)
+│   ├── awards_jubilee.php     (Jubilee report)
+│   ├── awards_delete.php      (Delete awards)
+│   ├── awards_install.php     (Installation script)
+│   ├── awards_install_addin.php   (Profile integration installer)
+│   ├── awards_uninstall_addin.php (Profile integration uninstaller)
+│   └── preferences.php        (Plugin preferences)
+├── languages/                 (Translation files)
+└── templates/                 (Smarty templates)
 
 ## Older Admidio Versions
 

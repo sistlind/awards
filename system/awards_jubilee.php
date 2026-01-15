@@ -2,7 +2,7 @@
 /******************************************************************************
  * Awards - Jubilee Report
  *
- * Show members with long-term membership (25/40/50/60/70 years)
+ * Show members with long-term membership (configurable years)
  * 
  * Compatible with Admidio v5.03+
  *                  
@@ -10,8 +10,9 @@
 
 use Admidio\Users\Entity\User;
 use Admidio\Infrastructure\Utils\SecurityUtils;
+use Plugins\Awards\classes\Config\ConfigTable;
 
-require_once(__DIR__ . '/awards_common.php');
+require_once(__DIR__ . '/../awards_common.php');
 
 if (!$gCurrentUser->isAdministratorUsers()) {
     $gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
@@ -21,8 +22,10 @@ if (!$gCurrentUser->isAdministratorUsers()) {
 $get_req = admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue' => 'html', 'validValues' => array('csv-ms', 'csv-oo', 'html', 'print', 'pdf')));
 $getRoleUuid = admFuncVariableIsValid($_GET, 'role_uuid', 'uuid');
 
-// Check for all jubilee years: 25, 40, 50, 60, 70
-$jubileeYears = array(25, 40, 50, 60, 70);
+// Load configurable jubilee years
+$config = new ConfigTable();
+$config->read();
+$jubileeYears = $config->getJubileeYears();
 
 // Define title and headline
 $title = $gL10n->get('AWA_HEADLINE') . ' - ' . $gL10n->get('AWA_JUBILEE_REPORT');
@@ -105,11 +108,14 @@ if ($get_req != 'csv') {
         $page->setTitle($title);
 
         // Menu items
+        $page->addPageFunctionsMenuItem('menu_item_back', $gL10n->get('SYS_BACK'), 
+            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/index.php', 'bi-arrow-left-circle');
+        
         $page->addPageFunctionsMenuItem('menu_item_print_view', $gL10n->get('SYS_PRINT_PREVIEW'), 
             ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=print', 'bi-printer');
 
         // Export dropdown
-        $page->addPageFunctionsMenuItem('jubilee_lists_export', $gL10n->get('SYS_EXPORT'), '#', 'bi-download');
+        $page->addPageFunctionsMenuItem('jubilee_lists_export', $gL10n->get('AWA_EXPORT'), '#', 'bi-download');
         $page->addPageFunctionsMenuItem('jubilee_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'), 
             ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=csv-ms', 'bi-file-earmark-excel', 'jubilee_lists_export');
         $page->addPageFunctionsMenuItem('jubilee_lists_pdf', $gL10n->get('SYS_PDF'), 
@@ -352,15 +358,9 @@ if ($get_req == 'csv') {
     if ($totalMembers == 0) {
         $page->addHtml('<div class="alert alert-warning">' . $gL10n->get('AWA_JUBILEE_NO_MEMBERS') . '</div>');
     } else {
-        // Display beautiful summary
-        $page->addHtml('<div class="alert alert-success mt-4">');
-        $page->addHtml('<h4><i class="bi bi-award-fill"></i> ' . $gL10n->get('SYS_SUMMARY') . '</h4>');
-        $page->addHtml('<p><strong>' . $gL10n->get('SYS_TOTAL') . ':</strong> ' . $totalMembers . ' ' . $gL10n->get('AWA_MEMBERS_FOUND') . '</p>');
-        $page->addHtml('<ul class="mb-0">');
-        foreach ($jubileeSummary as $years => $count) {
-            $page->addHtml('<li><strong>' . $years . ' ' . $gL10n->get('AWA_YEARS') . ':</strong> ' . $count . ' ' . ($count == 1 ? 'Person' : 'Personen') . ' zu ehren</li>');
-        }
-        $page->addHtml('</ul>');
+        // Display simple one-line summary with total count
+        $page->addHtml('<div class="alert alert-info mt-3">');
+        $page->addHtml('<strong>' . $totalMembers . '</strong> ' . $gL10n->get('AWA_MEMBERS_FOUND'));
         $page->addHtml('</div>');
     }
     

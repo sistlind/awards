@@ -13,7 +13,7 @@
 use Admidio\Infrastructure\Entity\Entity;
 use Admidio\Users\Entity\User;
 
-require_once(__DIR__ . '/awards_common.php');
+require_once(__DIR__ . '/../awards_common.php');
 
 
 // Berechtigung checken
@@ -48,6 +48,13 @@ if (!isAwardsDbInstalled()) {
     $page->show();
     return;
 }
+
+// Add back button at the top
+$page->addHtml('<div class="mb-3">');
+$page->addHtml('<a href="' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/index.php" class="btn btn-secondary">');
+$page->addHtml('<i class="bi bi-arrow-left-circle"></i> ' . $gL10n->get('SYS_BACK'));
+$page->addHtml('</a>');
+$page->addHtml('</div>');
 
 if ($EditMode && !isset($_POST['submit'])) {
     // Use Entity class instead of TableAccess (Admidio v5)
