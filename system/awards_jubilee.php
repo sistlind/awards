@@ -112,16 +112,16 @@ if ($get_req != 'csv') {
             ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/index.php', 'bi-arrow-left-circle');
         
         $page->addPageFunctionsMenuItem('menu_item_print_view', $gL10n->get('SYS_PRINT_PREVIEW'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=print', 'bi-printer');
+            ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=print', 'bi-printer');
 
         // Export dropdown
         $page->addPageFunctionsMenuItem('jubilee_lists_export', $gL10n->get('AWA_EXPORT'), '#', 'bi-download');
         $page->addPageFunctionsMenuItem('jubilee_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=csv-ms', 'bi-file-earmark-excel', 'jubilee_lists_export');
+            ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=csv-ms', 'bi-file-earmark-excel', 'jubilee_lists_export');
         $page->addPageFunctionsMenuItem('jubilee_lists_pdf', $gL10n->get('SYS_PDF'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=pdf', 'bi-file-earmark-pdf', 'jubilee_lists_export');
+            ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=pdf', 'bi-file-earmark-pdf', 'jubilee_lists_export');
         $page->addPageFunctionsMenuItem('jubilee_lists_csv', $gL10n->get('SYS_CSV') . ' (' . $gL10n->get('SYS_UTF8') . ')', 
-            ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=csv-oo', 'bi-file-earmark-text', 'jubilee_lists_export');
+            ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_jubilee.php?role_uuid=' . $getRoleUuid . '&export_mode=csv-oo', 'bi-file-earmark-text', 'jubilee_lists_export');
 
         $table = new HtmlTable('adm_jubilee_table', $page, $hoverRows, $datatable, $classTable);
     } else {
