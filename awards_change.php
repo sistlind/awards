@@ -13,6 +13,7 @@ use Admidio\Infrastructure\Entity\Entity;
 require_once(__DIR__ .'/awards_common.php');
 
 
+
 //Berechtigung checken
 if($gCurrentUser->isAdministratorUsers() == false)
 {
@@ -76,7 +77,7 @@ if($EditMode && !isset($_POST['submit']))
 	$POST_award_name_new=$AWAObj->getValue('awa_name');
 	$POST_award_info=$AWAObj->getValue('awa_info');
 	$DateObject=date_create($AWAObj->getValue('awa_date'));
-	$POST_award_date=date_format($DateObject,'d.m.Y');
+	$POST_award_date=date_format($DateObject,$gSettingsManager->getString('system_date'));
 }else
 {
 	//Übergebene POST_variablen speichern

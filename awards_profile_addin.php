@@ -59,7 +59,7 @@ foreach ($awards as $row) {
         $templateRow['awa_text'] .= ' (' . $row['awa_info'] . ')';
     }
 
-    $templateRow['awa_text_date'] = $gL10n->get('AWA_SINCE') . ' ' . date('d.m.Y', strtotime($row['awa_date']));
+    $templateRow['awa_text_date'] = $gL10n->get('AWA_SINCE') . ' ' . date($gSettingsManager->getString('system_date'), strtotime($row['awa_date']));
 
     $templateRow['actions'][] = array(
         'url' => SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/awards/awards_delete.php', array(

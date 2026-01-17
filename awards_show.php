@@ -358,7 +358,7 @@ foreach ($awards as $row)
 			$columnValues[] = $row['last_name'].', '.$row['first_name'];
 		}
 				
-		$columnValues[] = date('d.m.Y',strtotime($row['awa_date']));
+		$columnValues[] = date($gSettingsManager->getString('system_date'),strtotime($row['awa_date']));
 		$columnValues[] = $row['awa_name'];
 		$columnValues[] = $row['awa_info'];
 				
@@ -383,7 +383,7 @@ foreach ($awards as $row)
 		}
 		$tmp_csv .= $valueQuotes. $row['awa_cat_name']. $valueQuotes. $separator;
 		$tmp_csv .= $valueQuotes. $row['last_name'].', '.$row['first_name']. $valueQuotes. $separator;
-		$tmp_csv .= $valueQuotes. date('d.m.Y',strtotime($row['awa_date'])). $valueQuotes. $separator;
+		$tmp_csv .= $valueQuotes. date($gSettingsManager->getString('system_date'),strtotime($row['awa_date'])). $valueQuotes. $separator;
 		$tmp_csv .= $valueQuotes. $row['awa_name']. $valueQuotes. $separator;
 		$tmp_csv .= $valueQuotes. $row['awa_info']. $valueQuotes;
 	}
