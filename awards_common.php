@@ -7,9 +7,7 @@
  * https://github.com/sistlind/awards
  *                  
  *****************************************************************************/
-require_once(__DIR__ . '/../../adm_program/system/common.php');
-require_once(__DIR__ . '/../../adm_program/system/classes/TableAccess.php');
-
+require_once(__DIR__ . '/../../system/common.php');
 
 function isAwardsDbInstalled(){
     global $gDb;
@@ -54,15 +52,9 @@ if($plg_debug_enabled == 1)//Debug Teil 1!
 	echo '<br>Config-exists: '.$awa_debug_config_exists;
 }
 
-
-
-
-
 $tablename=$g_tbl_praefix.'_user_awards';
 define("TBL_USER_AWARDS",$tablename);
 unset($tablename);
-
-
 
 function awa_load_awards($userid,$show_all)
 {

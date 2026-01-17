@@ -8,11 +8,13 @@
  *
  *****************************************************************************/
 
+use Admidio\Infrastructure\Entity\Entity;
+
 require_once(__DIR__ .'/awards_common.php');
 
 
 //Berechtigung checken
-if($gCurrentUser->editUsers() == false)
+if($gCurrentUser->isAdministratorUsers() == false)
 {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
@@ -27,13 +29,17 @@ if ($getAwardID > 0)
     $EditMode=False;
 }
 
-$gNavigation->addUrl(CURRENT_URL);
-
 if($EditMode)
 {
-	$headline = $gL10n->get('AWA_HEADLINE_CHANGE');
+	$headline = $gL10n->get('AWA_EDIT_HONOR');
+	if(strpos($gNavigation->getUrl(), 'awards_change.php') == false)
+	{
+	    $gNavigation->addUrl(CURRENT_URL, $headline);
+	}
 }else{
 	$headline = $gL10n->get('AWA_HEADLINE');
+	$gNavigation->addStartUrl(CURRENT_URL, $headline, 'bi-award');
+	
 }
 
 $page = new HtmlPage($headline);
@@ -64,7 +70,7 @@ if(!isAwardsDbInstalled()){
 
 if($EditMode && !isset($_POST['submit']))
 {
-	$AWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
+	$AWAObj = new Entity($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
 	$POST_award_user_id=$AWAObj->getValue('awa_usr_id');
 	$POST_award_cat_id=$AWAObj->getValue('awa_cat_id');
 	$POST_award_name_new=$AWAObj->getValue('awa_name');
@@ -137,21 +143,21 @@ if (isset($_POST['submit']))
 	//Eingaben OK?
 if (($POST_award_new_id !=$newID) && !($EditMode))
 	{//Doppelter Aufruf?
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_ID').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_ID').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ($plg_role_enabled==1)
 	{
 	if (($POST_award_user_id==0)&&($POST_award_role_id==0) )
 		{//Mitglied oder Rolle Pflicht!
-		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER_OR_ROLE').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER_OR_ROLE').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	if (($POST_award_user_id>0)&&($POST_award_role_id>0) )
 		{//Rolle oder Mitglied - nicht beides!
 		$POST_award_user_id='';
 		$POST_award_role_id='';
-		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_USER_OR_ROLE').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_USER_OR_ROLE').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	/* Abfrage kollidiert mit Standardwert für leader
@@ -168,28 +174,28 @@ else
 	{
 	if ($POST_award_user_id==0)
 		{//Name Pflicht!
-		$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER').'</font></p>';
+		$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_USER').'</font></p>';
 		$INPUTOK=FALSE;
 		}
 	}
 if ($POST_award_cat_id==0)
 	{//Kategorie Pflicht!
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_CAT').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_CAT').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ((strlen($POST_award_name_new)>0)&&($POST_award_name_old_id>0))
 	{//Nur ein Titelfeld füllen!
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_TITLE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_DOUBLE_TITLE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if ((strlen($POST_award_name_new)<1)&&($POST_award_name_old_id==0))
 	{//Titel Pflicht
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_TITLE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_TITLE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if (strlen($POST_award_date)<4)//TODO: Besserer Check
 	{//Datum Pflicht !
-	$ErrorStr.='<p><font color="#FF0000"><i class="fas fa-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_DATE').'</font></p>';
+	$ErrorStr.='<p><font color="#FF0000"><i class="bi bi-exclamation-circle"></i>&nbsp;'.$gL10n->get('AWA_ERR_NO_DATE').'</font></p>';
 	$INPUTOK=FALSE;
 	}
 if($INPUTOK)
@@ -200,10 +206,10 @@ if ($POST_award_user_id>0)
 {
 	if($EditMode)
 	{
-		$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
+		$NewAWAObj = new Entity($gDb, TBL_USER_AWARDS.' ', 'awa',$getAwardID);
 	}else
 	{
-		$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa');
+		$NewAWAObj = new Entity($gDb, TBL_USER_AWARDS.' ', 'awa');
 	}
 	$NewAWAObj->setValue('awa_cat_id',$POST_award_cat_id);
 	$NewAWAObj->setValue('awa_org_id',$gCurrentOrganization->getValue('org_id'));
@@ -222,13 +228,13 @@ if ($POST_award_user_id>0)
 	$NewAWAObj->save();
 	$page->addHtml('<h2>'.$gL10n->get('AWA_SUCCESS').'</h2>');
 	if (!$EditMode){
-		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="bi bi-check-circle-fill"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
 		$page->addHtml('<h2>'.$gL10n->get('AWA_NEXT_ENTRY').'</h2>');
 		unset($POST_award_user_id);
 		$newID+=1;
 	}else
 	{
-		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_CHANGE').'</font></p>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="bi bi-check-circle-fill"></i>&nbsp;'.$gL10n->get('AWA_SUCCESS_CHANGE').'</font></p>');
 		$page->addHtml('<h2>'.$gL10n->get('AWA_NEXT_ENTRY').'</h2>');
 	}
 }
@@ -254,7 +260,7 @@ if ($POST_award_role_id>0)
 		{//TODO: direkt in einer Datenbankabfrage ohne schleife !
 		$POST_award_user_id = $row['mem_usr_id'];
 		
-		$NewAWAObj = new TableAccess($gDb, TBL_USER_AWARDS.' ', 'awa');
+		$NewAWAObj = new Entity($gDb, TBL_USER_AWARDS.' ', 'awa');
 		$NewAWAObj->setValue('awa_cat_id',$POST_award_cat_id);
 		$NewAWAObj->setValue('awa_org_id',$gCurrentOrganization->getValue('org_id'));
 		$NewAWAObj->setValue('awa_usr_id',$POST_award_user_id);
@@ -281,7 +287,7 @@ if ($POST_award_role_id>0)
 		//unset($POST_award_name_new);
 		//unset($POST_award_info);
 		//unset($POST_award_date);
-		$page->addHtml('<p><font color="#3ADF00"><i class="fas fa-check-circle"></i>&nbsp;'.$recordCount.' '.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
+		$page->addHtml('<p><font color="#3ADF00"><i class="bi bi-check-circle-fill"></i>&nbsp;'.$recordCount.' '.$gL10n->get('AWA_SUCCESS_NEW').'</font></p>');
 }
 	}else
 {
@@ -483,13 +489,13 @@ $page->addHtml('    <dt><label for="award_name_new">'.$gL10n->get('AWA_HONOR_NEW
 $page->addHtml('<dl>
                     <dt><label for="award_date">'.$gL10n->get('AWA_HONOR_DATE').'</label><span class="mandatoryFieldMarker" title="'.$gL10n->get('SYS_MANDATORY_FIELD').'">*</span></dt>
                     <dd>
-                    <input type="text" id="award_date" name="award_date" data-provide="datepicker" data-date-format="dd.mm.yyyy" style="width: 90px;" 
+                    <input type="text" id="award_date" name="award_date" data-bs-provide="datepicker" data-date-format="dd.mm.yyyy" style="width: 90px;" 
                         maxlength="10"  value="'.$POST_award_date.'"  />'.$gL10n->get('AWA_HONOR_DATE_FORMAT').'
                     <span id="calendardiv" style="position: absolute; visibility: hidden;"></span></dd>
                 </dl>
             
 <div class="formSubmit">
-            <button id="btnSave" type="submit" name="submit" value="submit"><i class="fas fa-save"></i>&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
+            <button id="btnSave" type="submit" name="submit" value="submit"><i class="bi bi-save"></i>&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
         </div>
     </div>
 </div>

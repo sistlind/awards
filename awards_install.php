@@ -19,7 +19,6 @@ if($gCurrentUser->isAdministrator() == false)//%TODO: Berechtigungen
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
 
-	
 //Set headline and load template
 $headline  = $gL10n->get('AWA_HEADLINE');
 $page = new HtmlPage($headline);
