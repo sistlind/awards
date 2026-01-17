@@ -24,7 +24,7 @@ ACHTUNG: Die Kategorienbearbeitung funktioniert wegen eines Bugs nicht mit der A
 3.) Menü konfigurieren, folgende Links im Menü hinzufügen:
 	Ehrungen anzeigen -> /adm_plugins/awards/awards_show.php                       (--> Icon: award)
 	Ehrungen zuweisen -> /adm_plugins/awards/awards_change.php                     (--> Icon: award)
-	Ehrungskategorien bearbeiten -> /adm_program/modules/categories.php?type=AWA   (--> Icon: award)
+	Ehrungskategorien bearbeiten -> /modules/categories.php?type=AWA   (--> Icon: award)
 4.) Um die Ehrungen auch auf den Profilseiten anzuzeigen muss bei der Erstinstallation und nach jedem Admidio-Update folgende Datei ausgeführt werden:
     <deine Admidio-Installation>/adm_plugins/awards/awards_install_addin.php
     
