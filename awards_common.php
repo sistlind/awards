@@ -68,6 +68,7 @@ $plg_leader_checked = (int) ($awaConfig['Optionen']['leader_checked'] ?? 1);
 $plg_cat_id = (int) ($awaConfig['Optionen']['default_category'] ?? 0);
 $plg_debug_enabled = (int) ($awaConfig['Optionen']['debug_enabled'] ?? 0);
 $plg_show_all_default = (int) ($awaConfig['Optionen']['show_all_default'] ?? 0);
+$plg_profile_tab_enabled = (int) ($awaConfig['Optionen']['profile_tab_enabled'] ?? 0);
 
 if ($plg_debug_enabled === 1) { // Debug Teil 1!
     echo '<br>Plugin-Path: ' . $plugin_path . $plugin_folder . '/';

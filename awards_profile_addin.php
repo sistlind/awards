@@ -23,6 +23,11 @@ if (!isAwardsDbInstalled()) {
     return;
 }
 
+// Respect plugin setting: only show tab if enabled
+if (!isset($plg_profile_tab_enabled) || $plg_profile_tab_enabled !== 1) {
+    return;
+}
+
 use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Users\Entity\User;
 
