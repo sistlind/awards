@@ -24,61 +24,42 @@
   <string name="AWA_HONOR_NEW">Neuen Titel anlegen</string>
   <string name="AWA_HONOR_INFO">Beschreibung</string>
   <string name="AWA_HONOR_DATE">Erhalten</string>
-  <string name="AWA_HONOR_DATE_FORMAT">Datumsformat: (dd.mm.JJJJ)</string>	
+  <string name="AWA_HONOR_DATE_FORMAT">Datumsformat: (dd.mm.JJJJ)</string>
   <string name="AWA_SINCE">erhalten</string>
   <string name="AWA_EDIT_HONOR">Ehrung bearbeiten</string>
   <string name="AWA_DELETE_HONOR">Ehrung löschen</string>
   <string name="AWA_DOWNLOAD_NAME">Export-Ehrungen</string>
-<!-- Statusmeldungen -->
+  <!-- Statusmeldungen -->
   <string name="AWA_SUCCESS">Erfolg</string>
   <string name="AWA_SUCCESS_NEW">Daten eingetragen!</string>
   <string name="AWA_SUCCESS_CHANGE">Daten geändert!</string>
   <string name="AWA_NEXT_ENTRY">Nächster Datensatz</string>
-<!-- Fehlermeldungen -->
+  <!-- Fehlermeldungen -->
   <string name="AWA_ERR_NO_DB">Datenbank nicht gefunden</string>
   <string name="AWA_ERR_DOUBLE_ID">ID Bereits vorhanden, doppelter Aufruf?</string>
   <string name="AWA_ERR_NO_USER">Mitglied auswählen!</string>
   <string name="AWA_ERR_NO_USER_OR_ROLE">Mitglied oder Rolle auswählen!</string>
-  <string name="AWA_ERR_USER_OR_ROLE">Entweder Mitglied oder Rolle auswählen! (nicht beide gleichzeitig)</string>
+  <string name="AWA_ERR_USER_OR_ROLE">Entweder Mitglied oder Rolle auswählen! (nicht beide
+    gleichzeitig)</string>
   <string name="AWA_ERR_NO_CAT">Kategorie angeben!</string>
   <string name="AWA_ERR_DOUBLE_TITLE">Entweder alten Titel verwenden, oder neu anlegen!</string>
   <string name="AWA_ERR_NO_TITLE">Titel für Ehrung vergeben!</string>
   <string name="AWA_ERR_NO_DATE">Datum angeben!</string>
-  <string name="AWA_ERR_USER_LEADER">Mitglied und inkl. Leiter ausgewählt! Bitte eine gültige Auswahl treffen!</string>
-<!-- Installation -->
+  <string name="AWA_ERR_USER_LEADER">Mitglied und inkl. Leiter ausgewählt! Bitte eine gültige
+    Auswahl treffen!</string>
+  <!-- Installation -->
   <string name="AWA_INSTALL_HEADLINE">Initialisierung der Datenbank</string>
   <string name="AWA_INSTALL_DB_EXISTS">Datenbank bereits initialisiert</string>
   <string name="AWA_INSTALL_DB_NOT_READY">Tabelle #VAR1# existiert noch nicht.</string>
   <string name="AWA_INSTALL_CREATE_DB">Erstelle leere Tabelle</string>
   <string name="AWA_INSTALL_DB_READY">Datenbank initialisiert</string>
-<!-- Anzeige der Auszeichnungen -->
+  <!-- Anzeige der Auszeichnungen -->
   <string name="AWA_SHOW_ALL">Alle Organisationen anzeigen</string>
   <string name="AWA_FULL_SCREEN">Vollbildansicht</string>
   <string name="AWA_NORMAL_SCREEN">Normalansicht</string>
-<!-- Jubilee Report -->
-  <string name="AWA_JUBILEE_REPORT">Ehrungen Jubiläumsbericht</string>
-  <string name="AWA_JUBILEE_YEARS">Jubiläumsjahre</string>
-  <string name="AWA_JUBILEE_SELECT">Jahre auswählen</string>
-  <string name="AWA_ALL">Alle</string>
-  <string name="AWA_JUBILEE_SELECT_YEARS">Bitte wählen Sie die Jubiläumsjahre aus (25/40/50/60/70 Jahre)</string>
-  <string name="AWA_JUBILEE_NO_MEMBERS">Keine Mitglieder mit diesem Jubiläum gefunden</string>
   <string name="AWA_YEARS">Jahre</string>
   <string name="AWA_MEMBER_SINCE">Mitglied seit</string>
-  <string name="AWA_MEMBERS_FOUND">Mitglieder gefunden</string><!-- Preferences -->
-  <string name="AWA_PREFERENCES">Ehrungen Einstellungen</string>
-  <string name="AWA_JUBILEE_YEARS_CONFIG">Jubiläumsjahre konfigurieren</string>
-  <string name="AWA_JUBILEE_YEARS_DESC">Konfigurieren Sie, welche Jubiläumsjahre im Bericht angezeigt werden sollen.</string>
-  <string name="AWA_CURRENT_JUBILEE_YEARS">Aktuell konfigurierte Jahre</string>
-  <string name="AWA_ADD_JUBILEE_YEAR">Neues Jahr hinzufügen</string>
-  <string name="AWA_ENTER_YEAR_NUMBER">Jahreszahl eingeben (z.B. 25)</string>
-  <string name="AWA_YEAR_EXAMPLE">Beispiele: 10, 25, 40, 50, 60, 70</string>
-  <string name="AWA_YEAR_ADDED">Jahr erfolgreich hinzugefügt</string>
-  <string name="AWA_YEAR_REMOVED">Jahr erfolgreich entfernt</string>
-  <string name="AWA_YEAR_EXISTS">Dieses Jahr existiert bereits</string>
-  <string name="AWA_YEAR_NOT_FOUND">Jahr nicht gefunden</string>
-  <string name="AWA_YEAR_INVALID">Bitte geben Sie eine gültige Zahl zwischen 1 und 150 ein</string>
-  <string name="AWA_YEAR_REMOVE_CONFIRM">Jubiläumsjahr entfernen</string>
-  <string name="AWA_NO_YEARS_CONFIGURED">Noch keine Jubiläumsjahre konfiguriert</string>
+  <string name="AWA_MEMBERS_FOUND">Mitglieder gefunden</string>
   <string name="AWA_ADD_YEAR">Hinzufügen</string>
   <string name="AWA_EXPORT">Exportieren</string>
 </resources>

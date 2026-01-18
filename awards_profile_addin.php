@@ -9,7 +9,6 @@
  * Compatible with Admidio v5.03+
  *                  
  *****************************************************************************/
-<<<<<<< HEAD
 
 // Prevent direct access - this file should only be included by profile.php
 if (!defined('ADMIDIO_PATH')) {
@@ -30,21 +29,6 @@ use Admidio\Users\Entity\User;
 $getUserUuid = admFuncVariableIsValid($_GET, 'user_uuid', 'string', array(
     'defaultValue' => $gCurrentUser->getValue('usr_uuid')
 ));
-=======
-// Falls Datenbank nicht vorhanden überspringen
-use Admidio\Infrastructure\Utils\SecurityUtils;
-use Admidio\Users\Entity\User;
-
-$getUserUuid = admFuncVariableIsValid($_GET, 'user_uuid', 'string', array(
-    'defaultValue' => $gCurrentUser->getValue('usr_uuid')
-));
-
-require_once (__DIR__ . '/awards_common.php');
-
-if (! isAwardsDbInstalled()) {
-    return;
-}
->>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
 
 $user = new User($gDb, $gProfileFields);
 $user->readDataByUuid($getUserUuid);
@@ -52,11 +36,7 @@ $user->readDataByUuid($getUserUuid);
 // Ehrungen aus Datenbank laden
 $awards = awa_load_awards($user->getValue('usr_id'), true);
 
-<<<<<<< HEAD
 if ($awards === null) {
-=======
-if ($awards == false) {
->>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
     return;
 }
 
@@ -65,11 +45,7 @@ $awardsTemplateData = array();
 // Tabellenkopf
 unset($PrevCatName);
 foreach ($awards as $row) {
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
     $templateRow = array();
     $templateRow['id'] = $row['awa_id'];
     $templateRow['awa_cat_name'] = $row['awa_cat_name'];
@@ -77,26 +53,16 @@ foreach ($awards as $row) {
     
     // bei mehr als einer 'action'-Anweisung wird die uuid benötigt (siehe dazu 'sys-template-parts/list.functions.tpl')
     $templateRow['uuid'] = $row['awa_id'];
-<<<<<<< HEAD
     
     // Multi-Org-Installation?
     $sql = 'SELECT COUNT(*) as count FROM ' . TBL_ORGANIZATIONS;
     $query = $gDb->queryPrepared($sql);
     $result = $query->fetch();
     
-=======
-
-    // Multi-Org-Installation?
-    $sql = 'Select COUNT(*) as count FROM ' . TBL_ORGANIZATIONS;
-    $query = $gDb->query($sql);
-    $result = $query->fetch();
-
->>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
     // only show organisation, if multiple organisations are present
     if ($result['count'] > 1) {
         $templateRow['awa_text'] .= ' (' . $row['awa_org_name'] . ')';
     }
-<<<<<<< HEAD
     
     if (isset($row['awa_info']) && strlen($row['awa_info']) > 0) {
         $templateRow['awa_text'] .= ' (' . $row['awa_info'] . ')';
@@ -104,15 +70,6 @@ foreach ($awards as $row) {
     
     $templateRow['awa_text_date'] = $gL10n->get('AWA_SINCE') . ' ' . date('d.m.Y', strtotime($row['awa_date']));
     
-=======
-
-    if (isset($row['awa_info']) && strlen($row['awa_info']) > 0) {
-        $templateRow['awa_text'] .= ' (' . $row['awa_info'] . ')';
-    }
-
-    $templateRow['awa_text_date'] = $gL10n->get('AWA_SINCE') . ' ' . date($gSettingsManager->getString('system_date'), strtotime($row['awa_date']));
-
->>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
     $templateRow['actions'][] = array(
         'url' => SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/awards/awards_delete.php', array(
             'awa_id' => $row['awa_id']
@@ -120,11 +77,7 @@ foreach ($awards as $row) {
         'icon' => 'bi-trash',
         'tooltip' => $gL10n->get('AWA_DELETE_HONOR')
     );
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
     $templateRow['actions'][] = array(
         'url' => SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/awards/awards_change.php', array(
             'awa_id' => $row['awa_id']
@@ -132,7 +85,6 @@ foreach ($awards as $row) {
         'icon' => 'bi-pencil-square',
         'tooltip' => $gL10n->get('AWA_EDIT_HONOR')
     );
-<<<<<<< HEAD
     
     $awardsTemplateData[] = $templateRow;
 }
@@ -146,12 +98,3 @@ $page->assignSmartyVariable('awardsTemplateData', $awardsTemplateData);
 $page->assignSmartyVariable('urlAwardsShow', SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/awards/awards_show.php'));
 $page->assignSmartyVariable('showAwardsOnProfile', $gCurrentUser->isAdministratorUsers());
 
-=======
-
-    $awardsTemplateData[] = $templateRow;
-}
-
-$page->assignSmartyVariable('awardsTemplateData', $awardsTemplateData);
-$page->assignSmartyVariable('urlAwardsShow', SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/awards/awards_show.php'));
-$page->assignSmartyVariable('showAwardsOnProfile', $gCurrentUser->isAdministratorUsers());
->>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
