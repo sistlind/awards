@@ -5,107 +5,97 @@
  * Diese Plugin ordnet Mitgliedern Ehrungen/Auszeichnungen/Lehrgänge zu
  * 
  * https://github.com/sistlind/awards
+ * 
+ * Compatible with Admidio v5.03+
  *                  
  *****************************************************************************/
 
-use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Users\Entity\User;
+use Admidio\Infrastructure\Utils\SecurityUtils;
 
-require_once(__DIR__ .'/awards_common.php');
+require_once(__DIR__ . '/../awards_common.php');
 
 
-if($gCurrentUser->isAdministratorUsers() == false)//%TODO: Berechtigungen
-{
+if (!$gCurrentUser->isAdministratorUsers()) {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
 
-$show_all	   = admFuncVariableIsValid($_GET, 'awa_show_all', 'string', array('defaultValue'=> 'false'));
-$get_req       = admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue' => 'html', 'validValues' => array('csv-ms', 'csv-oo', 'html', 'print', 'pdf', 'pdfl' )));
+$show_all_default = isset($plg_show_all_default) && $plg_show_all_default === 1 ? 'true' : 'false';
+$show_all = admFuncVariableIsValid($_GET, 'awa_show_all', 'string', array('defaultValue' => $show_all_default));
+$get_req = admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue' => 'html', 'validValues' => array('csv-ms', 'csv-oo', 'html', 'print', 'pdf', 'pdfl')));
 $getFullScreen = admFuncVariableIsValid($_GET, 'full_screen', 'numeric');
-$getFilter     = admFuncVariableIsValid($_GET, 'filter', 'string' , array('defaultValue' => ''));
-$getAwaCat     = admFuncVariableIsValid($_GET, 'awa_cat', 'numeric');
-$getAwaName    = admFuncVariableIsValid($_GET, 'awa_name', 'string');
+$getFilter = admFuncVariableIsValid($_GET, 'filter', 'string', array('defaultValue' => ''));
+$getAwaCat = admFuncVariableIsValid($_GET, 'awa_cat', 'numeric');
+$getAwaName = admFuncVariableIsValid($_GET, 'awa_name', 'string');
 
 // define title (html) and headline
 $title = $gL10n->get('AWA_HEADLINE');
 $headline = $gL10n->get('AWA_HEADLINE');
 
+// Ensure breadcrumbs are populated with a labeled entry for this module
+if ($get_req === 'html') {
+	$gNavigation->addStartUrl(CURRENT_URL, $headline, 'bi-award');
+}
+
 $user = new User($gDb, $gProfileFields);
 
 // initialize some special mode parameters
-$separator   = '';
+$separator = '';
 $valueQuotes = '';
-$charset     = '';
-$classTable  = '';
+$charset = '';
+$classTable = '';
 $orientation = '';
 
-//Normalize to boolean
-if($show_all==="true"||$show_all==="1")
-{
-	$show_all=true;
-}else
-{
-	$show_all=false;
-}
+// Normalize to boolean
+$show_all = ($show_all === "true" || $show_all === "1");
 
-switch ($get_req)
-{
-	case 'csv-ms':
-		$separator   = ';';  // Microsoft Excel 2007 or new needs a semicolon
-		$valueQuotes = '"';  // all values should be set with quotes
-		$get_req     = 'csv';
-		$charset     = 'iso-8859-1';
-		break;
-	case 'csv-oo':
-		$separator   = ',';   // a CSV file should have a comma
-		$valueQuotes = '"';   // all values should be set with quotes
-		$get_req     = 'csv';
-		$charset     = 'utf-8';
-		break;
-	case 'pdf':
-		$classTable  = 'table';
-		$orientation = 'P';
-		$get_req     = 'pdf';
-		break;
-	case 'pdfl':
-		$classTable  = 'table';
-		$orientation = 'L';
-		$get_req     = 'pdf';
-		break;
-	case 'html':
-		$classTable  = 'table table-condensed';
-		break;
-	case 'print':
-		$classTable  = 'table table-condensed table-striped';
-		break;
-	default:
-		break;
+switch ($get_req) {
+    case 'csv-ms':
+        $separator = ';';  // Microsoft Excel 2007 or new needs a semicolon
+        $valueQuotes = '"';  // all values should be set with quotes
+        $get_req = 'csv';
+        $charset = 'iso-8859-1';
+        break;
+    case 'csv-oo':
+        $separator = ',';   // a CSV file should have a comma
+        $valueQuotes = '"';   // all values should be set with quotes
+        $get_req = 'csv';
+        $charset = 'utf-8';
+        break;
+    case 'pdf':
+        $classTable = 'table';
+        $orientation = 'P';
+        $get_req = 'pdf';
+        break;
+    case 'pdfl':
+        $classTable = 'table';
+        $orientation = 'L';
+        $get_req = 'pdf';
+        break;
+    case 'html':
+        $classTable = 'table table-sm';
+        break;
+    case 'print':
+        $classTable = 'table table-sm table-striped';
+        break;
+    default:
+        break;
 }
 
 $CSVstr = '';   // enthaelt die komplette CSV-Datei als String
 
 // if html mode and last url was not a list view then save this url to navigation stack
-if(strpos($gNavigation->getUrl(), 'profile.php') == true)
-{
-    $gNavigation->addUrl(CURRENT_URL, $headline);
-}
-elseif($get_req == 'html' && strpos($gNavigation->getUrl(), 'awards_show.php') == false)
-{
-  
-    $gNavigation->addStartUrl(CURRENT_URL, $headline, 'bi-award');
+if ($get_req == 'html' && strpos($gNavigation->getUrl(), 'awards_show.php') === false) {
+	$gNavigation->addStartUrl(CURRENT_URL, $headline, 'bi-award');
 }
 
-$page = new HtmlPage($headline);
-$page->setContentFullWidth(); 
-if ($get_req != 'csv')
-{
-	$datatable = false;
-	$hoverRows = false;
+$page = new HtmlPage('plg-awards-show', $headline);
+if ($get_req != 'csv') {
+    $datatable = false;
+    $hoverRows = false;
 
-
-	if ($get_req == 'print')
-	{
-		// create html page object without the custom theme files
+    if ($get_req == 'print') {
+        // create html page object without the custom theme files
 		$page->setInlineMode();
 		$page->setPrintMode();
 
@@ -113,10 +103,9 @@ if ($get_req != 'csv')
 
 		$table = new HtmlTable('adm_lists_table', $page, $hoverRows, $datatable, $classTable);
 	}
-	elseif ($get_req == 'pdf')
-	{
-		//require_once(ADMIDIO_PATH. FOLDER_LIBS_SERVER .'/tecnickcom/tcpdf/tcpdf.php');
-		$pdf = new TCPDF($orientation, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    elseif ($get_req == 'pdf') {
+        // TCPDF is loaded via Composer autoload in Admidio v5
+        $pdf = new TCPDF($orientation, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
@@ -167,47 +156,44 @@ if ($get_req != 'csv')
 		$page->addJavascript('
             $("#export_list_to").change(function () {
                 if($(this).val().length > 1) {
-                    self.location.href = "'. ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/awards_show.php?" +
+					self.location.href = "'. ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/system/awards_show.php?" +
                         "awa_show_all='.$show_all.'&filter='.$getFilter.'&awa_cat='.$getAwaCat.'&awa_name='.$getAwaName.'&export_mode=" + $(this).val();
                 }
             });
             $("#menu_item_print_view").click(function () {
-                window.open("'. ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/awards_show.php?" +
+				window.open("'. ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/system/awards_show.php?" +
                  "awa_show_all='.$show_all.'&filter='.$getFilter.'&awa_cat='.$getAwaCat.'&awa_name='.$getAwaName.'&export_mode=print", "_blank");
             });', true);
-		// get module menu
-		if ($getFullScreen == true)
-		{
-            $page->addPageFunctionsMenuItem('menu_item_normal_picture', $gL10n->get('AWA_NORMAL_SCREEN'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=0','bi-fullscreen-exit');
-		}
-		else
-		{
-            $page->addPageFunctionsMenuItem('menu_item_full_screen', $gL10n->get('AWA_FULL_SCREEN'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;awa_show_all='.$show_all.'&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen=1','bi-fullscreen');
-		}
-		 
-         $page->addPageFunctionsMenuItem('menu_item_print_view', $gL10n->get('SYS_PRINT_PREVIEW'),'javascript:void(0);','bi-printer');
-		 
-		if ($show_all == true)
-		{ 
-            $page->addPageFunctionsMenuItem('awa_show_only_my_org', $gL10n->get('AWA_SHOW_ALL'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=0','bi-check-square');
-		}
-		else
-		{
-            $page->addPageFunctionsMenuItem('awa_show_all', $gL10n->get('AWA_SHOW_ALL'),ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?export_mode=html&amp;filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=1','bi-square');
-		}
-		
-        // dropdown menu item with all export possibilities
-        $page->addPageFunctionsMenuItem('awa_item_lists_export', $gL10n->get('SYS_EXPORT'), '#', 'bi-download');
-        $export_link=ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_show.php?filter='.$getFilter.'&amp;awa_cat='.$getAwaCat.'&amp;awa_name='.$getAwaName.'&amp;full_screen='.$getFullScreen.'&amp;awa_show_all=0&amp;export_mode';
-        $page->addPageFunctionsMenuItem('awa_item_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'),$export_link.'=csv-ms','bi-file-earmark-excel', 'awa_item_lists_export');
-        $page->addPageFunctionsMenuItem('awa_item_lists_pdf', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_PORTRAIT').')',$export_link.'=pdf','bi-file-earmark-pdf', 'awa_item_lists_export');
-        $page->addPageFunctionsMenuItem('awa_item_lists_pdfl', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_LANDSCAPE').')',$export_link.'=pdfl','bi-file-earmark-pdf','awa_item_lists_export');
-        $page->addPageFunctionsMenuItem('awa_item_lists_csv', $gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')',$export_link.'=csv-oo','bi-filetype-csv', 'awa_item_lists_export');
+        // get module menu - Updated for Admidio v5 Bootstrap Icons
+        // Add back button as first menu item
+			$page->addPageFunctionsMenuItem('menu_item_back', $gL10n->get('SYS_BACK'), 
+			ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/index.php', 'bi-arrow-left-circle');
+        
+        if ($getFullScreen == true) {
+			$page->addPageFunctionsMenuItem('menu_item_normal_picture', $gL10n->get('AWA_NORMAL_SCREEN'), ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_show.php?export_mode=html&amp;awa_show_all=' . $show_all . '&amp;filter=' . $getFilter . '&amp;awa_cat=' . $getAwaCat . '&amp;awa_name=' . $getAwaName . '&amp;full_screen=0', 'bi-arrows-angle-contract');
+        } else {
+			$page->addPageFunctionsMenuItem('menu_item_full_screen', $gL10n->get('AWA_FULL_SCREEN'), ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_show.php?export_mode=html&amp;awa_show_all=' . $show_all . '&amp;filter=' . $getFilter . '&amp;awa_cat=' . $getAwaCat . '&amp;awa_name=' . $getAwaName . '&amp;full_screen=1', 'bi-arrows-angle-expand');
+        }
 
-	//	$filterNavbar = new HtmlNavbar('menu_list_filter', 'show_awards', null, 'filter');
-		$filterNavbar = new HtmlNavbar('menu_list_filter', '', null, 'filter');
+        $page->addPageFunctionsMenuItem('menu_item_print_view', $gL10n->get('SYS_PRINT_PREVIEW'), 'javascript:void(0);', 'bi-printer');
+
+        if ($show_all == true) {
+			$page->addPageFunctionsMenuItem('awa_show_only_my_org', $gL10n->get('AWA_SHOW_ALL'), ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_show.php?export_mode=html&amp;filter=' . $getFilter . '&amp;awa_cat=' . $getAwaCat . '&amp;awa_name=' . $getAwaName . '&amp;full_screen=' . $getFullScreen . '&amp;awa_show_all=0', 'bi-check-square');
+        } else {
+			$page->addPageFunctionsMenuItem('awa_show_all', $gL10n->get('AWA_SHOW_ALL'), ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_show.php?export_mode=html&amp;filter=' . $getFilter . '&amp;awa_cat=' . $getAwaCat . '&amp;awa_name=' . $getAwaName . '&amp;full_screen=' . $getFullScreen . '&amp;awa_show_all=1', 'bi-square');
+        }
+
+        // dropdown menu item with all export possibilities
+        $page->addPageFunctionsMenuItem('awa_item_lists_export', $gL10n->get('AWA_EXPORT'), '#', 'bi-download');
+		$export_link = ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_show.php?filter=' . $getFilter . '&amp;awa_cat=' . $getAwaCat . '&amp;awa_name=' . $getAwaName . '&amp;full_screen=' . $getFullScreen . '&amp;awa_show_all=0&amp;export_mode';
+        $page->addPageFunctionsMenuItem('awa_item_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'), $export_link . '=csv-ms', 'bi-file-earmark-excel', 'awa_item_lists_export');
+        $page->addPageFunctionsMenuItem('awa_item_lists_pdf', $gL10n->get('SYS_PDF') . ' (' . $gL10n->get('SYS_PORTRAIT') . ')', $export_link . '=pdf', 'bi-file-earmark-pdf', 'awa_item_lists_export');
+        $page->addPageFunctionsMenuItem('awa_item_lists_pdfl', $gL10n->get('SYS_PDF') . ' (' . $gL10n->get('SYS_LANDSCAPE') . ')', $export_link . '=pdfl', 'bi-file-earmark-pdf', 'awa_item_lists_export');
+        $page->addPageFunctionsMenuItem('awa_item_lists_csv', $gL10n->get('SYS_CSV') . ' (' . $gL10n->get('SYS_UTF8') . ')', $export_link . '=csv-oo', 'bi-file-earmark-text', 'awa_item_lists_export');
+
+		$filterNavbar = new HtmlNavbar('menu_list_filter', $gL10n->get('AWA_LIST_AWARDS'), null, 'filter');
 			
-		$form = new HtmlForm('navbar_filter_form', ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/awards_show.php', $page, array('type' => 'navbar', 'setFocus' => false));
+		$form = new HtmlForm('navbar_filter_form', ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder .'/system/awards_show.php', $page, array('type' => 'navbar', 'setFocus' => false));
 		$form->addInput('filter', '', $getFilter);
 		
 		$sql = 'SELECT cat_id, cat_name
@@ -251,13 +237,12 @@ if(!isAwardsDbInstalled()){
 	return;
 }
 
-$awards=awa_load_awards(false,$show_all);
+$awards = awa_load_awards(0, $show_all);
 
-if ($awards===false)
-{
-	$page->addHtml('<p>'.$gL10n->get('AWA_NO_DATA').'</p>');
-	$page->show();
-	return;
+if ($awards === null) {
+    $page->addHtml('<p>' . $gL10n->get('AWA_NO_DATA') . '</p>');
+    $page->show();
+    return;
 }
 
 //generate headlines
@@ -303,7 +288,7 @@ elseif ($get_req == 'html' || $get_req == 'print')
 	$columnAlign[]  = 'left';
 	$columnValues[] = $gL10n->get('AWA_HONOR_INFO');
 	
-	if ($gCurrentUser->isAdministratorUsers() == true && $get_req == 'html')    //Ändern/Löschen Buttons für berechtigte User
+    if ($gCurrentUser->isAdministratorUsers() && $get_req == 'html')    //Ändern/Löschen Buttons für berechtigte User
 	{
 		$columnAlign[]  = 'center';
 		$columnValues[] = '&nbsp;';
@@ -358,24 +343,22 @@ foreach ($awards as $row)
 			$columnValues[] = $row['last_name'].', '.$row['first_name'];
 		}
 				
-		$columnValues[] = date($gSettingsManager->getString('system_date'),strtotime($row['awa_date']));
-		$columnValues[] = $row['awa_name'];
-		$columnValues[] = $row['awa_info'];
-				
-		if ($gCurrentUser->isAdministratorUsers() == true && $get_req == 'html')//Ändern/Löschen Buttons für berechtigte User
-		{
-			$tempValue = '';
-			$tempValue .= '<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_delete.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<i class="bi bi-trash" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_DELETE_HONOR').'"></i></a>';
-			$tempValue .='&nbsp;&nbsp;';
-			$tempValue .='<a class="admidio-icon-link" href="'.ADMIDIO_URL.FOLDER_PLUGINS.$plugin_folder.'/awards_change.php?awa_id='.$row['awa_id'].'">';
-			$tempValue .='<i class="fas bi-pencil-square" data-bs-toggle="tooltip" title="'.$gL10n->get('AWA_EDIT_HONOR').'"></i></a>';
-			             
-			$columnValues[] = $tempValue;
-		}
-	}
-	else
-	{
+        $columnValues[] = date('d.m.Y', strtotime($row['awa_date']));
+        $columnValues[] = $row['awa_name'];
+        $columnValues[] = $row['awa_info'];
+
+		if ($gCurrentUser->isAdministratorUsers() && $get_req == 'html') {
+            // Ändern/Löschen Buttons für berechtigte User - Updated for Bootstrap 5
+            $tempValue = '';
+			$tempValue .= '<a class="admidio-icon-link" href="' . ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_delete.php?awa_id=' . $row['awa_id'] . '">';
+            $tempValue .= '<i class="bi bi-trash" data-bs-toggle="tooltip" title="' . $gL10n->get('AWA_DELETE_HONOR') . '"></i></a>';
+            $tempValue .= '&nbsp;&nbsp;';
+			$tempValue .= '<a class="admidio-icon-link" href="' . ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_change.php?awa_id=' . $row['awa_id'] . '">';
+            $tempValue .= '<i class="bi bi-pencil-square" data-bs-toggle="tooltip" title="' . $gL10n->get('AWA_EDIT_HONOR') . '"></i></a>';
+
+            $columnValues[] = $tempValue;
+        }
+    } else {
 		if ($show_all)
 		{
 			$tmp_csv .= $valueQuotes. $row['awa_org_id']. $valueQuotes. $separator;
@@ -383,7 +366,7 @@ foreach ($awards as $row)
 		}
 		$tmp_csv .= $valueQuotes. $row['awa_cat_name']. $valueQuotes. $separator;
 		$tmp_csv .= $valueQuotes. $row['last_name'].', '.$row['first_name']. $valueQuotes. $separator;
-		$tmp_csv .= $valueQuotes. date($gSettingsManager->getString('system_date'),strtotime($row['awa_date'])). $valueQuotes. $separator;
+		$tmp_csv .= $valueQuotes. date('d.m.Y',strtotime($row['awa_date'])). $valueQuotes. $separator;
 		$tmp_csv .= $valueQuotes. $row['awa_name']. $valueQuotes. $separator;
 		$tmp_csv .= $valueQuotes. $row['awa_info']. $valueQuotes;
 	}

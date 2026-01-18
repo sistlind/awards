@@ -2,6 +2,7 @@
 <resources>
   <string name="Awards">Awards</string>
   <string name="AWA_HEADLINE">Awards</string>
+  <string name="AWA_AWARDS_MANAGEMENT">Manage Awards</string>
   <string name="AWA_INSTALL">Install</string>
   <string name="AWA_HEADLINE_CHANGE">Modify an awards</string>
   <string name="AWA_LIST_AWARDS">List of all awards</string>
@@ -23,17 +24,17 @@
   <string name="AWA_HONOR_NEW">New title</string>
   <string name="AWA_HONOR_INFO">Description</string>
   <string name="AWA_HONOR_DATE">Awarded at</string>
-  <string name="AWA_HONOR_DATE_FORMAT">Date format: (dd.mm.JJJJ)</string>	
+  <string name="AWA_HONOR_DATE_FORMAT">Date format: (dd.mm.JJJJ)</string>
   <string name="AWA_SINCE">awarded</string>
   <string name="AWA_EDIT_HONOR">Modify award</string>
   <string name="AWA_DELETE_HONOR">Delete award</string>
   <string name="AWA_DOWNLOAD_NAME">Export</string>
-<!-- Statusmeldungen -->
+  <!-- Statusmeldungen -->
   <string name="AWA_SUCCESS">Success</string>
   <string name="AWA_SUCCESS_NEW">Data inserted!</string>
   <string name="AWA_SUCCESS_CHANGE">Data changed!</string>
   <string name="AWA_NEXT_ENTRY">Next set of data</string>
-<!-- Fehlermeldungen -->
+  <!-- Fehlermeldungen -->
   <string name="AWA_ERR_NO_DB">Database not found</string>
   <string name="AWA_ERR_DOUBLE_ID">ID already exists, page refresh?</string>
   <string name="AWA_ERR_NO_USER">Select a member!</string>
@@ -43,15 +44,21 @@
   <string name="AWA_ERR_DOUBLE_TITLE">Use either a new title, or an old one, not both!</string>
   <string name="AWA_ERR_NO_TITLE">You have to set a title!</string>
   <string name="AWA_ERR_NO_DATE">You have to set a date!</string>
-  <string name="AWA_ERR_USER_LEADER">you've choosen "including Leader" and selectef a member - plase make a valid selection</string>
-<!-- Installation -->
+  <string name="AWA_ERR_USER_LEADER">you've choosen "including Leader" and selectef a member - plase
+    make a valid selection</string>
+  <!-- Installation -->
   <string name="AWA_INSTALL_HEADLINE">Initializing of the database</string>
   <string name="AWA_INSTALL_DB_EXISTS">Database already exists!</string>
   <string name="AWA_INSTALL_DB_NOT_READY">Table #VAR1# does not exists.</string>
   <string name="AWA_INSTALL_CREATE_DB">Create empty table</string>
   <string name="AWA_INSTALL_DB_READY">Database initialized</string>
-<!-- Anzeige der Auszeichnungen -->
+  <!-- Anzeige der Auszeichnungen -->
   <string name="AWA_SHOW_ALL">Show all organizations</string>
   <string name="AWA_FULL_SCREEN">Full screen</string>
   <string name="AWA_NORMAL_SCREEN">Normal view</string>
+  <string name="AWA_YEARS">years</string>
+  <string name="AWA_MEMBER_SINCE">Member since</string>
+  <string name="AWA_MEMBERS_FOUND">members found</string>
+  <string name="AWA_ADD_YEAR">Add</string>
+  <string name="AWA_EXPORT">Export</string>
 </resources>
