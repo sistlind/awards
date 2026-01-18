@@ -61,7 +61,7 @@ if (isset($_POST['submit_ok'])) {
     }
 
     $page->addHtml('</b> an ' . $userobj->getValue('FIRST_NAME') . ' ' . $userobj->getValue('LAST_NAME') . ' wirklich löschen?');
-    $page->addHtml('<form action="' . ADMIDIO_URL . FOLDER_PLUGINS . '/' . $plugin_folder . '/awards_delete.php?awa_id=' . $getAwardID . '" method="post">
+    $page->addHtml('<form action="' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/awards_delete.php?awa_id=' . $getAwardID . '" method="post">
     <input type="hidden" name="delete_ID" value="' . $getAwardID . '">
     <div class="card mt-3" id="edit_awards_form">
         <div class="card-body">

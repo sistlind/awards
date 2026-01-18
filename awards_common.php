@@ -11,6 +11,7 @@
  *****************************************************************************/
 
 use Admidio\Infrastructure\Entity\Entity;
+use Plugins\Awards\classes\Config\ConfigTable;
 
 // Admidio v5 path structure - common.php is now in /system/common.php
 $rootPath = dirname(__DIR__, 2);
@@ -58,33 +59,19 @@ if (!defined('PLUGIN_FOLDER')) {
     define('PLUGIN_FOLDER', $plugin_folder);
 }
 
-$awa_debug_config_exists = 'False';
-if (file_exists($plugin_path . $plugin_folder . '/awards_config.php')) {
-    $awa_debug_config_exists = 'True';
-    require_once($plugin_path . $plugin_folder . '/awards_config.php');
-}
-// pruefen, ob alle Einstellungen in config.php gesetzt wurden
-// falls nicht, hier noch mal die Default-Werte setzen
-if (!isset($plg_role_enabled) || !is_numeric($plg_role_enabled)) {
-    $plg_role_enabled = 0;
-}
+$configTable = new ConfigTable();
+$configTable->init();
+$awaConfig = $configTable->config;
 
-if (!isset($plg_leader_checked) || !is_numeric($plg_leader_checked)) {
-    $plg_leader_checked = 1;
-}
+$plg_role_enabled = (int) ($awaConfig['Optionen']['role_enabled'] ?? 0);
+$plg_leader_checked = (int) ($awaConfig['Optionen']['leader_checked'] ?? 1);
+$plg_cat_id = (int) ($awaConfig['Optionen']['default_category'] ?? 0);
+$plg_debug_enabled = (int) ($awaConfig['Optionen']['debug_enabled'] ?? 0);
+$plg_show_all_default = (int) ($awaConfig['Optionen']['show_all_default'] ?? 0);
 
-if (!isset($plg_cat_id) || !is_numeric($plg_cat_id)) {
-    $plg_cat_id = 0;
-}
-
-if (!isset($plg_debug_enabled) || !is_numeric($plg_debug_enabled)) {
-    $plg_debug_enabled = 0;
-}
-
-if ($plg_debug_enabled == 1) { // Debug Teil 1!
+if ($plg_debug_enabled === 1) { // Debug Teil 1!
     echo '<br>Plugin-Path: ' . $plugin_path . $plugin_folder . '/';
-    echo '<br>Config-Path: ' . $plugin_path . $plugin_folder . '/config.php';
-    echo '<br>Config-exists: ' . $awa_debug_config_exists;
+    echo '<br>Config stored in DB (shortcut AWA)';
 }
 
 

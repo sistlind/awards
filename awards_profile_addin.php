@@ -26,6 +26,8 @@ if (!isAwardsDbInstalled()) {
 use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Users\Entity\User;
 
+$pluginBaseUrl = ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER;
+
 $getUserUuid = admFuncVariableIsValid($_GET, 'user_uuid', 'string', array(
     'defaultValue' => $gCurrentUser->getValue('usr_uuid')
 ));
@@ -71,7 +73,7 @@ foreach ($awards as $row) {
     $templateRow['awa_text_date'] = $gL10n->get('AWA_SINCE') . ' ' . date('d.m.Y', strtotime($row['awa_date']));
     
     $templateRow['actions'][] = array(
-        'url' => SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/awards/awards_delete.php', array(
+        'url' => SecurityUtils::encodeUrl($pluginBaseUrl . '/system/awards_delete.php', array(
             'awa_id' => $row['awa_id']
         )),
         'icon' => 'bi-trash',
@@ -79,7 +81,7 @@ foreach ($awards as $row) {
     );
     
     $templateRow['actions'][] = array(
-        'url' => SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/awards/awards_change.php', array(
+        'url' => SecurityUtils::encodeUrl($pluginBaseUrl . '/system/awards_change.php', array(
             'awa_id' => $row['awa_id']
         )),
         'icon' => 'bi-pencil-square',
@@ -95,6 +97,6 @@ if (!isset($page) || !is_object($page)) {
 }
 
 $page->assignSmartyVariable('awardsTemplateData', $awardsTemplateData);
-$page->assignSmartyVariable('urlAwardsShow', SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/awards/awards_show.php'));
+$page->assignSmartyVariable('urlAwardsShow', SecurityUtils::encodeUrl($pluginBaseUrl . '/system/awards_show.php'));
 $page->assignSmartyVariable('showAwardsOnProfile', $gCurrentUser->isAdministratorUsers());
 

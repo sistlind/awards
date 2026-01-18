@@ -254,7 +254,7 @@ if (isset($_POST['submit'])) {
 }
 
 // Html des Modules ausgeben - Updated for Bootstrap 5 (Admidio v5)
-$page->addHtml('<form action="' . ADMIDIO_URL . FOLDER_PLUGINS . '/' . $plugin_folder . '/awards_change.php?awa_id=' . $getAwardID . '" method="post">
+$page->addHtml('<form action="' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/awards_change.php?awa_id=' . $getAwardID . '" method="post">
 <input type="hidden" name="award_new_id" value="' . $newID . '">
 <div class="card" id="edit_awards_form">
     <div class="card-header">' . $gL10n->get('AWA_HEADLINE_CHANGE') . '</div>
@@ -359,13 +359,19 @@ $page->addHtml('<div class="mb-3 row">
 $sql = 'SELECT cat_id, cat_name FROM ' . TBL_CATEGORIES . ' WHERE cat_type = \'AWA\' AND cat_default = 1';
 $query = $gDb->queryPrepared($sql);
 $default_category = $query->fetch();
+$default_category_id = 0;
+if ($plg_cat_id > 0) {
+    $default_category_id = $plg_cat_id;
+} elseif (isset($default_category['cat_id'])) {
+    $default_category_id = $default_category['cat_id'];
+}
 
 $sql = 'SELECT cat_id, cat_name FROM ' . TBL_CATEGORIES . ' WHERE cat_type = \'AWA\' ORDER BY cat_sequence';
 $query = $gDb->queryPrepared($sql);
 while ($row = $query->fetch()) {
     if ($row['cat_id'] == $POST_award_cat_id) {
         $selected = 'selected';
-    } elseif (!isset($POST_award_cat_id) && isset($default_category['cat_id']) && ($row['cat_id'] == $default_category['cat_id'])) {
+    } elseif (!isset($POST_award_cat_id) && $default_category_id > 0 && ($row['cat_id'] == $default_category_id)) {
         $selected = 'selected';
     } else {
         $selected = '';

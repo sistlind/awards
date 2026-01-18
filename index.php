@@ -68,6 +68,8 @@ try {
             $page->addHtml('<i class="bi bi-award"></i> ' . $gL10n->get('AWA_HONOR') . '</a></p>');
             $page->addHtml('<p><a href="' . ADMIDIO_URL . FOLDER_MODULES . '/categories.php?type=AWA" class="btn btn-secondary w-100">');
             $page->addHtml('<i class="bi bi-tag"></i> ' . $gL10n->get('AWA_CAT_EDIT') . '</a></p>');
+            $page->addHtml('<p class="mt-2"><a href="' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/preferences.php" class="btn btn-outline-secondary w-100">');
+            $page->addHtml('<i class="bi bi-gear"></i> ' . $gL10n->get('SYS_SETTINGS') . '</a></p>');
             $page->addHtml('</div></div></div>');
             $page->addHtml('</div>'); // row
             break;

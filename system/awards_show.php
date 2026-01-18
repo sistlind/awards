@@ -20,7 +20,8 @@ if (!$gCurrentUser->isAdministratorUsers()) {
 	$gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
 
-$show_all = admFuncVariableIsValid($_GET, 'awa_show_all', 'string', array('defaultValue' => 'false'));
+$show_all_default = isset($plg_show_all_default) && $plg_show_all_default === 1 ? 'true' : 'false';
+$show_all = admFuncVariableIsValid($_GET, 'awa_show_all', 'string', array('defaultValue' => $show_all_default));
 $get_req = admFuncVariableIsValid($_GET, 'export_mode', 'string', array('defaultValue' => 'html', 'validValues' => array('csv-ms', 'csv-oo', 'html', 'print', 'pdf', 'pdfl')));
 $getFullScreen = admFuncVariableIsValid($_GET, 'full_screen', 'numeric');
 $getFilter = admFuncVariableIsValid($_GET, 'filter', 'string', array('defaultValue' => ''));
@@ -165,8 +166,8 @@ if ($get_req != 'csv') {
             });', true);
         // get module menu - Updated for Admidio v5 Bootstrap Icons
         // Add back button as first menu item
-        $page->addPageFunctionsMenuItem('menu_item_back', $gL10n->get('SYS_BACK'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/index.php', 'bi-arrow-left-circle');
+			$page->addPageFunctionsMenuItem('menu_item_back', $gL10n->get('SYS_BACK'), 
+			ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/index.php', 'bi-arrow-left-circle');
         
         if ($getFullScreen == true) {
 			$page->addPageFunctionsMenuItem('menu_item_normal_picture', $gL10n->get('AWA_NORMAL_SCREEN'), ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_show.php?export_mode=html&amp;awa_show_all=' . $show_all . '&amp;filter=' . $getFilter . '&amp;awa_cat=' . $getAwaCat . '&amp;awa_name=' . $getAwaName . '&amp;full_screen=0', 'bi-arrows-angle-contract');
@@ -349,10 +350,10 @@ foreach ($awards as $row)
 		if ($gCurrentUser->isAdministratorUsers() && $get_req == 'html') {
             // Ändern/Löschen Buttons für berechtigte User - Updated for Bootstrap 5
             $tempValue = '';
-            $tempValue .= '<a class="admidio-icon-link" href="' . ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_delete.php?awa_id=' . $row['awa_id'] . '">';
+			$tempValue .= '<a class="admidio-icon-link" href="' . ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_delete.php?awa_id=' . $row['awa_id'] . '">';
             $tempValue .= '<i class="bi bi-trash" data-bs-toggle="tooltip" title="' . $gL10n->get('AWA_DELETE_HONOR') . '"></i></a>';
             $tempValue .= '&nbsp;&nbsp;';
-            $tempValue .= '<a class="admidio-icon-link" href="' . ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/awards_change.php?awa_id=' . $row['awa_id'] . '">';
+			$tempValue .= '<a class="admidio-icon-link" href="' . ADMIDIO_URL . FOLDER_PLUGINS . $plugin_folder . '/system/awards_change.php?awa_id=' . $row['awa_id'] . '">';
             $tempValue .= '<i class="bi bi-pencil-square" data-bs-toggle="tooltip" title="' . $gL10n->get('AWA_EDIT_HONOR') . '"></i></a>';
 
             $columnValues[] = $tempValue;
