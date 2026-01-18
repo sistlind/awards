@@ -4,6 +4,7 @@
 
 ## Installation for Admidio v5.03+
 
+<<<<<<< HEAD
 1. Extract the plugin to the plugins folder: adm_plugins/awards
 2. Run the installation script once by visiting: adm_plugins/awards/system/awards_install.php
 3. Configure the menu by adding the main plugin link:
@@ -81,3 +82,29 @@ Please use awards only with older or newer versions!
 2. Add to Theme/my_bottom:
    include(SERVER_PATH.'/adm_plugins/awards/awards.php');
 3. Open the page and click Install in the Awards section of the sidebar
+=======
+## Admidio ab v3.3.1
+1.) Entpacken in Plugin Ordner adm_plugins/awards
+2.) Einmalig den Link adm_plugins/awards/awards_install.php aufrufen
+3.) Menü konfigurieren, folgende Links im Menü hinzufügen:
+	Ehrungen anzeigen -> /adm_plugins/awards/awards_show.php
+	Ehrungen zuweisen -> /adm_plugins/awards/awards_change.php
+	Ehrungskategorien bearbeiten -> /adm_program/modules/categories/categories.php?type=AWA
+4.) Um die Ehrungen auch auf den Profilseiten anzuzeigen muss die Codezeile:
+    "include_once(ADMIDIO_PATH . FOLDER_PLUGINS .'/awards/awards_profile_addin.php');"
+    Am Ende der Datei adm_program/modules/profile/profile.php VOR $page->show(); eingefügt werden.
+    
+    ## Admidio ab v5.0.0
+1.) Entpacken in Plugin Ordner adm_plugins/awards
+2.) Einmalig den Link adm_plugins/awards/awards_install.php aufrufen
+3.) Menü konfigurieren, folgende Links im Menü hinzufügen:
+	Ehrungen anzeigen -> /adm_plugins/awards/awards_show.php                       (--> Icon: award)
+	Ehrungen zuweisen -> /adm_plugins/awards/awards_change.php                     (--> Icon: award)
+	Ehrungskategorien bearbeiten -> /modules/categories.php?type=AWA   (--> Icon: award)
+4.) Um die Ehrungen auch auf den Profilseiten anzuzeigen muss bei der Erstinstallation und nach jedem Admidio-Update folgende Datei ausgeführt werden:
+    <deine Admidio-Installation>/adm_plugins/awards/awards_install_addin.php
+    
+    Info: 
+    Um die Ehrungen auf den Profilseiten wieder zu entfernen, muss folgendes Script ausgeführt werden:
+    <deine Admidio-Installation>/adm_plugins/awards/awards_uninstall_addin.php
+>>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f

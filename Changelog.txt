@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 4.0.0 (2026-01-14)
     * Compatibility to Admidio v5.03+
     * Breaking change: Requires PHP 8.2+ and Admidio v5.03+
@@ -8,6 +9,11 @@
     * Added type hints and improved null-safety
     * Updated icons from Font Awesome (fa-*) to Bootstrap Icons (bi-*)
     * Updated data-toggle to data-bs-toggle for Bootstrap 5
+=======
+5.0.0(2026-01-17)
+    * Compatibility to Admidio v5.0.3 ( thanks to rmbinder!!)
+	* date format is now used from local settings
+>>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
 3.0.0(2024-02-18)
     * Compatibility to Admidio v4.3.3
 2.0.0(2022-01-28)

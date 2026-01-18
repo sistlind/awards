@@ -9,8 +9,12 @@
  * Compatible with Admidio v5.03+
  *                  
  *****************************************************************************/
+<<<<<<< HEAD
 
 use Admidio\Infrastructure\Entity\Entity;
+=======
+require_once(__DIR__ . '/../../system/common.php');
+>>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
 
 // Admidio v5 path structure - common.php is now in /system/common.php
 $rootPath = dirname(__DIR__, 2);
@@ -87,6 +91,7 @@ if ($plg_debug_enabled == 1) { // Debug Teil 1!
     echo '<br>Config-exists: ' . $awa_debug_config_exists;
 }
 
+<<<<<<< HEAD
 
 
 
@@ -105,6 +110,13 @@ unset($tablename);
  * @return array|null Returns array of awards or null if none found
  */
 function awa_load_awards(int $userid, bool $show_all): ?array
+=======
+$tablename=$g_tbl_praefix.'_user_awards';
+define("TBL_USER_AWARDS",$tablename);
+unset($tablename);
+
+function awa_load_awards($userid,$show_all)
+>>>>>>> 6a48a71b68e5352ae2cce1c4452bde1868ea752f
 {
     global $gCurrentOrganization;
     global $gProfileFields;
